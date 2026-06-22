@@ -1,5 +1,5 @@
 // オフライン用キャッシュ（http(s)配信時のみ有効）。Phase 2bで通知(push)処理を追加予定。
-const CACHE = "touki-kanryo-v2";
+const CACHE = "touki-kanryo-v3";
 const ASSETS = [
   "./",
   "./index.html",
@@ -7,6 +7,9 @@ const ASSETS = [
   "./app.js",
   "./data/kanryo.js",
   "./manifest.webmanifest",
+  "./apple-touch-icon.png",
+  "./icon-192.png",
+  "./icon-512.png",
   "./icon.svg",
 ];
 
@@ -25,10 +28,16 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
   const url = new URL(e.request.url);
-  const isData = /\/data\/kanryo\.(json|js)$/.test(url.pathname);
+  const isLatestData = /\/data\/kanryo\.json$/.test(url.pathname);
   const isPage = e.request.mode === "navigate";
 
-  if (isData || isPage) {
+  // 最新JSONは毎回ネットワーク取得。失敗時はapp.jsが同梱kanryo.jsへ戻る。
+  if (isLatestData) {
+    e.respondWith(fetch(e.request));
+    return;
+  }
+
+  if (isPage) {
     e.respondWith(
       fetch(e.request)
         .then((res) => {
