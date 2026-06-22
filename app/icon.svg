@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="登記完了予定日">
+  <rect width="512" height="512" rx="96" fill="#9eca45"/>
+  <g fill="#ffffff">
+    <!-- 書類 -->
+    <rect x="140" y="96" width="232" height="300" rx="20" fill="#ffffff"/>
+    <rect x="176" y="150" width="160" height="18" rx="9" fill="#9eca45"/>
+    <rect x="176" y="196" width="160" height="18" rx="9" fill="#cfe79a"/>
+    <rect x="176" y="242" width="110" height="18" rx="9" fill="#cfe79a"/>
+    <!-- チェック（完了） -->
+    <circle cx="346" cy="372" r="84" fill="#7fae2f"/>
+    <path d="M308 374 l26 28 l52 -64" fill="none" stroke="#ffffff" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+dist/
+node_modules/
+scraper/_probe*.mjs
+scraper/_sample.bin
+
+# OS・同期ツールの生成物
+.DS_Store
+Thumbs.db
+desktop.ini
