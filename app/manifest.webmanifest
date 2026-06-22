@@ -1,7 +1,7 @@
 {
   "name": "登記完了予定日",
   "short_name": "登記完了予定",
-  "description": "東京法務局・不動産（権利）登記の完了予定日を申請日から自動表示する。",
+  "description": "東京法務局の不動産（権利）登記・商業法人登記の完了予定日を申請日から自動表示する。",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

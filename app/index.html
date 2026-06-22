@@ -30,13 +30,27 @@
     <!-- 完了予定日チェッカー（主役） -->
     <section class="checker" aria-label="完了予定日を調べる">
       <div class="checker__inputs">
+        <fieldset class="field type-field">
+          <legend class="field__label"><span class="step">1</span>登記種別</legend>
+          <div class="type-switch">
+            <label>
+              <input type="radio" name="registration-type" value="realEstate" checked />
+              <span>不動産（権利）</span>
+            </label>
+            <label>
+              <input type="radio" name="registration-type" value="commercial" />
+              <span>商業・法人</span>
+            </label>
+          </div>
+        </fieldset>
+
         <label class="field">
-          <span class="field__label"><span class="step">1</span>管轄（出張所）</span>
+          <span class="field__label"><span class="step">2</span>管轄（法務局）</span>
           <select id="f-office"></select>
         </label>
 
         <label class="field">
-          <span class="field__label"><span class="step">2</span>申請日</span>
+          <span class="field__label"><span class="step">3</span>申請日</span>
           <input id="f-apply" type="date" />
         </label>
       </div>
@@ -71,7 +85,7 @@
 
   <footer class="footer">
     <p id="data-meta"></p>
-    <p class="footer__note">対象：東京法務局・不動産（権利）登記。完了予定日は目安で、不備・実地調査・事前通知等により翌日以降になる場合があります（出典：東京法務局）。</p>
+    <p class="footer__note">対象：東京法務局・不動産（権利）登記／商業・法人登記。完了予定日は目安で、不備・実地調査・事前通知等により翌日以降になる場合があります（出典：東京法務局）。</p>
   </footer>
 
   <script src="app.js"></script>

@@ -78,6 +78,7 @@ html, body {
 .checker__inputs { display: flex; flex-direction: column; gap: 12px; }
 
 .field { display: block; }
+.type-field { border: 0; padding: 0; margin: 0; min-width: 0; }
 .field__label {
   display: flex;
   align-items: center;
@@ -86,6 +87,34 @@ html, body {
   font-weight: 600;
   color: var(--text-strong);
   margin-bottom: 6px;
+}
+.type-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #f4f7ed;
+}
+.type-switch label { position: relative; cursor: pointer; }
+.type-switch input { position: absolute; opacity: 0; pointer-events: none; }
+.type-switch span {
+  display: block;
+  padding: 10px 8px;
+  border-radius: 9px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+.type-switch input:checked + span {
+  color: #33470f;
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+.type-switch input:focus-visible + span {
+  outline: 3px solid rgba(158, 202, 69, 0.35);
 }
 .step {
   display: inline-flex;

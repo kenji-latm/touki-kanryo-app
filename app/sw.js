@@ -1,5 +1,5 @@
 // オフライン用キャッシュ（http(s)配信時のみ有効）。Phase 2bで通知(push)処理を追加予定。
-const CACHE = "touki-kanryo-v3";
+const CACHE = "touki-kanryo-v4";
 const ASSETS = [
   "./",
   "./index.html",
