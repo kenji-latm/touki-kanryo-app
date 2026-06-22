@@ -164,9 +164,12 @@
     if (n > 0) {
       box.className = "result result--ok";
       hintEl.textContent = `あと ${n} 日（${context}）`;
-    } else {
+    } else if (n === 0) {
       box.className = "result result--due";
-      hintEl.textContent = n === 0 ? `本日が予定日です（${context}）` : `予定日を ${-n} 日経過（${context}）`;
+      hintEl.textContent = `本日が予定日です（${context}）`;
+    } else {
+      box.className = "result result--over";
+      hintEl.textContent = `予定日を ${-n} 日過ぎています（${context}）`;
     }
     dateEl.textContent = fmtJP(due);
   }
@@ -190,7 +193,7 @@
 
   function updateBanner() {
     const t = todayISO();
-    const hit = cases.filter((c) => c.status === "active" && c.dueDate && t >= c.dueDate);
+    const hit = cases.filter((c) => c.status === "active" && c.dueDate && t > c.dueDate);
     const banner = $("alert-banner");
     if (hit.length === 0) { banner.hidden = true; banner.textContent = ""; return; }
     const names = hit
@@ -199,7 +202,7 @@
     banner.hidden = false;
     banner.textContent = "";
     const main = document.createElement("span");
-    main.textContent = `⚠ 完了予定日に到達・超過した案件が ${hit.length} 件あります`;
+    main.textContent = `完了予定日を過ぎている案件が ${hit.length} 件あります`;
     const sub = document.createElement("span");
     sub.className = "alert-banner__sub";
     sub.textContent = names;
