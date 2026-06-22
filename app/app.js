@@ -364,7 +364,18 @@
   }
 
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-    window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+    let reloadingForUpdate = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (reloadingForUpdate) return;
+      reloadingForUpdate = true;
+      location.reload();
+    });
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("./sw.js?v=20260622-ui2", { updateViaCache: "none" })
+        .then((registration) => registration.update())
+        .catch(() => {});
+    });
   }
   document.addEventListener("DOMContentLoaded", init);
 })();
