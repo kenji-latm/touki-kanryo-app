@@ -37,6 +37,10 @@ jobs:
       - name: 依存関係をインストール
         run: npm ci --omit=optional
 
+      - name: PDF読取用ライブラリを追加
+        if: github.event_name != 'push'
+        run: npm install --no-save @napi-rs/canvas
+
       - name: 複数法務局から最新データを取得
         if: github.event_name != 'push'
         run: npm run scrape
