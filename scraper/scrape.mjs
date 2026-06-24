@@ -89,6 +89,12 @@ const JURISDICTIONS = [
     },
   },
   {
+    id: "maebashi",
+    label: "前橋地方法務局",
+    kind: "pdfDirect",
+    pdfUrl: "https://houmukyoku.moj.go.jp/maebashi/content/001253538.pdf",
+    minimums: minimum(8, 60, 1, 5),
+  },  {
     id: "kofu",
     label: "甲府地方法務局",
     kind: "htmlPage",
@@ -127,6 +133,13 @@ const JURISDICTIONS = [
     },
   },
   {
+    id: "nara",
+    label: "奈良地方法務局",
+    kind: "pdfMatrixRows",
+    pdfUrl: "https://houmukyoku.moj.go.jp/nara/content/001137057.pdf",
+    pdfOffices: ["本局", "葛城支局", "中和支局", "五條支局"],
+    minimums: minimum(4, 20, 1, 3),
+  },  {
     id: "otsu",
     label: "大津地方法務局",
     kind: "htmlMatrixByOfficeRows",
@@ -134,6 +147,13 @@ const JURISDICTIONS = [
     minimums: minimum(5, 30, 1, 5),
   },
   {
+    id: "wakayama",
+    label: "和歌山地方法務局",
+    kind: "pdfMatrixRows",
+    pdfUrl: "https://houmukyoku.moj.go.jp/wakayama/content/001153033.pdf",
+    pdfOffices: ["本局", "橋本支局", "田辺支局", "御坊支局", "新宮支局"],
+    minimums: minimum(5, 20, 1, 3),
+  },  {
     id: "hiroshima",
     label: "広島法務局",
     kind: "htmlPage",
@@ -148,6 +168,53 @@ const JURISDICTIONS = [
     minimums: minimum(5, 20, 1, 3),
   },
   {
+    id: "tottori",
+    label: "鳥取地方法務局",
+    kind: "pdfMatrixRows",
+    pdfUrl: "https://houmukyoku.moj.go.jp/tottori/content/000135641.pdf",
+    pdfOffices: ["本局", "倉吉支局", "米子支局"],
+    minimums: minimum(3, 10, 1, 3),
+  },
+  {
+    id: "matsue",
+    label: "松江地方法務局",
+    kind: "pdfMatrixRows",
+    pdfUrl: "https://houmukyoku.moj.go.jp/matsue/content/001437662.pdf",
+    pdfOffices: ["本局登記部門", "出雲支局", "浜田支局", "益田支局", "西郷支局"],
+    minimums: minimum(5, 15, 1, 3),
+  },
+  {
+    id: "takamatsu",
+    label: "高松法務局",
+    kind: "pdfMatrixRows",
+    pdfUrl: "https://houmukyoku.moj.go.jp/takamatsu/content/001465428.pdf",
+    pdfOffices: ["本局", "丸亀支局", "観音寺支局", "寒川出張所"],
+    minimums: minimum(4, 12, 1, 3),
+  },
+  {
+    id: "tokushima",
+    label: "徳島地方法務局",
+    kind: "pdfMatrixRows",
+    pdfUrl: "https://houmukyoku.moj.go.jp/tokushima/content/000135286.pdf",
+    pdfOffices: ["本局", "阿南支局", "美馬支局"],
+    minimums: minimum(3, 12, 1, 3),
+  },
+  {
+    id: "kochi",
+    label: "高知地方法務局",
+    kind: "pdfMatrixRows",
+    pdfUrl: "https://houmukyoku.moj.go.jp/kochi/content/001414262.pdf",
+    pdfOffices: ["本局", "香美支局", "須崎支局", "安芸支局", "四万十支局"],
+    minimums: minimum(5, 15, 1, 3),
+  },
+  {
+    id: "matsuyama",
+    label: "松山地方法務局",
+    kind: "pdfMatrixRows",
+    pdfUrl: "https://houmukyoku.moj.go.jp/matsuyama/content/001452214.pdf",
+    pdfOffices: ["本局", "大洲支局", "西条支局", "今治支局", "宇和島支局", "砥部出張所", "四国中央支局"],
+    minimums: minimum(7, 25, 1, 3),
+  },  {
     id: "saga",
     label: "佐賀地方法務局",
     kind: "htmlSagaMatrix",
@@ -155,6 +222,12 @@ const JURISDICTIONS = [
     minimums: minimum(4, 35, 1, 5),
   },
   {
+    id: "kumamoto",
+    label: "熊本地方法務局",
+    kind: "pdfDirect",
+    pdfUrl: "https://houmukyoku.moj.go.jp/kumamoto/content/001465443.pdf",
+    minimums: minimum(6, 40, 1, 5),
+  },  {
     id: "kagoshima",
     label: "鹿児島地方法務局",
     kind: "pdfFromIndex",
@@ -164,7 +237,14 @@ const JURISDICTIONS = [
       commercial: { offices: 1, entries: 10 },
     },
   },
-];
+  {
+    id: "miyazaki",
+    label: "宮崎地方法務局",
+    kind: "pdfMatrixRows",
+    pdfUrl: "https://houmukyoku.moj.go.jp/miyazaki/page000082_00002.pdf",
+    pdfOffices: ["本局", "都城支局", "延岡支局", "日南支局", "小林出張所", "高鍋出張所"],
+    minimums: minimum(6, 30, 1, 5),
+  },];
 
 function dec(buf) {
   const head = buf.toString("ascii", 0, Math.min(buf.length, 4096));
@@ -262,6 +342,8 @@ function normalizeOfficeName(text, jurisdiction) {
   }
   if (/^\d+$/.test(t)) return null;
   if (jurisdiction.id === "osaka" && /^本局/.test(t)) return "本局";
+  const compactLabel = jurisdiction.label.replace(/\s/g, "");
+  if (t === `${compactLabel}本局`) return "本局";
   if (jurisdiction.id === "kagoshima" && t === "鹿児島地方法務局本局") return "本局";
   if (/^本局[（(]/.test(t)) return "本局";
   if (/^本局（山口）$/.test(t)) return "本局";
@@ -518,6 +600,90 @@ async function parsePdf(buf, stores, jurisdiction) {
   }
 }
 
+function compactPdfText(text) {
+  return String(text || "").replace(/\s/g, "").replace(/[()（）]/g, "");
+}
+
+async function parsePdfMatrixRows(buf, stores, jurisdiction) {
+  const lines = await pdfLines(buf);
+  const offices = jurisdiction.pdfOffices || [];
+  if (offices.length === 0) throw new Error("PDF横長表の庁名リストが未設定です。");
+
+  const baseYear = reiwaToYear(lines.join("\n"));
+  let pendingType = null;
+  let pendingRealEstateDueDates = null;
+  let currentApply = null;
+
+  const addRealEstateDueDates = (applied, dueDates) => {
+    currentApply = applied;
+    for (let i = 0; i < Math.min(offices.length, dueDates.length); i++) {
+      addEntry(stores, jurisdiction.id, "realEstate", offices[i], baseYear, applied, dueDates[i]);
+    }
+  };
+  const addCommercialDueDates = (dueDates) => {
+    if (!currentApply || dueDates.length === 0) return;
+    if (dueDates.length >= offices.length) {
+      for (let i = 0; i < offices.length; i++) {
+        addEntry(stores, jurisdiction.id, "commercial", offices[i], baseYear, currentApply, dueDates[i]);
+      }
+    } else {
+      addEntry(stores, jurisdiction.id, "commercial", offices[0], baseYear, currentApply, dueDates[0]);
+    }
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const normalized = compactPdfText(line);
+    if (/注意事項|必ず|郵便|オンライン|申請書|添付/.test(normalized)) break;
+
+    const prev = compactPdfText(lines[i - 1] || "");
+    const next = compactPdfText(lines[i + 1] || "");
+    const near = prev + normalized + next;
+    const dates = datesInText(line);
+    const hasCommercial = /商業.*法人/.test(normalized);
+    const hasDisplay = /表示/.test(normalized);
+    const hasRealEstate = /権利/.test(normalized) && !hasDisplay && !hasCommercial;
+
+    if (pendingRealEstateDueDates && dates.length >= 1 && !hasCommercial) {
+      addRealEstateDueDates(dates[0], pendingRealEstateDueDates);
+      pendingRealEstateDueDates = null;
+    }
+
+    if (hasRealEstate && dates.length === 0) {
+      pendingType = "realEstate";
+      continue;
+    }
+
+    if ((hasRealEstate || pendingType === "realEstate" || (/権利/.test(near) && dates.length === offices.length)) && dates.length > 0) {
+      if (dates.length >= offices.length + 1) {
+        addRealEstateDueDates(dates[0], dates.slice(1, 1 + offices.length));
+        pendingType = null;
+        continue;
+      }
+      if (dates.length === offices.length) {
+        pendingRealEstateDueDates = dates;
+        pendingType = null;
+        continue;
+      }
+    }
+
+    if (hasCommercial && dates.length === 0) {
+      pendingType = "commercial";
+      continue;
+    }
+    if (hasCommercial && dates.length > 0) {
+      addCommercialDueDates(dates);
+      pendingType = null;
+      continue;
+    }
+    if (pendingType === "commercial" && dates.length > 0) {
+      addCommercialDueDates(dates);
+      pendingType = null;
+      continue;
+    }
+  }
+}
+
 function countEntries(store) {
   return Object.values(store).reduce((n, office) => n + Object.keys(office).length, 0);
 }
@@ -566,6 +732,16 @@ async function scrapeJurisdiction(stores, jurisdiction) {
     const html = dec(await getBuf(jurisdiction.pageUrl));
     parseHtmlSagaMatrix(html, stores, jurisdiction);
     sourcePages.push(jurisdiction.pageUrl);
+  } else if (jurisdiction.kind === "pdfDirect") {
+    const pdfUrl = jurisdiction.pdfUrl;
+    console.log(`PDF: ${pdfUrl}`);
+    await parsePdf(await getBuf(pdfUrl), stores, jurisdiction);
+    sourcePages.push(pdfUrl);
+  } else if (jurisdiction.kind === "pdfMatrixRows") {
+    const pdfUrl = jurisdiction.pdfUrl;
+    console.log(`PDF: ${pdfUrl}`);
+    await parsePdfMatrixRows(await getBuf(pdfUrl), stores, jurisdiction);
+    sourcePages.push(pdfUrl);
   } else if (jurisdiction.kind === "pdfFromIndex") {
     const idx = dec(await getBuf(jurisdiction.indexUrl));
     const pdfUrl = extractPdfLink(idx, jurisdiction);
@@ -747,7 +923,7 @@ function buildOutput(stores, sourcePages, previousOutput) {
     sources: JURISDICTIONS.map((j) => ({
       id: j.id,
       label: j.label,
-      sourceUrl: j.indexUrl || j.pageUrl,
+      sourceUrl: j.indexUrl || j.pageUrl || j.pdfUrl,
       fetchedPages: sourcePages[j.id] || [],
     })),
     note: "AM/PMは区別せず、同一申請日の遅い方の完了予定日を採用。不動産（表示）登記は対象外。過去に取得できた申請日データは履歴として保持。",
