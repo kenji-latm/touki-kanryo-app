@@ -13,6 +13,7 @@ const TYPES = [
   { id: "realEstate", label: "不動産（権利）" },
   { id: "commercial", label: "商業・法人" },
 ];
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 const minimum = (realEstateOffices, realEstateEntries, commercialOffices = 1, commercialEntries = 3) => ({
   realEstate: { offices: realEstateOffices, entries: realEstateEntries },
@@ -583,7 +584,84 @@ function sortedObject(obj) {
   return Object.fromEntries(Object.entries(obj).sort(([a], [b]) => a.localeCompare(b, "ja")));
 }
 
-function buildOutput(stores, sourcePages) {
+function readPreviousOutput() {
+  try {
+    if (!fs.existsSync(OUT)) return null;
+    const parsed = JSON.parse(fs.readFileSync(OUT, "utf8"));
+    return parsed && typeof parsed === "object" ? parsed : null;
+  } catch (e) {
+    console.warn(`既存データを読み込めないため、今回取得分だけで出力します: ${e.message}`);
+    return null;
+  }
+}
+
+function makeEmptyData() {
+  return Object.fromEntries(
+    JURISDICTIONS.map((jurisdiction) => [
+      jurisdiction.id,
+      Object.fromEntries(TYPES.map((type) => [type.id, {}])),
+    ])
+  );
+}
+
+function addDataEntry(data, jurisdictionId, typeId, office, applyISO, dueISO) {
+  if (!office || !ISO_DATE_RE.test(applyISO) || !ISO_DATE_RE.test(dueISO)) return false;
+  const typeData = data[jurisdictionId]?.[typeId];
+  if (!typeData) return false;
+  (typeData[office] ||= {})[applyISO] = dueISO;
+  return true;
+}
+
+function cloneSupportedData(sourceData) {
+  const data = makeEmptyData();
+  for (const jurisdiction of JURISDICTIONS) {
+    for (const type of TYPES) {
+      const sourceType = sourceData?.[jurisdiction.id]?.[type.id];
+      if (!sourceType || typeof sourceType !== "object") continue;
+      for (const [office, dates] of Object.entries(sourceType)) {
+        if (!dates || typeof dates !== "object") continue;
+        for (const [applyISO, dueISO] of Object.entries(dates)) {
+          addDataEntry(data, jurisdiction.id, type.id, office, applyISO, dueISO);
+        }
+      }
+    }
+  }
+  return data;
+}
+
+function dataEntryCount(data) {
+  let total = 0;
+  for (const jurisdiction of JURISDICTIONS) {
+    for (const type of TYPES) {
+      const typeData = data?.[jurisdiction.id]?.[type.id] || {};
+      for (const officeData of Object.values(typeData)) {
+        total += Object.keys(officeData || {}).length;
+      }
+    }
+  }
+  return total;
+}
+
+function hasDataEntry(data, jurisdictionId, typeId, office, applyISO) {
+  return Boolean(data?.[jurisdictionId]?.[typeId]?.[office]?.[applyISO]);
+}
+
+function countHistoryOnlyEntries(mergedData, currentData) {
+  let total = 0;
+  for (const jurisdiction of JURISDICTIONS) {
+    for (const type of TYPES) {
+      const typeData = mergedData?.[jurisdiction.id]?.[type.id] || {};
+      for (const [office, dates] of Object.entries(typeData)) {
+        for (const applyISO of Object.keys(dates || {})) {
+          if (!hasDataEntry(currentData, jurisdiction.id, type.id, office, applyISO)) total += 1;
+        }
+      }
+    }
+  }
+  return total;
+}
+
+function prepareDataForOutput(sourceData) {
   const data = {};
   const officesByJurisdiction = {};
   const totals = {};
@@ -594,11 +672,12 @@ function buildOutput(stores, sourcePages) {
     totals[jurisdiction.id] = {};
 
     for (const type of TYPES) {
-      const offices = Object.keys(stores[jurisdiction.id][type.id]).sort((a, b) => a.localeCompare(b, "ja"));
+      const typeData = sourceData?.[jurisdiction.id]?.[type.id] || {};
+      const offices = Object.keys(typeData).sort((a, b) => a.localeCompare(b, "ja"));
       officesByJurisdiction[jurisdiction.id][type.id] = offices;
       data[jurisdiction.id][type.id] = {};
       for (const office of offices) {
-        data[jurisdiction.id][type.id][office] = sortedObject(stores[jurisdiction.id][type.id][office]);
+        data[jurisdiction.id][type.id][office] = sortedObject(typeData[office]);
       }
       totals[jurisdiction.id][type.id] = offices.reduce(
         (n, office) => n + Object.keys(data[jurisdiction.id][type.id][office]).length,
@@ -607,22 +686,88 @@ function buildOutput(stores, sourcePages) {
     }
   }
 
+  return { data, officesByJurisdiction, totals };
+}
+
+function buildPublishedDates(currentData) {
+  const publishedDates = {};
+  for (const jurisdiction of JURISDICTIONS) {
+    publishedDates[jurisdiction.id] = {};
+    for (const type of TYPES) {
+      publishedDates[jurisdiction.id][type.id] = {};
+      const typeData = currentData?.[jurisdiction.id]?.[type.id] || {};
+      for (const [office, dates] of Object.entries(typeData)) {
+        const applyDates = Object.keys(dates || {}).sort();
+        if (applyDates.length > 0) publishedDates[jurisdiction.id][type.id][office] = applyDates;
+      }
+    }
+  }
+  return publishedDates;
+}
+
+function mergeWithHistory(currentData, previousOutput) {
+  const previousData = cloneSupportedData(previousOutput?.data || {});
+  const mergedData = cloneSupportedData(previousOutput?.data || {});
+  const stats = {
+    previousEntries: dataEntryCount(previousData),
+    currentEntries: dataEntryCount(currentData),
+    addedEntries: 0,
+    updatedEntries: 0,
+  };
+
+  for (const jurisdiction of JURISDICTIONS) {
+    for (const type of TYPES) {
+      const typeData = currentData?.[jurisdiction.id]?.[type.id] || {};
+      for (const [office, dates] of Object.entries(typeData)) {
+        for (const [applyISO, dueISO] of Object.entries(dates || {})) {
+          const oldDue = mergedData[jurisdiction.id][type.id][office]?.[applyISO];
+          if (!oldDue) stats.addedEntries += 1;
+          else if (oldDue !== dueISO) stats.updatedEntries += 1;
+          addDataEntry(mergedData, jurisdiction.id, type.id, office, applyISO, dueISO);
+        }
+      }
+    }
+  }
+
+  stats.totalEntries = dataEntryCount(mergedData);
+  stats.retainedEntries = countHistoryOnlyEntries(mergedData, currentData);
+  return { data: mergedData, stats };
+}
+
+function buildOutput(stores, sourcePages, previousOutput) {
+  const current = prepareDataForOutput(stores);
+  const { data: mergedRaw, stats } = mergeWithHistory(current.data, previousOutput);
+  const merged = prepareDataForOutput(mergedRaw);
+  const generatedAt = new Date().toISOString();
+
   return {
     schemaVersion: 3,
-    generatedAt: new Date().toISOString(),
-    source: `登記完了予定日（${JURISDICTIONS.length}法務局対応）`,
+    generatedAt,
+    source: `登記完了予定日（${JURISDICTIONS.length}法務局対応・履歴蓄積）`,
     sources: JURISDICTIONS.map((j) => ({
       id: j.id,
       label: j.label,
       sourceUrl: j.indexUrl || j.pageUrl,
       fetchedPages: sourcePages[j.id] || [],
     })),
-    note: "AM/PMは区別せず、同一申請日の遅い方の完了予定日を採用。不動産（表示）登記は対象外。",
+    note: "AM/PMは区別せず、同一申請日の遅い方の完了予定日を採用。不動産（表示）登記は対象外。過去に取得できた申請日データは履歴として保持。",
+    history: {
+      enabled: true,
+      startedAt: previousOutput?.history?.startedAt || previousOutput?.generatedAt || generatedAt,
+      previousGeneratedAt: previousOutput?.generatedAt || null,
+      currentEntries: stats.currentEntries,
+      retainedEntries: stats.retainedEntries,
+      addedEntries: stats.addedEntries,
+      updatedEntries: stats.updatedEntries,
+      totalEntries: stats.totalEntries,
+    },
     jurisdictions: JURISDICTIONS.map(({ id, label }) => ({ id, label })),
     types: TYPES.map(({ id, label }) => ({ id, label })),
-    officesByJurisdiction,
-    totals,
-    data,
+    officesByJurisdiction: merged.officesByJurisdiction,
+    totals: merged.totals,
+    publishedDates: buildPublishedDates(current.data),
+    publishedTotals: current.totals,
+    data: merged.data,
   };
 }
 
@@ -638,7 +783,8 @@ async function main() {
     }
   }
 
-  const out = buildOutput(stores, sourcePages);
+  const previousOutput = readPreviousOutput();
+  const out = buildOutput(stores, sourcePages, previousOutput);
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, JSON.stringify(out, null, 2), "utf8");
   const JSOUT = OUT.replace(/\.json$/, ".js");
@@ -649,7 +795,9 @@ async function main() {
     for (const type of TYPES) {
       const offices = out.officesByJurisdiction[jurisdiction.id][type.id].length;
       const entries = out.totals[jurisdiction.id][type.id];
-      console.log(`${jurisdiction.label}・${type.label}: 庁数 ${offices} / 申請日エントリ ${entries}`);
+      const publishedEntries = out.publishedTotals[jurisdiction.id][type.id];
+      const suffix = entries === publishedEntries ? "" : `（現在掲載 ${publishedEntries}）`;
+      console.log(`${jurisdiction.label}・${type.label}: 庁数 ${offices} / 申請日エントリ ${entries}${suffix}`);
     }
   }
 }

@@ -123,6 +123,20 @@
   const lookupDue = (jurisdictionId, typeId, office, applyISO) =>
     (DB[jurisdictionId] && DB[jurisdictionId][typeId] && DB[jurisdictionId][typeId][office] &&
       DB[jurisdictionId][typeId][office][applyISO]) || null;
+  const publishedDatesFor = (jurisdictionId, typeId, office) =>
+    META.publishedDates?.[jurisdictionId]?.[typeId]?.[office] || null;
+  function lookupSourceStatus(jurisdictionId, typeId, office, applyISO) {
+    if (!lookupDue(jurisdictionId, typeId, office, applyISO)) return "missing";
+    if (!META.publishedDates) return "unknown";
+    const dates = publishedDatesFor(jurisdictionId, typeId, office);
+    if (!Array.isArray(dates)) return "history";
+    return dates.includes(applyISO) ? "current" : "history";
+  }
+  function sourceText(status) {
+    if (status === "current") return "現在掲載中";
+    if (status === "history") return "過去取得済み（現在の公式掲載表には未掲載）";
+    return "";
+  }
 
   function useData(meta) {
     const normalized = normalizeMeta(meta);
@@ -230,21 +244,23 @@
     if (!due) {
       box.className = "result result--warn";
       dateEl.textContent = "未掲載";
-      hintEl.textContent = "この申請日は最新の掲載表にありません（休日・対象期間外など）。保存すると後日データ更新で再判定できます。";
+      hintEl.textContent = "この申請日は現在の掲載表・過去取得済みデータのどちらにもありません（休日・対象期間外など）。保存すると後日データ更新で再判定できます。";
       return;
     }
 
     const n = diffDays(todayISO(), due);
     const context = `${jurisdictionLabel(jurisdictionId)}・${typeLabel(typeId)}・${office}`;
+    const sourceNote = sourceText(lookupSourceStatus(jurisdictionId, typeId, office, apply));
+    const sourceSuffix = sourceNote ? ` ／ ${sourceNote}` : "";
     if (n > 0) {
       box.className = "result result--ok";
-      hintEl.textContent = `あと ${n} 日（${context}）`;
+      hintEl.textContent = `あと ${n} 日（${context}）${sourceSuffix}`;
     } else if (n === 0) {
       box.className = "result result--due";
-      hintEl.textContent = `本日が予定日です（${context}）`;
+      hintEl.textContent = `本日が予定日です（${context}）${sourceSuffix}`;
     } else {
       box.className = "result result--over";
-      hintEl.textContent = `予定日を ${-n} 日過ぎています（${context}）`;
+      hintEl.textContent = `予定日を ${-n} 日過ぎています（${context}）${sourceSuffix}`;
     }
     dateEl.textContent = fmtJP(due);
   }
@@ -306,7 +322,7 @@
         </div>
         <div class="item__office"></div>
         <div class="item__row">申請日 <span class="apply"></span></div>
-        <div class="item__due">完了予定日 <b class="due"></b></div>
+        <div class="item__due">完了予定日 <b class="due"></b><span class="item__source"></span></div>
         <div class="item__actions"></div>`;
       el.querySelector(".item__label").textContent =
         c.label && c.label.trim() ? c.label : "（メモなし）";
@@ -314,6 +330,11 @@
         `${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)} ｜ ${typeLabel(c.registrationType || DEFAULT_TYPE)} ｜ ${c.office}`;
       el.querySelector(".apply").textContent = fmtJP(c.applyDate);
       el.querySelector(".due").textContent = c.dueDate ? fmtJP(c.dueDate) : "未掲載";
+      const sourceEl = el.querySelector(".item__source");
+      const status = c.dueDate
+        ? lookupSourceStatus(c.jurisdiction || DEFAULT_JURISDICTION, c.registrationType || DEFAULT_TYPE, c.office, c.applyDate)
+        : "missing";
+      sourceEl.textContent = sourceText(status);
 
       const actions = el.querySelector(".item__actions");
       actions.appendChild(
@@ -422,8 +443,9 @@
     if (META.generatedAt) {
       const d = new Date(META.generatedAt);
       const count = (JURISDICTIONS.length || FALLBACK_JURISDICTIONS.length);
+      const history = META.history?.enabled ? " / 履歴蓄積：有効" : "";
       $("data-meta").textContent =
-        `データ取得：${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} 時点 / 対象：${count}法務局`;
+        `データ取得：${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} 時点 / 対象：${count}法務局${history}`;
     } else {
       $("data-meta").textContent = "";
     }
