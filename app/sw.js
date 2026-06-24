@@ -1,16 +1,18 @@
 // オフライン用キャッシュ（http(s)配信時のみ有効）。Phase 2bで通知(push)処理を追加予定。
-const CACHE = "touki-kanryo-v6";
+const CACHE_PREFIX = "touki-kanryo-";
+const CACHE = "touki-kanryo-v7-national1";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260622-ui2",
-  "./app.js?v=20260622-ui2",
+  "./styles.css?v=20260624-national1",
+  "./app.js?v=20260624-national1",
   "./data/kanryo.js",
-  "./manifest.webmanifest?v=20260622-ui2",
-  "./apple-touch-icon.png?v=20260622-ui2",
-  "./icon-192.png?v=20260622-ui2",
-  "./icon-512.png?v=20260622-ui2",
-  "./icon.svg?v=20260622-ui2",
+  "./data/kanryo.json",
+  "./manifest.webmanifest?v=20260624-national1",
+  "./apple-touch-icon.png?v=20260624-national1",
+  "./icon-192.png?v=20260624-national1",
+  "./icon-512.png?v=20260624-national1",
+  "./icon.svg?v=20260624-national1",
 ];
 
 self.addEventListener("install", (e) => {
@@ -20,7 +22,11 @@ self.addEventListener("install", (e) => {
 self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+      Promise.all(
+        keys
+          .filter((k) => k.startsWith(CACHE_PREFIX) && k !== CACHE)
+          .map((k) => caches.delete(k))
+      )
     ).then(() => self.clients.claim())
   );
 });
@@ -28,12 +34,20 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
   const url = new URL(e.request.url);
-  const isLatestData = /\/data\/kanryo\.json$/.test(url.pathname);
+  const isData = /\/data\/kanryo\.(json|js)$/.test(url.pathname);
   const isPage = e.request.mode === "navigate";
 
-  // 最新JSONは毎回ネットワーク取得。失敗時はapp.jsが同梱kanryo.jsへ戻る。
-  if (isLatestData) {
-    e.respondWith(fetch(e.request));
+  // 最新データはネットワーク優先。失敗時は最後にキャッシュできたデータへ戻る。
+  if (isData) {
+    const cacheKey = new Request(`${url.origin}${url.pathname}`);
+    e.respondWith(
+      fetch(e.request)
+        .then((res) => {
+          if (res.ok) caches.open(CACHE).then((c) => c.put(cacheKey, res.clone()));
+          return res;
+        })
+        .catch(() => caches.match(cacheKey))
+    );
     return;
   }
 

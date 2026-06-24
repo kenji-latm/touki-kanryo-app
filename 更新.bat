@@ -2,11 +2,12 @@
 chcp 65001 >nul
 cd /d "%~dp0"
 set NODE_USE_SYSTEM_CA=1
+set NODE_OPTIONS=--use-system-ca
 echo ============================================
 echo  登記完了予定日アプリ  データ更新
 echo ============================================
 echo.
-echo [1/3] 東京法務局から最新データを取得中...
+echo [1/3] 法務局から最新データを取得中...
 node scraper\scrape.mjs
 if errorlevel 1 goto err
 echo.
@@ -36,3 +37,4 @@ echo ------------------------------------------------
 echo.
 pause
 exit /b 1
+

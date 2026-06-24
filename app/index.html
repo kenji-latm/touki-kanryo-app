@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="登記完了予定" />
   <title>登記完了予定日</title>
-  <link rel="manifest" href="manifest.webmanifest?v=20260622-ui2" />
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260622-ui2" />
-  <link rel="icon" href="icon.svg?v=20260622-ui2" />
-  <link rel="stylesheet" href="styles.css?v=20260622-ui2" />
+  <link rel="manifest" href="manifest.webmanifest?v=20260624-national1" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260624-national1" />
+  <link rel="icon" href="icon.svg?v=20260624-national1" />
+  <link rel="stylesheet" href="styles.css?v=20260624-national1" />
   <!-- file:// でも動くようデータはJSで読み込む -->
   <script src="data/kanryo.js"></script>
 </head>
@@ -24,14 +24,19 @@
   </header>
 
   <main class="container">
-    <!-- 超過アラート（保存案件が予定日に到達/超過したとき表示） -->
+    <!-- 超過アラート（保存案件が予定日を超過したときだけ表示） -->
     <button id="alert-banner" class="alert-banner" type="button" hidden></button>
 
     <!-- 完了予定日チェッカー（主役） -->
     <section class="checker" aria-label="完了予定日を調べる">
       <div class="checker__inputs">
+        <label class="field">
+          <span class="field__label"><span class="step">1</span>法務局</span>
+          <select id="f-jurisdiction"></select>
+        </label>
+
         <fieldset class="field type-field">
-          <legend class="field__label"><span class="step">1</span>登記種別</legend>
+          <legend class="field__label"><span class="step">2</span>登記種別</legend>
           <div class="type-switch">
             <label>
               <input type="radio" name="registration-type" value="realEstate" checked />
@@ -45,12 +50,12 @@
         </fieldset>
 
         <label class="field">
-          <span class="field__label"><span class="step">2</span>管轄（法務局）</span>
+          <span class="field__label"><span class="step">3</span>管轄（本局・支局・出張所）</span>
           <select id="f-office"></select>
         </label>
 
         <label class="field">
-          <span class="field__label"><span class="step">3</span>申請日</span>
+          <span class="field__label"><span class="step">4</span>申請日</span>
           <input id="f-apply" type="date" />
         </label>
       </div>
@@ -59,7 +64,7 @@
       <div id="result" class="result result--empty" aria-live="polite">
         <div class="result__caption">完了予定日</div>
         <div class="result__date" id="result-date">— — —</div>
-        <div class="result__hint" id="result-hint">↑ 管轄と申請日を選ぶと、ここに自動表示されます</div>
+        <div class="result__hint" id="result-hint">↑ 法務局・登記種別・管轄・申請日を選ぶと、ここに自動表示されます</div>
       </div>
 
       <!-- 保存（補助動作） -->
@@ -85,9 +90,9 @@
 
   <footer class="footer">
     <p id="data-meta"></p>
-    <p class="footer__note">対象：東京法務局・不動産（権利）登記／商業・法人登記。完了予定日は目安で、不備・実地調査・事前通知等により翌日以降になる場合があります（出典：東京法務局）。</p>
+    <p class="footer__note">対象：掲載データのある法務局・不動産（権利）登記／商業・法人登記。完了予定日は目安で、不備・実地調査・事前通知等により翌日以降になる場合があります（出典：各法務局）。</p>
   </footer>
 
-  <script src="app.js?v=20260622-ui2"></script>
+  <script src="app.js?v=20260624-national1"></script>
 </body>
 </html>

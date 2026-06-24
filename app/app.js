@@ -1,37 +1,87 @@
 "use strict";
 (function () {
   const STORE_KEY = "touki_cases_v1";
+  const DEFAULT_JURISDICTION = "tokyo";
   const DEFAULT_TYPE = "realEstate";
+  const FALLBACK_JURISDICTIONS = [
+    { id: "tokyo", label: "東京法務局" },
+  ];
   const FALLBACK_TYPES = [
     { id: "realEstate", label: "不動産（権利）" },
     { id: "commercial", label: "商業・法人" },
   ];
 
+  function normalizeOption(item) {
+    if (!item || typeof item !== "object" || typeof item.id !== "string" || !item.id) return null;
+    return { id: item.id, label: typeof item.label === "string" && item.label ? item.label : item.id };
+  }
+
+  function normalizeTypes(source) {
+    const types = Array.isArray(source.types) ? source.types.map(normalizeOption).filter(Boolean) : [];
+    return types.length ? types : FALLBACK_TYPES;
+  }
+
+  function isSchema3Data(data) {
+    return Object.values(data || {}).some(
+      (value) => value && typeof value === "object" && (value.realEstate || value.commercial)
+    );
+  }
+
   function normalizeMeta(meta) {
     const source = meta && typeof meta === "object" ? meta : {};
+    const types = normalizeTypes(source);
+
+    // schemaVersion 3: 法務局 -> 登記種別 -> 庁 -> 申請日
+    if (source.data && isSchema3Data(source.data)) {
+      const jurisdictionIds = Object.keys(source.data).sort();
+      const jurisdictions = Array.isArray(source.jurisdictions) && source.jurisdictions.length
+        ? source.jurisdictions.map(normalizeOption).filter(Boolean)
+        : jurisdictionIds.map((id) => ({ id, label: id }));
+      const officesByJurisdiction = source.officesByJurisdiction || Object.fromEntries(
+        jurisdictions.map((j) => [
+          j.id,
+          Object.fromEntries(types.map((type) => [
+            type.id,
+            Object.keys(source.data?.[j.id]?.[type.id] || {}).sort(),
+          ])),
+        ])
+      );
+      return { ...source, jurisdictions, types, officesByJurisdiction };
+    }
+
+    // schemaVersion 2: 登記種別 -> 庁 -> 申請日（東京法務局として包む）
     if (source.data && source.data.realEstate) {
-      const types = Array.isArray(source.types) && source.types.length
-        ? source.types
-        : FALLBACK_TYPES.filter((type) => source.data[type.id]);
       const officesByType = source.officesByType || Object.fromEntries(
         types.map((type) => [type.id, Object.keys(source.data[type.id] || {}).sort()])
       );
-      return { ...source, types, officesByType };
+      return {
+        ...source,
+        jurisdictions: FALLBACK_JURISDICTIONS,
+        types,
+        officesByJurisdiction: { [DEFAULT_JURISDICTION]: officesByType },
+        data: { [DEFAULT_JURISDICTION]: source.data },
+      };
     }
 
-    // schemaVersion 1（不動産のみ）の配布データも読み込めるようにする。
+    // schemaVersion 1: 不動産のみ（東京法務局として包む）
     const oldData = source.data || {};
     return {
       ...source,
+      jurisdictions: FALLBACK_JURISDICTIONS,
       types: [FALLBACK_TYPES[0]],
-      officesByType: { realEstate: source.offices || Object.keys(oldData).sort() },
-      data: { realEstate: oldData },
+      officesByJurisdiction: {
+        [DEFAULT_JURISDICTION]: {
+          realEstate: source.offices || Object.keys(oldData).sort(),
+        },
+      },
+      data: { [DEFAULT_JURISDICTION]: { realEstate: oldData } },
     };
   }
 
   let META = normalizeMeta(window.KANRYO_DATA || {});
   let DB = META.data || {};
   let TYPES = META.types || [];
+  let JURISDICTIONS = META.jurisdictions || [];
 
   const $ = (id) => document.getElementById(id);
   const pad = (n) => String(n).padStart(2, "0");
@@ -40,6 +90,8 @@
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   };
   const WD = ["日", "月", "火", "水", "木", "金", "土"];
+  const isISODate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
+
   function fmtJP(iso) {
     if (!iso) return "—";
     const [y, m, d] = iso.split("-").map(Number);
@@ -52,18 +104,25 @@
     return Math.round((b - a) / 86400000);
   }
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  const jurisdictionLabel = (jurisdictionId) =>
+    JURISDICTIONS.find((j) => j.id === jurisdictionId)?.label ||
+    FALLBACK_JURISDICTIONS.find((j) => j.id === jurisdictionId)?.label ||
+    jurisdictionId;
   const typeLabel = (typeId) =>
     TYPES.find((type) => type.id === typeId)?.label ||
     FALLBACK_TYPES.find((type) => type.id === typeId)?.label ||
     typeId;
+  const selectedJurisdiction = () => $("f-jurisdiction")?.value || DEFAULT_JURISDICTION;
   const selectedType = () =>
     document.querySelector('input[name="registration-type"]:checked')?.value || DEFAULT_TYPE;
-  const officesFor = (typeId) =>
-    META.officesByType?.[typeId] || Object.keys(DB[typeId] || {}).sort();
+  const officesFor = (jurisdictionId, typeId) =>
+    META.officesByJurisdiction?.[jurisdictionId]?.[typeId] ||
+    Object.keys(DB[jurisdictionId]?.[typeId] || {}).sort();
 
-  // 登記種別・庁・申請日 -> 完了予定日 or null
-  const lookupDue = (typeId, office, applyISO) =>
-    (DB[typeId] && DB[typeId][office] && DB[typeId][office][applyISO]) || null;
+  // 法務局・登記種別・庁・申請日 -> 完了予定日 or null
+  const lookupDue = (jurisdictionId, typeId, office, applyISO) =>
+    (DB[jurisdictionId] && DB[jurisdictionId][typeId] && DB[jurisdictionId][typeId][office] &&
+      DB[jurisdictionId][typeId][office][applyISO]) || null;
 
   function useData(meta) {
     const normalized = normalizeMeta(meta);
@@ -71,7 +130,8 @@
     META = normalized;
     DB = normalized.data;
     TYPES = normalized.types;
-    window.KANRYO_DATA = meta;
+    JURISDICTIONS = normalized.jurisdictions || FALLBACK_JURISDICTIONS;
+    window.KANRYO_DATA = normalized;
     return true;
   }
 
@@ -79,7 +139,6 @@
     if (!location.protocol.startsWith("http")) return null;
     try {
       const url = new URL("data/kanryo.json", location.href);
-      url.searchParams.set("v", Date.now());
       const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const meta = await res.json();
@@ -91,18 +150,33 @@
   }
 
   // ---- storage ----
+  function normalizeCase(item) {
+    if (!item || typeof item !== "object") return null;
+    const office = typeof item.office === "string" ? item.office.trim() : "";
+    const applyDate = isISODate(item.applyDate) ? item.applyDate : "";
+    if (!office || !applyDate) return null;
+    return {
+      id: typeof item.id === "string" && item.id ? item.id : uid(),
+      label: typeof item.label === "string" ? item.label : "",
+      jurisdiction: typeof item.jurisdiction === "string" && item.jurisdiction ? item.jurisdiction : DEFAULT_JURISDICTION,
+      registrationType: typeof item.registrationType === "string" && item.registrationType ? item.registrationType : DEFAULT_TYPE,
+      office,
+      applyDate,
+      dueDate: isISODate(item.dueDate) ? item.dueDate : null,
+      status: item.status === "done" ? "done" : "active",
+      createdAt: typeof item.createdAt === "string" && item.createdAt ? item.createdAt : new Date().toISOString(),
+    };
+  }
+
   const load = () => {
     try {
-      const list = JSON.parse(localStorage.getItem(STORE_KEY)) || [];
-      let changed = false;
-      for (const item of list) {
-        if (!item.registrationType) {
-          item.registrationType = DEFAULT_TYPE;
-          changed = true;
-        }
+      const raw = JSON.parse(localStorage.getItem(STORE_KEY)) || [];
+      const list = Array.isArray(raw) ? raw : [];
+      const normalized = list.map(normalizeCase).filter(Boolean);
+      if (JSON.stringify(list) !== JSON.stringify(normalized)) {
+        localStorage.setItem(STORE_KEY, JSON.stringify(normalized));
       }
-      if (changed) localStorage.setItem(STORE_KEY, JSON.stringify(list));
-      return list;
+      return normalized;
     } catch {
       return [];
     }
@@ -113,7 +187,7 @@
   function refreshSavedDueDates() {
     let changed = false;
     for (const c of cases) {
-      const latest = lookupDue(c.registrationType || DEFAULT_TYPE, c.office, c.applyDate);
+      const latest = lookupDue(c.jurisdiction || DEFAULT_JURISDICTION, c.registrationType || DEFAULT_TYPE, c.office, c.applyDate);
       // 掲載期間外になった既存案件は、以前取得した予定日を保持する。
       if (latest && latest !== c.dueDate) {
         c.dueDate = latest;
@@ -125,6 +199,7 @@
 
   // ---- result panel ----
   function updateResult() {
+    const jurisdictionId = selectedJurisdiction();
     const typeId = selectedType();
     const office = $("f-office").value;
     const apply = $("f-apply").value;
@@ -133,10 +208,10 @@
     const hintEl = $("result-hint");
     const addBtn = $("f-add");
 
-    if (officesFor(typeId).length === 0) {
+    if (officesFor(jurisdictionId, typeId).length === 0) {
       box.className = "result result--warn";
       dateEl.textContent = "データ未収録";
-      hintEl.textContent = `${typeLabel(typeId)}のデータを読み込めませんでした。オンラインで開き直してください。`;
+      hintEl.textContent = `${jurisdictionLabel(jurisdictionId)}・${typeLabel(typeId)}のデータを読み込めませんでした。オンラインで開き直してください。`;
       addBtn.disabled = true;
       return;
     }
@@ -144,12 +219,12 @@
     if (!office || !apply) {
       box.className = "result result--empty";
       dateEl.textContent = "— — —";
-      hintEl.textContent = "↑ 登記種別・管轄・申請日を選ぶと、ここに自動表示されます";
+      hintEl.textContent = "↑ 法務局・登記種別・管轄・申請日を選ぶと、ここに自動表示されます";
       addBtn.disabled = true;
       return;
     }
 
-    const due = lookupDue(typeId, office, apply);
+    const due = lookupDue(jurisdictionId, typeId, office, apply);
     addBtn.disabled = false;
 
     if (!due) {
@@ -160,7 +235,7 @@
     }
 
     const n = diffDays(todayISO(), due);
-    const context = `${typeLabel(typeId)}・${office}`;
+    const context = `${jurisdictionLabel(jurisdictionId)}・${typeLabel(typeId)}・${office}`;
     if (n > 0) {
       box.className = "result result--ok";
       hintEl.textContent = `あと ${n} 日（${context}）`;
@@ -236,7 +311,7 @@
       el.querySelector(".item__label").textContent =
         c.label && c.label.trim() ? c.label : "（メモなし）";
       el.querySelector(".item__office").textContent =
-        `${typeLabel(c.registrationType || DEFAULT_TYPE)} ｜ ${c.office}`;
+        `${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)} ｜ ${typeLabel(c.registrationType || DEFAULT_TYPE)} ｜ ${c.office}`;
       el.querySelector(".apply").textContent = fmtJP(c.applyDate);
       el.querySelector(".due").textContent = c.dueDate ? fmtJP(c.dueDate) : "未掲載";
 
@@ -259,6 +334,7 @@
 
   // ---- actions ----
   function addCase() {
+    const jurisdiction = selectedJurisdiction();
     const registrationType = selectedType();
     const office = $("f-office").value;
     const applyDate = $("f-apply").value;
@@ -266,10 +342,11 @@
     cases.push({
       id: uid(),
       label: $("f-label").value.trim(),
+      jurisdiction,
       registrationType,
       office,
       applyDate,
-      dueDate: lookupDue(registrationType, office, applyDate),
+      dueDate: lookupDue(jurisdiction, registrationType, office, applyDate),
       status: "active",
       createdAt: new Date().toISOString(),
     });
@@ -296,9 +373,28 @@
     save(cases); render();
   }
 
+  function populateJurisdictions(selected = "") {
+    const select = $("f-jurisdiction");
+    const jurisdictions = JURISDICTIONS.length ? JURISDICTIONS : FALLBACK_JURISDICTIONS;
+    select.innerHTML = "";
+    for (const jurisdiction of jurisdictions) {
+      const option = document.createElement("option");
+      option.value = jurisdiction.id;
+      option.textContent = jurisdiction.label;
+      select.appendChild(option);
+    }
+    const ids = jurisdictions.map((j) => j.id);
+    select.value = ids.includes(selected)
+      ? selected
+      : ids.includes(DEFAULT_JURISDICTION)
+        ? DEFAULT_JURISDICTION
+        : ids[0] || "";
+  }
+
   function populateOffices(selected = "") {
+    const jurisdictionId = selectedJurisdiction();
     const typeId = selectedType();
-    const offices = officesFor(typeId);
+    const offices = officesFor(jurisdictionId, typeId);
     const select = $("f-office");
     select.innerHTML = "";
     const def = document.createElement("option");
@@ -313,7 +409,7 @@
     if (offices.includes(selected)) select.value = selected;
   }
 
-  function updateTypeUI() {
+  function updateControls() {
     const previousOffice = $("f-office").value;
     populateOffices(previousOffice);
     $("f-label").placeholder = selectedType() === "commercial"
@@ -325,8 +421,9 @@
   function updateDataMeta() {
     if (META.generatedAt) {
       const d = new Date(META.generatedAt);
+      const count = (JURISDICTIONS.length || FALLBACK_JURISDICTIONS.length);
       $("data-meta").textContent =
-        `データ取得：${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} 時点`;
+        `データ取得：${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} 時点 / 対象：${count}法務局`;
     } else {
       $("data-meta").textContent = "";
     }
@@ -334,12 +431,13 @@
 
   // ---- init ----
   async function init() {
-    populateOffices();
-    updateTypeUI();
+    populateJurisdictions();
+    updateControls();
     updateDataMeta();
 
+    $("f-jurisdiction").addEventListener("change", updateControls);
     document.querySelectorAll('input[name="registration-type"]').forEach((input) =>
-      input.addEventListener("change", updateTypeUI)
+      input.addEventListener("change", updateControls)
     );
     $("f-office").addEventListener("change", updateResult);
     $("f-apply").addEventListener("change", updateResult);
@@ -354,9 +452,11 @@
 
     const latest = await fetchLatestData();
     if (latest && useData(latest)) {
+      const selectedJ = selectedJurisdiction();
       const selectedOffice = $("f-office").value;
+      populateJurisdictions(selectedJ);
       populateOffices(selectedOffice);
-      updateTypeUI();
+      updateControls();
       updateDataMeta();
       refreshSavedDueDates();
       render();
@@ -372,7 +472,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260622-ui2", { updateViaCache: "none" })
+        .register("./sw.js?v=20260624-national1", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });

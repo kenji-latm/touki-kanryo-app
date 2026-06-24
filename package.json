@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "scripts": {
+    "scrape": "node --use-system-ca scraper/scrape.mjs",
+    "build:single": "node scraper/build-single.mjs",
+    "build:zip": "node scraper/build-zip.mjs"
+  },
+  "dependencies": {
+    "pdfjs-dist": "^5.6.205"
+  }
+}
+
