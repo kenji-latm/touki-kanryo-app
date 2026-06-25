@@ -234,7 +234,7 @@ const JURISDICTIONS = [
     id: "kobe",
     label: "神戸地方法務局",
     kind: "pdfKobe",
-    pdfUrl: "https://houmukyoku.moj.go.jp/kobe/content/001465456.pdf",
+    indexUrl: "https://houmukyoku.moj.go.jp/kobe/category_00006.html",
     minimums: minimum(15, 80, 1, 5),
   },  {
     id: "nara",
@@ -247,7 +247,7 @@ const JURISDICTIONS = [
     id: "otsu",
     label: "大津地方法務局",
     kind: "htmlMatrixByOfficeRows",
-    pageUrl: "https://houmukyoku.moj.go.jp/otsu/content/001465437.htm",
+    indexUrl: "https://houmukyoku.moj.go.jp/otsu/category_00012.html",
     minimums: minimum(5, 30, 1, 5),
   },
   {
@@ -268,7 +268,7 @@ const JURISDICTIONS = [
     id: "okayama",
     label: "岡山地方法務局",
     kind: "pdfOkayama",
-    pdfUrl: "https://houmukyoku.moj.go.jp/okayama/content/000134164.pdf",
+    indexUrl: "https://houmukyoku.moj.go.jp/okayama/category_00011.html",
     minimums: minimum(6, 18, 1, 3),
   },  {
     id: "yamaguchi",
@@ -297,7 +297,7 @@ const JURISDICTIONS = [
     id: "takamatsu",
     label: "高松法務局",
     kind: "pdfMatrixRows",
-    pdfUrl: "https://houmukyoku.moj.go.jp/takamatsu/content/001465428.pdf",
+    indexUrl: "https://houmukyoku.moj.go.jp/takamatsu/category_00013.html",
     pdfOffices: ["本局", "丸亀支局", "観音寺支局", "寒川出張所"],
     minimums: minimum(4, 12, 1, 3),
   },
@@ -788,14 +788,17 @@ function extractLinks(html, source) {
     .map((href) => absoluteUrl(href, source.indexUrl));
 }
 
-function extractPdfLink(html, source) {
-  const anchors = [...html.matchAll(/<a\b[^>]*href=["']([^"']+\.pdf)["'][^>]*>([\s\S]*?)<\/a>/gi)]
+function extractScheduleLink(html, source, hrefPattern) {
+  const anchors = [...html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)]
     .map((m) => ({ href: m[1], text: cleanText(m[2]) }));
-  const hit = anchors.find((a) => /登記完了予定日/.test(a.text));
-  if (!hit) throw new Error("登記完了予定日のPDFリンクが見つかりません。");
+  const hit = anchors.find((a) => /登記完了予定日/.test(a.text) && (!hrefPattern || hrefPattern.test(a.href)));
+  if (!hit) throw new Error("登記完了予定日のリンクが見つかりません。");
   return absoluteUrl(hit.href, source.indexUrl);
 }
 
+function extractPdfLink(html, source) {
+  return extractScheduleLink(html, source, /\.pdf(?:$|[?#])/i);
+}
 async function pdfLines(buf) {
   const pdf = await getDocument({ data: new Uint8Array(buf), disableWorker: true }).promise;
   const lines = [];
@@ -1081,7 +1084,7 @@ async function parsePdfOkayama(buf, stores, jurisdiction) {
   const baseYear = reiwaToYear(items.map((item) => item.text).join("\n"));
   const labelItems = items.map((item) => ({ ...item, compact: compactPdfText(item.text) }));
   const applyHeaders = labelItems
-    .filter((item) => parseMD(item.text) && item.y < 100 && item.x > 200)
+    .filter((item) => parseMD(item.text) && item.y < 130 && item.x > 200)
     .sort((a, b) => a.x - b.x)
     .map((item) => parseMD(item.text));
   const realEstateXs = labelItems
@@ -1197,9 +1200,10 @@ async function scrapeJurisdiction(stores, jurisdiction) {
     parseHtmlTables(html, stores, jurisdiction);
     sourcePages.push(jurisdiction.pageUrl);
   } else if (jurisdiction.kind === "htmlMatrixByOfficeRows") {
-    const html = dec(await getBuf(jurisdiction.pageUrl));
+    const pageUrl = jurisdiction.pageUrl || extractScheduleLink(dec(await getBuf(jurisdiction.indexUrl)), jurisdiction, /\.html?(?:$|[?#])/i);
+    const html = dec(await getBuf(pageUrl));
     parseHtmlMatrixByOfficeRows(html, stores, jurisdiction);
-    sourcePages.push(jurisdiction.pageUrl);
+    sourcePages.push(pageUrl);
   } else if (jurisdiction.kind === "htmlSequentialOfficeTables") {
     const html = dec(await getBuf(jurisdiction.pageUrl));
     parseHtmlSequentialOfficeTables(html, stores, jurisdiction);
@@ -1218,7 +1222,7 @@ async function scrapeJurisdiction(stores, jurisdiction) {
     await parsePdf(await getBuf(pdfUrl), stores, jurisdiction);
     sourcePages.push(pdfUrl);
   } else if (jurisdiction.kind === "pdfMatrixRows") {
-    const pdfUrl = jurisdiction.pdfUrl;
+    const pdfUrl = jurisdiction.pdfUrl || extractPdfLink(dec(await getBuf(jurisdiction.indexUrl)), jurisdiction);
     console.log(`PDF: ${pdfUrl}`);
     await parsePdfMatrixRows(await getBuf(pdfUrl), stores, jurisdiction);
     sourcePages.push(pdfUrl);
@@ -1228,7 +1232,7 @@ async function scrapeJurisdiction(stores, jurisdiction) {
     await parsePdfSaitama(await getBuf(pdfUrl), stores, jurisdiction);
     sourcePages.push(pdfUrl);
   } else if (jurisdiction.kind === "pdfKobe") {
-    const pdfUrl = jurisdiction.pdfUrl;
+    const pdfUrl = jurisdiction.pdfUrl || extractPdfLink(dec(await getBuf(jurisdiction.indexUrl)), jurisdiction);
     console.log(`PDF: ${pdfUrl}`);
     await parsePdfKobe(await getBuf(pdfUrl), stores, jurisdiction);
     sourcePages.push(pdfUrl);
@@ -1238,7 +1242,7 @@ async function scrapeJurisdiction(stores, jurisdiction) {
     await parsePdfKyotoColumns(await getBuf(pdfUrl), stores, jurisdiction);
     sourcePages.push(pdfUrl);
   } else if (jurisdiction.kind === "pdfOkayama") {
-    const pdfUrl = jurisdiction.pdfUrl;
+    const pdfUrl = jurisdiction.pdfUrl || extractPdfLink(dec(await getBuf(jurisdiction.indexUrl)), jurisdiction);
     console.log(`PDF: ${pdfUrl}`);
     await parsePdfOkayama(await getBuf(pdfUrl), stores, jurisdiction);
     sourcePages.push(pdfUrl);
