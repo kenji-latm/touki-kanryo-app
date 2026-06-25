@@ -29,6 +29,12 @@ const JURISDICTIONS = [
     minimums: minimum(10, 70, 1, 8),
   },
   {
+    id: "hakodate",
+    label: "函館地方法務局",
+    kind: "htmlPage",
+    pageUrl: "https://houmukyoku.moj.go.jp/hakodate/static/Kanryouyotei.htm",
+    minimums: { realEstate: { offices: 1, entries: 3 } },
+  },  {
     id: "asahikawa",
     label: "旭川地方法務局",
     kind: "htmlPage",
@@ -50,6 +56,14 @@ const JURISDICTIONS = [
     minimums: minimum(6, 30, 1, 5),
   },
   {
+    id: "fukushima",
+    label: "福島地方法務局",
+    kind: "htmlSequentialOfficeTables",
+    pageUrl: "https://houmukyoku.moj.go.jp/fukushima/static/HP.htm",
+    officeSequence: ["本局", "相馬支局", "郡山支局", "白河支局", "若松支局", "いわき支局", "二本松出張所", "田島出張所", "富岡出張所"],
+    commercialOffices: ["本局"],
+    minimums: minimum(9, 50, 1, 8),
+  },  {
     id: "yamagata",
     label: "山形地方法務局",
     kind: "htmlPage",
@@ -89,6 +103,40 @@ const JURISDICTIONS = [
     },
   },
   {
+    id: "yokohama",
+    label: "横浜地方法務局",
+    kind: "htmlPage",
+    pageUrl: "https://houmukyoku.moj.go.jp/yokohama/static/kanryoyoteibi.htm",
+    minimums: { realEstate: { offices: 1, entries: 3 } },
+  },
+  {
+    id: "saitama",
+    label: "さいたま地方法務局",
+    kind: "pdfSaitama",
+    pdfUrl: "https://houmukyoku.moj.go.jp/saitama/content/001142352.pdf",
+    minimums: minimum(15, 80, 1, 5),
+  },
+  {
+    id: "chiba",
+    label: "千葉地方法務局",
+    kind: "htmlPage",
+    pageUrl: "https://houmukyoku.moj.go.jp/chiba/static/kanryoyoteibi.htm",
+    minimums: { realEstate: { offices: 1, entries: 3 } },
+  },
+  {
+    id: "mito",
+    label: "水戸地方法務局",
+    kind: "htmlPage",
+    pageUrl: "https://houmukyoku.moj.go.jp/mito/static/kanryouyoteibi.htm",
+    minimums: { realEstate: { offices: 1, entries: 3 } },
+  },
+  {
+    id: "utsunomiya",
+    label: "宇都宮地方法務局",
+    kind: "htmlPage",
+    pageUrl: "https://houmukyoku.moj.go.jp/utsunomiya/static/kanryouPage.htm",
+    minimums: { realEstate: { offices: 1, entries: 3 } },
+  },  {
     id: "maebashi",
     label: "前橋地方法務局",
     kind: "pdfDirect",
@@ -116,6 +164,27 @@ const JURISDICTIONS = [
     minimums: minimum(10, 100, 1, 10),
   },
   {
+    id: "shizuoka",
+    label: "静岡地方法務局",
+    kind: "htmlPage",
+    pageUrl: "https://houmukyoku.moj.go.jp/shizuoka/static/yotei.htm",
+    minimums: { realEstate: { offices: 1, entries: 3 } },
+  },
+  {
+    id: "nagoya",
+    label: "名古屋法務局",
+    kind: "htmlSequentialOfficeTables",
+    pageUrl: "https://houmukyoku.moj.go.jp/nagoya/static/toukikanryou.htm",
+    officeSequence: ["本局登記部門", "春日井支局", "津島支局", "一宮支局", "半田支局", "岡崎支局", "刈谷支局", "豊田支局", "西尾支局", "豊橋支局", "新城支局", "熱田出張所", "名東出張所", "豊川出張所"],
+    minimums: minimum(14, 100, 1, 10),
+  },
+  {
+    id: "gifu",
+    label: "岐阜地方法務局",
+    kind: "htmlPage",
+    pageUrl: "https://houmukyoku.moj.go.jp/gifu/static/kanryoyotei.htm",
+    minimums: { realEstate: { offices: 1, entries: 3 } },
+  },  {
     id: "tsu",
     label: "津地方法務局",
     kind: "htmlPage",
@@ -123,6 +192,28 @@ const JURISDICTIONS = [
     minimums: minimum(7, 25, 1, 3),
   },
   {
+    id: "fukui",
+    label: "福井地方法務局",
+    kind: "htmlPage",
+    pageUrl: "https://houmukyoku.moj.go.jp/fukui/static/kanryoyotei.htm",
+    minimums: { realEstate: { offices: 1, entries: 3 } },
+  },
+  {
+    id: "kanazawa",
+    label: "金沢地方法務局",
+    kind: "htmlSequentialOfficeTables",
+    pageUrl: "https://houmukyoku.moj.go.jp/kanazawa/static/kanryouyoteibi.html",
+    officeSequence: ["本局登記部門", "小松支局", "七尾支局", "輪島支局"],
+    minimums: minimum(4, 25, 1, 5),
+  },
+  {
+    id: "toyama",
+    label: "富山地方法務局",
+    kind: "htmlSequentialOfficeTables",
+    pageUrl: "https://houmukyoku.moj.go.jp/toyama/static/kanryoyotei.htm",
+    officeSequence: ["本局登記部門", "魚津支局", "高岡支局", "砺波支局"],
+    minimums: minimum(4, 25, 1, 5),
+  },  {
     id: "osaka",
     label: "大阪法務局",
     kind: "htmlPage",
@@ -133,6 +224,19 @@ const JURISDICTIONS = [
     },
   },
   {
+    id: "kyoto",
+    label: "京都地方法務局",
+    kind: "pdfKyotoColumns",
+    pdfUrl: "https://houmukyoku.moj.go.jp/kyoto/content/001465450.pdf",
+    minimums: minimum(9, 40, 1, 5),
+  },
+  {
+    id: "kobe",
+    label: "神戸地方法務局",
+    kind: "pdfKobe",
+    pdfUrl: "https://houmukyoku.moj.go.jp/kobe/content/001465456.pdf",
+    minimums: minimum(15, 80, 1, 5),
+  },  {
     id: "nara",
     label: "奈良地方法務局",
     kind: "pdfMatrixRows",
@@ -161,6 +265,12 @@ const JURISDICTIONS = [
     minimums: minimum(6, 25, 1, 3),
   },
   {
+    id: "okayama",
+    label: "岡山地方法務局",
+    kind: "pdfOkayama",
+    pdfUrl: "https://houmukyoku.moj.go.jp/okayama/content/000134164.pdf",
+    minimums: minimum(6, 18, 1, 3),
+  },  {
     id: "yamaguchi",
     label: "山口地方法務局",
     kind: "htmlPage",
@@ -222,11 +332,31 @@ const JURISDICTIONS = [
     minimums: minimum(4, 35, 1, 5),
   },
   {
+    id: "fukuoka",
+    label: "福岡法務局",
+    kind: "htmlSequentialOfficeTables",
+    pageUrl: "https://houmukyoku.moj.go.jp/fukuoka/static/kanryoubi.htm",
+    officeSequence: ["本局", "筑紫支局", "朝倉支局", "飯塚支局", "直方支局", "久留米支局", "柳川支局", "八女支局", "北九州支局", "行橋支局", "田川支局", "西新出張所", "粕屋出張所", "福間出張所", "八幡出張所"],
+    minimums: minimum(15, 100, 1, 20),
+  },
+  {
+    id: "nagasaki",
+    label: "長崎地方法務局",
+    kind: "pdfNagasaki",
+    pdfUrl: "https://houmukyoku.moj.go.jp/nagasaki/content/000133576.pdf",
+    minimums: minimum(8, 100, 1, 10),
+  },  {
     id: "kumamoto",
     label: "熊本地方法務局",
-    kind: "pdfDirect",
-    pdfUrl: "https://houmukyoku.moj.go.jp/kumamoto/content/001465443.pdf",
+    kind: "pdfFromIndex",
+    indexUrl: "https://houmukyoku.moj.go.jp/kumamoto/category_00012.html",
     minimums: minimum(6, 40, 1, 5),
+  },  {
+    id: "oita",
+    label: "大分地方法務局",
+    kind: "htmlPage",
+    pageUrl: "https://houmukyoku.moj.go.jp/oita/static/kanryoyotei.htm",
+    minimums: { realEstate: { offices: 1, entries: 3 } },
   },  {
     id: "kagoshima",
     label: "鹿児島地方法務局",
@@ -244,6 +374,13 @@ const JURISDICTIONS = [
     pdfUrl: "https://houmukyoku.moj.go.jp/miyazaki/page000082_00002.pdf",
     pdfOffices: ["本局", "都城支局", "延岡支局", "日南支局", "小林出張所", "高鍋出張所"],
     minimums: minimum(6, 30, 1, 5),
+  },
+  {
+    id: "naha",
+    label: "那覇地方法務局",
+    kind: "htmlNahaMatrix",
+    pageUrl: "https://houmukyoku.moj.go.jp/naha/static/toukikanryou.htm",
+    minimums: { realEstate: { offices: 1, entries: 3 } },
   },];
 
 function dec(buf) {
@@ -288,28 +425,51 @@ function cellsOf(tr) {
   return [...tr.matchAll(/<t[dh][\s\S]*?<\/t[dh]>/gi)].map((td) => cleanText(td[0]));
 }
 
+function normalizeNumbers(text) {
+  return String(text || "").replace(/[０-９]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0));
+}
+
 // "令和8年" を西暦へ
 function reiwaToYear(text) {
-  const m = String(text || "").match(/令和\s*(\d+)\s*年/);
+  const m = normalizeNumbers(text).match(/令和\s*(\d+)\s*年/);
   return m ? 2018 + Number(m[1]) : new Date().getFullYear();
 }
 
 // "令和8年6月11日（木）AM" / "6月11日(木)" -> { mm, dd, ampm }
-const DATE_RE = /(?:令和\s*\d+\s*年\s*)?(\d{1,2})月\s*(\d{1,2})日(?:[（(].?[）)])?\s*(AM|PM|午前|午後)?/;
-const DATE_RE_GLOBAL = /(?:令和\s*\d+\s*年\s*)?(\d{1,2})月\s*(\d{1,2})日(?:[（(].?[）)])?\s*(AM|PM|午前|午後)?/g;
+const DATE_RE = /(?:令和\s*\d+\s*年\s*)?(\d{1,2})\s*月\s*(\d{1,2})\s*日(?:\s*[（(]\s*.?\s*[）)])?\s*(AM|PM|午前|午後)?/;
+const DATE_RE_GLOBAL = /(?:令和\s*\d+\s*年\s*)?(\d{1,2})\s*月\s*(\d{1,2})\s*日(?:\s*[（(]\s*.?\s*[）)])?\s*(AM|PM|午前|午後)?/g;
 
 function parseMD(s) {
-  const m = String(s || "").match(DATE_RE);
+  const m = normalizeNumbers(s).match(DATE_RE);
   if (!m) return null;
   return { mm: Number(m[1]), dd: Number(m[2]), ampm: m[3] || null };
 }
 
 function datesInText(s) {
-  return [...String(s || "").matchAll(DATE_RE_GLOBAL)].map((m) => ({
+  return [...normalizeNumbers(s).matchAll(DATE_RE_GLOBAL)].map((m) => ({
     mm: Number(m[1]),
     dd: Number(m[2]),
     ampm: m[3] || null,
   }));
+}
+
+function datesInSlashText(s) {
+  return [...normalizeNumbers(s).matchAll(/(\d{1,2})\s*[\/／]\s*(\d{1,2})(?:\s*(AM|PM|午前|午後))?/g)].map((m) => ({
+    mm: Number(m[1]),
+    dd: Number(m[2]),
+    ampm: m[3] || null,
+  }));
+}
+
+function hasMultipleOfficeNames(text) {
+  const compact = compactPdfText(text);
+  const hits = compact.match(/支局|出張所/g) || [];
+  return hits.length > 1;
+}
+
+function singleOfficeFromPdfLine(line, jurisdiction) {
+  if (hasMultipleOfficeNames(line)) return null;
+  return normalizeOfficeName(line, jurisdiction);
 }
 
 const iso = (y, mm, dd) => `${y}-${String(mm).padStart(2, "0")}-${String(dd).padStart(2, "0")}`;
@@ -346,6 +506,7 @@ function normalizeOfficeName(text, jurisdiction) {
   if (t === `${compactLabel}本局`) return "本局";
   if (jurisdiction.id === "kagoshima" && t === "鹿児島地方法務局本局") return "本局";
   if (/^本局[（(]/.test(t)) return "本局";
+  if (t === "支局" || t === "出張所") return null;
   if (/^本局（山口）$/.test(t)) return "本局";
   if (t === "登記部門") return "本局登記部門";
   if (/(支局|出張所|部門|本局)$/.test(t)) return t;
@@ -505,6 +666,86 @@ function parseHtmlMatrixByOfficeRows(html, stores, jurisdiction) {
   }
 }
 
+function parseHtmlSequentialOfficeTables(html, stores, jurisdiction) {
+  const baseYear = reiwaToYear(html);
+  const rows = rowsOf(html).map((row) => row.filter(Boolean));
+  const offices = jurisdiction.officeSequence || [];
+  let officeIndex = -1;
+  let currentOffice = null;
+  let tableState = { hasRealEstate: false, hasCommercial: false, lastApplied: null };
+
+  for (const row of rows) {
+    if (row.length === 0) continue;
+    const joined = row.join(" ");
+    const firstCell = cleanText(row[0] || "");
+    const startsTable = (/^申\s*請\s*日/.test(firstCell) || /LINK.*申\s*請\s*日/.test(joined)) &&
+      (/登\s*記\s*完\s*了|完了予定|不動産.*権利/.test(joined)) &&
+      datesInText(joined).length === 0;
+    if (startsTable) {
+      officeIndex += 1;
+      currentOffice = offices[officeIndex] || null;
+      tableState = { hasRealEstate: false, hasCommercial: false, lastApplied: null };
+      if (rowHasRealEstate(joined)) tableState.hasRealEstate = true;
+      if (rowHasCommercial(joined) || /商業法人/.test(joined)) tableState.hasCommercial = true;
+      continue;
+    }
+    if (!currentOffice) continue;
+
+    const looksLikeHeader = /不動産.*権利|商業/.test(joined) && !parseMD(row[0] || "");
+    if (looksLikeHeader) {
+      if (rowHasRealEstate(joined)) tableState.hasRealEstate = true;
+      if (rowHasCommercial(joined) || /商業法人/.test(joined)) tableState.hasCommercial = true;
+      continue;
+    }
+    const rowState = { ...tableState };
+    if (jurisdiction.commercialOffices && !jurisdiction.commercialOffices.includes(currentOffice)) {
+      rowState.hasCommercial = false;
+    }
+    parseDateRow(row, stores, jurisdiction, currentOffice, baseYear, rowState);
+  }
+}
+
+function parseHtmlNahaMatrix(html, stores, jurisdiction) {
+  const baseYear = reiwaToYear(html);
+  const rows = rowsOf(html).map((row) => row.filter(Boolean));
+  let offices = [];
+  let currentApply = null;
+
+  for (const row of rows) {
+    if (row.length === 0) continue;
+    const joined = row.join(" ");
+    if (/本\s*局/.test(joined) && /支局|出張所/.test(joined) && !/申請日|登記の種類/.test(joined)) {
+      offices = row.map((cell) => normalizeOfficeName(cell, jurisdiction)).filter(Boolean);
+      continue;
+    }
+
+    const apply = datesInSlashText(row[0] || "")[0];
+    let typeText = "";
+    let dueCells = [];
+    if (apply) {
+      currentApply = apply;
+      typeText = row[1] || "";
+      dueCells = row.slice(2);
+    } else if (currentApply && /不動産|商業/.test(row[0] || "")) {
+      typeText = row[0] || "";
+      dueCells = row.slice(1);
+    } else {
+      continue;
+    }
+
+    if (!offices.length) continue;
+    if (/不動産.*権利/.test(typeText)) {
+      for (let i = 0; i < offices.length; i++) {
+        const due = parseMD(dueCells[i] || "");
+        if (due) addEntry(stores, jurisdiction.id, "realEstate", offices[i], baseYear, currentApply, due);
+      }
+    } else if (/商業/.test(typeText)) {
+      const due = parseMD(dueCells[0] || "");
+      if (due) addEntry(stores, jurisdiction.id, "commercial", offices[0], baseYear, currentApply, due);
+    }
+  }
+}
+
 function parseHtmlSagaMatrix(html, stores, jurisdiction) {
   const baseYear = reiwaToYear(html);
   const rows = rowsOf(html).map((row) => row.filter(Boolean));
@@ -574,6 +815,21 @@ async function pdfLines(buf) {
     }
   }
   return lines.map(cleanText).filter(Boolean);
+}
+
+async function pdfTextItems(buf) {
+  const pdf = await getDocument({ data: new Uint8Array(buf), disableWorker: true }).promise;
+  const items = [];
+  for (let pageNo = 1; pageNo <= pdf.numPages; pageNo++) {
+    const page = await pdf.getPage(pageNo);
+    const content = await page.getTextContent();
+    for (const item of content.items) {
+      const text = cleanText(item.str || "");
+      if (!text) continue;
+      items.push({ pageNo, x: item.transform[4], y: item.transform[5], text });
+    }
+  }
+  return items;
 }
 
 async function parsePdf(buf, stores, jurisdiction) {
@@ -684,6 +940,222 @@ async function parsePdfMatrixRows(buf, stores, jurisdiction) {
   }
 }
 
+async function parsePdfSaitama(buf, stores, jurisdiction) {
+  const lines = await pdfLines(buf);
+  const baseYear = reiwaToYear(lines.join("\n"));
+  let currentOffice = null;
+  let currentApply = null;
+  let pendingDueDates = null;
+  let waitingApplyDate = false;
+
+  const addDueDates = (applied, dueDates) => {
+    if (!currentOffice || !applied || dueDates.length < 2) return;
+    addEntry(stores, jurisdiction.id, "realEstate", currentOffice, baseYear, applied, dueDates[1]);
+    if (currentOffice === "本局" && dueDates[2]) {
+      addEntry(stores, jurisdiction.id, "commercial", currentOffice, baseYear, applied, dueDates[2]);
+    }
+  };
+
+  for (const line of lines) {
+    const compact = compactPdfText(line);
+    let office = null;
+    if (/^本局不動産.*法人登記部門$/.test(compact)) office = "本局";
+    else office = singleOfficeFromPdfLine(line, jurisdiction);
+    if (office && !/^(支局|出張所)$/.test(office)) {
+      currentOffice = office;
+      currentApply = null;
+      pendingDueDates = null;
+      waitingApplyDate = false;
+      continue;
+    }
+
+    if (!currentOffice) continue;
+    if (/^令和\s*\d+\s*年$/.test(line)) {
+      waitingApplyDate = true;
+      continue;
+    }
+
+    const dates = datesInText(line);
+    if (waitingApplyDate && dates.length === 1) {
+      currentApply = dates[0];
+      if (pendingDueDates) addDueDates(currentApply, pendingDueDates);
+      pendingDueDates = null;
+      waitingApplyDate = false;
+      continue;
+    }
+    if (dates.length >= 2) {
+      if (currentApply) addDueDates(currentApply, dates);
+      else pendingDueDates = dates;
+    }
+  }
+}
+
+async function parsePdfKobe(buf, stores, jurisdiction) {
+  const lines = await pdfLines(buf);
+  const baseYear = reiwaToYear(lines.join("\n"));
+  let currentOffice = null;
+  let currentType = null;
+  let currentApply = null;
+
+  for (const line of lines) {
+    const compact = compactPdfText(line);
+    if (compact === "本局不動産登記部門") {
+      currentOffice = "本局不動産登記部門";
+      currentType = "realEstate";
+      currentApply = null;
+      continue;
+    }
+    if (compact === "本局法人登記部門") {
+      currentOffice = "本局法人登記部門";
+      currentType = "commercial";
+      currentApply = null;
+      continue;
+    }
+
+    const office = singleOfficeFromPdfLine(line, jurisdiction);
+    if (office && !/^(支局|出張所)$/.test(office) && !/本局/.test(office)) {
+      currentOffice = office;
+      currentType = "realEstate";
+      currentApply = null;
+      continue;
+    }
+    if (!currentOffice || !currentType) continue;
+
+    const dates = datesInText(line);
+    if (dates.length === 0) continue;
+    const hasApply = /令和\s*\d+\s*年\s*\d{1,2}月\s*\d{1,2}日/.test(line);
+    const applied = hasApply ? dates[0] : currentApply;
+    const dueDates = hasApply ? dates.slice(1) : dates;
+    if (!applied || dueDates.length === 0) continue;
+    currentApply = applied;
+
+    if (currentType === "realEstate") {
+      addEntry(stores, jurisdiction.id, "realEstate", currentOffice, baseYear, applied, dueDates[0]);
+    } else {
+      for (const due of dueDates) addEntry(stores, jurisdiction.id, "commercial", currentOffice, baseYear, applied, due);
+    }
+  }
+}
+
+async function parsePdfKyotoColumns(buf, stores, jurisdiction) {
+  const lines = await pdfLines(buf);
+  const baseYear = reiwaToYear(lines.join("\n"));
+  const header = lines.find((line) => /庁名/.test(line) && datesInText(line).length >= 3);
+  const applyDates = datesInText(header || "");
+  if (applyDates.length === 0) throw new Error("京都PDFの申請日列が見つかりません。");
+
+  const addDuePairs = (typeId, office, dueDates) => {
+    for (let i = 0; i < applyDates.length; i++) {
+      const pair = dueDates.slice(i * 2, i * 2 + 2);
+      for (const due of pair) addEntry(stores, jurisdiction.id, typeId, office, baseYear, applyDates[i], due);
+    }
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const compact = compactPdfText(line);
+    const slashDates = datesInSlashText(line);
+
+    if (/^権利/.test(line) && slashDates.length >= applyDates.length * 2) {
+      addDuePairs("realEstate", "本局", slashDates);
+      continue;
+    }
+    if (/商業法人/.test(compact)) {
+      const commercialDates = datesInSlashText(lines[i + 1] || "");
+      if (commercialDates.length >= applyDates.length * 2) addDuePairs("commercial", "本局", commercialDates);
+      continue;
+    }
+
+    const match = line.match(/^(.+?)\s+権利/);
+    if (!match || slashDates.length < applyDates.length * 2) continue;
+    const prefix = cleanText(match[1]).replace(/\s/g, "");
+    if (!prefix || prefix === "本局") continue;
+    const suffixLine = compactPdfText(lines[i + 2] || "");
+    const suffix = suffixLine.startsWith("出張所") ? "出張所" : "支局";
+    addDuePairs("realEstate", `${prefix}${suffix}`, slashDates);
+  }
+}
+
+async function parsePdfOkayama(buf, stores, jurisdiction) {
+  const items = await pdfTextItems(buf);
+  const baseYear = reiwaToYear(items.map((item) => item.text).join("\n"));
+  const labelItems = items.map((item) => ({ ...item, compact: compactPdfText(item.text) }));
+  const applyHeaders = labelItems
+    .filter((item) => parseMD(item.text) && item.y < 100 && item.x > 200)
+    .sort((a, b) => a.x - b.x)
+    .map((item) => parseMD(item.text));
+  const realEstateXs = labelItems
+    .filter((item) => item.compact.includes("不動産権利"))
+    .sort((a, b) => a.x - b.x)
+    .map((item) => item.x);
+  const commercialXs = labelItems
+    .filter((item) => item.compact.includes("商業・法人"))
+    .sort((a, b) => a.x - b.x)
+    .map((item) => item.x);
+
+  if (applyHeaders.length < 3 || realEstateXs.length < 3 || commercialXs.length < 3) {
+    throw new Error("岡山PDFの列見出しを読み取れませんでした。");
+  }
+
+  const officeItems = labelItems
+    .filter((item) => item.compact === "本" || (/支局$/.test(item.compact) && item.compact !== "支局"))
+    .sort((a, b) => b.y - a.y || a.x - b.x);
+
+  const dateAt = (rowItems, x) => {
+    const hit = rowItems
+      .filter((item) => parseMD(item.text))
+      .sort((a, b) => Math.abs(a.x - x) - Math.abs(b.x - x))[0];
+    if (!hit || Math.abs(hit.x - x) > 5) return null;
+    return parseMD(hit.text);
+  };
+
+  for (const officeItem of officeItems) {
+    const office = officeItem.compact === "本" ? "本局" : officeItem.compact;
+    const rowItems = labelItems.filter(
+      (item) => item.pageNo === officeItem.pageNo && Math.abs(item.y - officeItem.y) <= 4
+    );
+    for (let i = 0; i < Math.min(3, applyHeaders.length); i++) {
+      const realEstateDue = dateAt(rowItems, realEstateXs[i]);
+      if (realEstateDue) addEntry(stores, jurisdiction.id, "realEstate", office, baseYear, applyHeaders[i], realEstateDue);
+      if (office === "本局") {
+        const commercialDue = dateAt(rowItems, commercialXs[i]);
+        if (commercialDue) addEntry(stores, jurisdiction.id, "commercial", office, baseYear, applyHeaders[i], commercialDue);
+      }
+    }
+  }
+}
+
+async function parsePdfNagasaki(buf, stores, jurisdiction) {
+  const lines = await pdfLines(buf);
+  const baseYear = reiwaToYear(lines.join("\n"));
+  const offices = ["本局", "諫早支局", "島原支局", "佐世保支局", "平戸支局", "壱岐支局", "五島支局", "対馬支局"];
+  let currentApply = null;
+
+  for (const line of lines) {
+    const dates = datesInText(line);
+    if (dates.length === 1 && !/権利|表示/.test(line)) {
+      currentApply = dates[0];
+      continue;
+    }
+    if (!/権利/.test(line)) continue;
+
+    let applied = currentApply;
+    let dueDates = dates;
+    if (dates.length >= 10) {
+      applied = dates[0];
+      dueDates = dates.slice(1);
+    }
+    if (!applied || dueDates.length < 9) continue;
+    currentApply = applied;
+
+    addEntry(stores, jurisdiction.id, "realEstate", offices[0], baseYear, applied, dueDates[0]);
+    addEntry(stores, jurisdiction.id, "commercial", offices[0], baseYear, applied, dueDates[1]);
+    for (let i = 1; i < offices.length; i++) {
+      addEntry(stores, jurisdiction.id, "realEstate", offices[i], baseYear, applied, dueDates[i + 1]);
+    }
+  }
+}
+
 function countEntries(store) {
   return Object.values(store).reduce((n, office) => n + Object.keys(office).length, 0);
 }
@@ -728,9 +1200,17 @@ async function scrapeJurisdiction(stores, jurisdiction) {
     const html = dec(await getBuf(jurisdiction.pageUrl));
     parseHtmlMatrixByOfficeRows(html, stores, jurisdiction);
     sourcePages.push(jurisdiction.pageUrl);
+  } else if (jurisdiction.kind === "htmlSequentialOfficeTables") {
+    const html = dec(await getBuf(jurisdiction.pageUrl));
+    parseHtmlSequentialOfficeTables(html, stores, jurisdiction);
+    sourcePages.push(jurisdiction.pageUrl);
   } else if (jurisdiction.kind === "htmlSagaMatrix") {
     const html = dec(await getBuf(jurisdiction.pageUrl));
     parseHtmlSagaMatrix(html, stores, jurisdiction);
+    sourcePages.push(jurisdiction.pageUrl);
+  } else if (jurisdiction.kind === "htmlNahaMatrix") {
+    const html = dec(await getBuf(jurisdiction.pageUrl));
+    parseHtmlNahaMatrix(html, stores, jurisdiction);
     sourcePages.push(jurisdiction.pageUrl);
   } else if (jurisdiction.kind === "pdfDirect") {
     const pdfUrl = jurisdiction.pdfUrl;
@@ -741,6 +1221,31 @@ async function scrapeJurisdiction(stores, jurisdiction) {
     const pdfUrl = jurisdiction.pdfUrl;
     console.log(`PDF: ${pdfUrl}`);
     await parsePdfMatrixRows(await getBuf(pdfUrl), stores, jurisdiction);
+    sourcePages.push(pdfUrl);
+  } else if (jurisdiction.kind === "pdfSaitama") {
+    const pdfUrl = jurisdiction.pdfUrl;
+    console.log(`PDF: ${pdfUrl}`);
+    await parsePdfSaitama(await getBuf(pdfUrl), stores, jurisdiction);
+    sourcePages.push(pdfUrl);
+  } else if (jurisdiction.kind === "pdfKobe") {
+    const pdfUrl = jurisdiction.pdfUrl;
+    console.log(`PDF: ${pdfUrl}`);
+    await parsePdfKobe(await getBuf(pdfUrl), stores, jurisdiction);
+    sourcePages.push(pdfUrl);
+  } else if (jurisdiction.kind === "pdfKyotoColumns") {
+    const pdfUrl = jurisdiction.pdfUrl;
+    console.log(`PDF: ${pdfUrl}`);
+    await parsePdfKyotoColumns(await getBuf(pdfUrl), stores, jurisdiction);
+    sourcePages.push(pdfUrl);
+  } else if (jurisdiction.kind === "pdfOkayama") {
+    const pdfUrl = jurisdiction.pdfUrl;
+    console.log(`PDF: ${pdfUrl}`);
+    await parsePdfOkayama(await getBuf(pdfUrl), stores, jurisdiction);
+    sourcePages.push(pdfUrl);
+  } else if (jurisdiction.kind === "pdfNagasaki") {
+    const pdfUrl = jurisdiction.pdfUrl;
+    console.log(`PDF: ${pdfUrl}`);
+    await parsePdfNagasaki(await getBuf(pdfUrl), stores, jurisdiction);
     sourcePages.push(pdfUrl);
   } else if (jurisdiction.kind === "pdfFromIndex") {
     const idx = dec(await getBuf(jurisdiction.indexUrl));
@@ -780,8 +1285,21 @@ function makeEmptyData() {
   );
 }
 
+function isValidOfficeName(office) {
+  return !!office && !/^(支局|出張所)$/.test(office);
+}
+
+function isAllowedOfficeForType(jurisdictionId, typeId, office) {
+  if (!isValidOfficeName(office)) return false;
+  const jurisdiction = JURISDICTIONS.find((j) => j.id === jurisdictionId);
+  if (typeId === "commercial" && jurisdiction?.commercialOffices) {
+    return jurisdiction.commercialOffices.includes(office);
+  }
+  return true;
+}
+
 function addDataEntry(data, jurisdictionId, typeId, office, applyISO, dueISO) {
-  if (!office || !ISO_DATE_RE.test(applyISO) || !ISO_DATE_RE.test(dueISO)) return false;
+  if (!isAllowedOfficeForType(jurisdictionId, typeId, office) || !ISO_DATE_RE.test(applyISO) || !ISO_DATE_RE.test(dueISO)) return false;
   const typeData = data[jurisdictionId]?.[typeId];
   if (!typeData) return false;
   (typeData[office] ||= {})[applyISO] = dueISO;
