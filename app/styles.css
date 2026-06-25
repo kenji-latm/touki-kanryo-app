@@ -333,3 +333,89 @@ button, input, select { font: inherit; }
   .save-row { flex-direction: column; }
   .btn { width: 100%; }
 }
+
+/* Storage mode / office sharing */
+.storage-panel {
+  margin: 0 0 18px;
+  padding: 15px;
+  background: var(--surface);
+  border: 1px solid rgba(60, 60, 67, 0.08);
+  border-radius: 17px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.025);
+}
+.storage-panel__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.storage-panel__title { margin: 0; color: var(--text); font-size: 14px; font-weight: 650; letter-spacing: -0.01em; }
+.storage-panel__status { margin: 3px 0 0; color: var(--text-secondary); font-size: 11.5px; line-height: 1.45; }
+.storage-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  margin-top: 12px;
+  padding: 3px;
+  background: #ededf0;
+  border-radius: 11px;
+}
+.storage-tab {
+  padding: 9px 7px;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 550;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+.storage-tab.is-active {
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.storage-tab:focus-visible { outline: 3px solid rgba(0, 113, 227, 0.22); }
+.shared-login {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 8px;
+  margin-top: 12px;
+}
+.shared-login[hidden],
+.shared-session[hidden],
+.shared-message[hidden] { display: none; }
+.shared-login input,
+.shared-office-field select {
+  min-width: 0;
+  padding: 10px 11px;
+  color: var(--text);
+  background: var(--surface-soft);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  font-size: 14px;
+}
+.shared-login input:focus,
+.shared-office-field select:focus {
+  outline: none;
+  background-color: var(--surface);
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.14);
+}
+.shared-session { display: flex; align-items: end; gap: 10px; margin-top: 12px; }
+.shared-office-field { flex: 1; min-width: 0; color: var(--text-secondary); font-size: 11.5px; font-weight: 600; }
+.shared-office-field span { display: block; margin-bottom: 5px; }
+.shared-office-field select { width: 100%; }
+.shared-session__actions { display: flex; gap: 7px; padding-bottom: 1px; }
+.shared-message {
+  margin: 11px 0 0;
+  padding: 10px 11px;
+  color: var(--warning);
+  background: var(--warning-bg);
+  border-radius: 12px;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+@media (max-width: 430px) {
+  .shared-login { grid-template-columns: 1fr; }
+  .shared-login .btn { width: 100%; }
+  .shared-session { align-items: stretch; flex-direction: column; }
+  .shared-session__actions { justify-content: flex-end; }
+}

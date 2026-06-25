@@ -1,4 +1,4 @@
-// app/ の index.html・styles.css・app.js・data/kanryo.js を1枚のHTMLに埋め込む
+// app/ の index.html・styles.css・shared-config.js・app.js・data/kanryo.js を1枚のHTMLに埋め込む
 // 出力: dist/touki-kanryo-standalone.html（1ファイルで動作確認できる版）
 import fs from "node:fs";
 import path from "node:path";
@@ -14,6 +14,7 @@ const read = (p) => fs.readFileSync(path.join(APP, p), "utf8");
 let html = read("index.html");
 const css = read("styles.css");
 const data = read("data/kanryo.js");
+const sharedConfig = read("shared-config.js");
 const app = read("app.js");
 
 // 外部参照を撤去（単一ファイルでは不要・解決できない）
@@ -34,6 +35,12 @@ html = html.replace(
   `<script>\n${data}\n</script>`
 );
 
+// 共有設定 JS を埋め込み
+html = html.replace(
+  /<script src="shared-config\.js(?:\?[^\"]+)?"><\/script>/i,
+  `<script>\n${sharedConfig}\n</script>`
+);
+
 // アプリ JS を埋め込み
 html = html.replace(
   /<script src="app\.js(?:\?[^\"]+)?"><\/script>/i,
@@ -47,6 +54,6 @@ const kb = Math.round(Buffer.byteLength(html, "utf8") / 1024);
 console.log(`出力: ${OUT}`);
 console.log(`サイズ: ${kb} KB（単一ファイル・file://でそのまま動作）`);
 // 取りこぼし確認
-for (const frag of ['href="styles.css', 'src="app.js', 'src="data/kanryo.js"']) {
+for (const frag of ['href="styles.css', 'src="app.js', 'src="shared-config.js', 'src="data/kanryo.js']) {
   if (html.includes(frag)) console.warn("⚠ 未置換:", frag);
 }
