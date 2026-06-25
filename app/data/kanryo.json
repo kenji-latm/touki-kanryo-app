@@ -1,6 +1,6 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-06-25T00:23:58.029Z",
+  "generatedAt": "2026-06-25T05:47:20.703Z",
   "source": "登記完了予定日（50法務局対応・履歴蓄積）",
   "sources": [
     {
@@ -9,7 +9,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/sapporo/static/page000061.html",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/sapporo/static/page000061.html"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "hakodate",
@@ -17,7 +18,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/hakodate/static/Kanryouyotei.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/hakodate/static/Kanryouyotei.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "asahikawa",
@@ -25,7 +27,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/asahikawa/static/touki.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/asahikawa/static/touki.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "kushiro",
@@ -33,7 +36,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/kushiro/static/page000075.html",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/kushiro/static/page000075.html"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "sendai",
@@ -41,7 +45,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/sendai/static/Touki_kanryou.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/sendai/static/Touki_kanryou.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "fukushima",
@@ -49,7 +54,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/fukushima/static/HP.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/fukushima/static/HP.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "yamagata",
@@ -57,7 +63,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/yamagata/static/sinkanryoubi.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/yamagata/static/sinkanryoubi.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "morioka",
@@ -65,7 +72,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/morioka/static/category_00015.html",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/morioka/static/category_00015.html"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "akita",
@@ -73,7 +81,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/akita/static/newpege1.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/akita/static/newpege1.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "aomori",
@@ -81,25 +90,21 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/aomori/static/kanryoubi.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/aomori/static/kanryoubi.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "tokyo",
       "label": "東京法務局",
       "sourceUrl": "https://houmukyoku.moj.go.jp/tokyo/category_00019.html",
       "fetchedPages": [
+        "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00079.htm",
         "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00078.htm",
         "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00077.htm",
         "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00076.htm",
         "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00075.htm",
         "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00074.htm",
         "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00073.htm",
-        "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00072.htm",
-        "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00071.htm",
-        "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00070.htm",
-        "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00069.htm",
-        "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00068.htm",
-        "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00067.htm",
         "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00066.htm",
         "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00059.htm",
         "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00052.htm",
@@ -110,7 +115,8 @@
         "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00018.htm",
         "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei_00011.htm",
         "https://houmukyoku.moj.go.jp/tokyo/static/kanryoyotei.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "yokohama",
@@ -118,7 +124,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/yokohama/static/kanryoyoteibi.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/yokohama/static/kanryoyoteibi.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "saitama",
@@ -126,7 +133,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/saitama/content/001142352.pdf",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/saitama/content/001142352.pdf"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "chiba",
@@ -134,7 +142,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/chiba/static/kanryoyoteibi.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/chiba/static/kanryoyoteibi.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "mito",
@@ -142,7 +151,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/mito/static/kanryouyoteibi.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/mito/static/kanryouyoteibi.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "utsunomiya",
@@ -150,7 +160,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/utsunomiya/static/kanryouPage.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/utsunomiya/static/kanryouPage.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "maebashi",
@@ -158,7 +169,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/maebashi/content/001253538.pdf",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/maebashi/content/001253538.pdf"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "kofu",
@@ -166,7 +178,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/kofu/static/kanryou.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/kofu/static/kanryou.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "nagano",
@@ -174,7 +187,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/nagano/static/kanryou.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/nagano/static/kanryou.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "niigata",
@@ -182,7 +196,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/niigata/static/yotei.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/niigata/static/yotei.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "shizuoka",
@@ -190,7 +205,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/shizuoka/static/yotei.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/shizuoka/static/yotei.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "nagoya",
@@ -198,7 +214,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/nagoya/static/toukikanryou.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/nagoya/static/toukikanryou.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "gifu",
@@ -206,7 +223,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/gifu/static/kanryoyotei.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/gifu/static/kanryoyotei.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "tsu",
@@ -214,7 +232,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/tsu/static/toki_kanryo.html",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/tsu/static/toki_kanryo.html"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "fukui",
@@ -222,7 +241,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/fukui/static/kanryoyotei.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/fukui/static/kanryoyotei.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "kanazawa",
@@ -230,7 +250,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/kanazawa/static/kanryouyoteibi.html",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/kanazawa/static/kanryouyoteibi.html"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "toyama",
@@ -238,7 +259,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/toyama/static/kanryoyotei.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/toyama/static/kanryoyotei.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "osaka",
@@ -246,23 +268,24 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/osaka/static/kanryobi.html",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/osaka/static/kanryobi.html"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "kyoto",
       "label": "京都地方法務局",
-      "sourceUrl": "https://houmukyoku.moj.go.jp/kyoto/content/001465450.pdf",
+      "sourceUrl": "https://houmukyoku.moj.go.jp/kyoto/category_00011.html",
       "fetchedPages": [
-        "https://houmukyoku.moj.go.jp/kyoto/content/001465450.pdf"
-      ]
+        "https://houmukyoku.moj.go.jp/kyoto/content/001465509.pdf"
+      ],
+      "fetchError": null
     },
     {
       "id": "kobe",
       "label": "神戸地方法務局",
       "sourceUrl": "https://houmukyoku.moj.go.jp/kobe/content/001465456.pdf",
-      "fetchedPages": [
-        "https://houmukyoku.moj.go.jp/kobe/content/001465456.pdf"
-      ]
+      "fetchedPages": [],
+      "fetchError": "神戸地方法務局の取得に失敗しました: 404 https://houmukyoku.moj.go.jp/kobe/content/001465456.pdf"
     },
     {
       "id": "nara",
@@ -270,15 +293,15 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/nara/content/001137057.pdf",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/nara/content/001137057.pdf"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "otsu",
       "label": "大津地方法務局",
       "sourceUrl": "https://houmukyoku.moj.go.jp/otsu/content/001465437.htm",
-      "fetchedPages": [
-        "https://houmukyoku.moj.go.jp/otsu/content/001465437.htm"
-      ]
+      "fetchedPages": [],
+      "fetchError": "大津地方法務局の取得に失敗しました: 404 https://houmukyoku.moj.go.jp/otsu/content/001465437.htm"
     },
     {
       "id": "wakayama",
@@ -286,7 +309,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/wakayama/content/001153033.pdf",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/wakayama/content/001153033.pdf"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "hiroshima",
@@ -294,15 +318,15 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/hiroshima/static/kanryoubi.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/hiroshima/static/kanryoubi.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "okayama",
       "label": "岡山地方法務局",
       "sourceUrl": "https://houmukyoku.moj.go.jp/okayama/content/000134164.pdf",
-      "fetchedPages": [
-        "https://houmukyoku.moj.go.jp/okayama/content/000134164.pdf"
-      ]
+      "fetchedPages": [],
+      "fetchError": "岡山地方法務局の取得に失敗しました: 岡山PDFの列見出しを読み取れませんでした。"
     },
     {
       "id": "yamaguchi",
@@ -310,7 +334,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/yamaguchi/static/kanryou.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/yamaguchi/static/kanryou.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "tottori",
@@ -318,7 +343,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/tottori/content/000135641.pdf",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/tottori/content/000135641.pdf"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "matsue",
@@ -326,15 +352,15 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/matsue/content/001437662.pdf",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/matsue/content/001437662.pdf"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "takamatsu",
       "label": "高松法務局",
       "sourceUrl": "https://houmukyoku.moj.go.jp/takamatsu/content/001465428.pdf",
-      "fetchedPages": [
-        "https://houmukyoku.moj.go.jp/takamatsu/content/001465428.pdf"
-      ]
+      "fetchedPages": [],
+      "fetchError": "高松法務局の取得に失敗しました: 404 https://houmukyoku.moj.go.jp/takamatsu/content/001465428.pdf"
     },
     {
       "id": "tokushima",
@@ -342,7 +368,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/tokushima/content/000135286.pdf",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/tokushima/content/000135286.pdf"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "kochi",
@@ -350,7 +377,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/kochi/content/001414262.pdf",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/kochi/content/001414262.pdf"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "matsuyama",
@@ -358,7 +386,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/matsuyama/content/001452214.pdf",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/matsuyama/content/001452214.pdf"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "saga",
@@ -366,7 +395,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/saga/static/saga.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/saga/static/saga.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "fukuoka",
@@ -374,7 +404,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/fukuoka/static/kanryoubi.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/fukuoka/static/kanryoubi.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "nagasaki",
@@ -382,7 +413,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/nagasaki/content/000133576.pdf",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/nagasaki/content/000133576.pdf"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "kumamoto",
@@ -390,7 +422,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/kumamoto/category_00012.html",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/kumamoto/content/001465508.pdf"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "oita",
@@ -398,15 +431,17 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/oita/static/kanryoyotei.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/oita/static/kanryoyotei.htm"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "kagoshima",
       "label": "鹿児島地方法務局",
       "sourceUrl": "https://houmukyoku.moj.go.jp/kagoshima/category_00015.html",
       "fetchedPages": [
-        "https://houmukyoku.moj.go.jp/kagoshima/content/001465442.pdf"
-      ]
+        "https://houmukyoku.moj.go.jp/kagoshima/content/001465512.pdf"
+      ],
+      "fetchError": null
     },
     {
       "id": "miyazaki",
@@ -414,7 +449,8 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/miyazaki/page000082_00002.pdf",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/miyazaki/page000082_00002.pdf"
-      ]
+      ],
+      "fetchError": null
     },
     {
       "id": "naha",
@@ -422,19 +458,20 @@
       "sourceUrl": "https://houmukyoku.moj.go.jp/naha/static/toukikanryou.htm",
       "fetchedPages": [
         "https://houmukyoku.moj.go.jp/naha/static/toukikanryou.htm"
-      ]
+      ],
+      "fetchError": null
     }
   ],
   "note": "AM/PMは区別せず、同一申請日の遅い方の完了予定日を採用。不動産（表示）登記は対象外。過去に取得できた申請日データは履歴として保持。",
   "history": {
     "enabled": true,
     "startedAt": "2026-06-24T02:45:48.241Z",
-    "previousGeneratedAt": "2026-06-25T00:17:36.242Z",
-    "currentEntries": 7805,
-    "retainedEntries": 174,
-    "addedEntries": 9,
-    "updatedEntries": 0,
-    "totalEntries": 7979
+    "previousGeneratedAt": "2026-06-25T00:23:58.029Z",
+    "currentEntries": 7559,
+    "retainedEntries": 724,
+    "addedEntries": 304,
+    "updatedEntries": 39,
+    "totalEntries": 8283
   },
   "jurisdictions": [
     {
@@ -1453,8 +1490,8 @@
   },
   "totals": {
     "sapporo": {
-      "realEstate": 146,
-      "commercial": 18
+      "realEstate": 160,
+      "commercial": 19
     },
     "hakodate": {
       "realEstate": 22,
@@ -1469,16 +1506,16 @@
       "commercial": 30
     },
     "sendai": {
-      "realEstate": 58,
-      "commercial": 12
+      "realEstate": 66,
+      "commercial": 13
     },
     "fukushima": {
       "realEstate": 62,
       "commercial": 8
     },
     "yamagata": {
-      "realEstate": 62,
-      "commercial": 8
+      "realEstate": 75,
+      "commercial": 9
     },
     "morioka": {
       "realEstate": 56,
@@ -1493,16 +1530,16 @@
       "commercial": 11
     },
     "tokyo": {
-      "realEstate": 1886,
-      "commercial": 1886
+      "realEstate": 1909,
+      "commercial": 1909
     },
     "yokohama": {
-      "realEstate": 240,
-      "commercial": 30
+      "realEstate": 256,
+      "commercial": 32
     },
     "saitama": {
-      "realEstate": 102,
-      "commercial": 6
+      "realEstate": 119,
+      "commercial": 7
     },
     "chiba": {
       "realEstate": 150,
@@ -1513,8 +1550,8 @@
       "commercial": 6
     },
     "utsunomiya": {
-      "realEstate": 49,
-      "commercial": 7
+      "realEstate": 56,
+      "commercial": 8
     },
     "maebashi": {
       "realEstate": 139,
@@ -1529,16 +1566,16 @@
       "commercial": 16
     },
     "niigata": {
-      "realEstate": 240,
-      "commercial": 20
+      "realEstate": 252,
+      "commercial": 21
     },
     "shizuoka": {
-      "realEstate": 55,
-      "commercial": 15
+      "realEstate": 66,
+      "commercial": 18
     },
     "nagoya": {
-      "realEstate": 117,
-      "commercial": 24
+      "realEstate": 131,
+      "commercial": 26
     },
     "gifu": {
       "realEstate": 98,
@@ -1557,16 +1594,16 @@
       "commercial": 7
     },
     "toyama": {
-      "realEstate": 28,
-      "commercial": 7
+      "realEstate": 32,
+      "commercial": 8
     },
     "osaka": {
-      "realEstate": 77,
-      "commercial": 28
+      "realEstate": 88,
+      "commercial": 32
     },
     "kyoto": {
-      "realEstate": 50,
-      "commercial": 5
+      "realEstate": 60,
+      "commercial": 6
     },
     "kobe": {
       "realEstate": 179,
@@ -1581,24 +1618,24 @@
       "commercial": 10
     },
     "wakayama": {
-      "realEstate": 30,
-      "commercial": 6
+      "realEstate": 35,
+      "commercial": 7
     },
     "hiroshima": {
-      "realEstate": 40,
-      "commercial": 5
+      "realEstate": 48,
+      "commercial": 6
     },
     "okayama": {
       "realEstate": 18,
       "commercial": 3
     },
     "yamaguchi": {
-      "realEstate": 35,
-      "commercial": 5
+      "realEstate": 42,
+      "commercial": 6
     },
     "tottori": {
       "realEstate": 18,
-      "commercial": 5
+      "commercial": 6
     },
     "matsue": {
       "realEstate": 30,
@@ -1617,36 +1654,36 @@
       "commercial": 6
     },
     "matsuyama": {
-      "realEstate": 42,
-      "commercial": 4
+      "realEstate": 49,
+      "commercial": 5
     },
     "saga": {
       "realEstate": 65,
       "commercial": 13
     },
     "fukuoka": {
-      "realEstate": 186,
-      "commercial": 61
+      "realEstate": 201,
+      "commercial": 63
     },
     "nagasaki": {
-      "realEstate": 120,
-      "commercial": 15
+      "realEstate": 128,
+      "commercial": 16
     },
     "kumamoto": {
       "realEstate": 88,
       "commercial": 11
     },
     "oita": {
-      "realEstate": 77,
-      "commercial": 11
+      "realEstate": 84,
+      "commercial": 12
     },
     "kagoshima": {
-      "realEstate": 73,
-      "commercial": 17
+      "realEstate": 83,
+      "commercial": 18
     },
     "miyazaki": {
-      "realEstate": 72,
-      "commercial": 10
+      "realEstate": 96,
+      "commercial": 11
     },
     "naha": {
       "realEstate": 95,
@@ -1657,7 +1694,6 @@
     "sapporo": {
       "realEstate": {
         "岩見沢支局": [
-          "2026-06-05",
           "2026-06-08",
           "2026-06-09",
           "2026-06-10",
@@ -1670,10 +1706,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "倶知安支局": [
-          "2026-06-12",
           "2026-06-15",
           "2026-06-16",
           "2026-06-17",
@@ -1681,10 +1717,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "恵庭出張所": [
-          "2026-06-12",
           "2026-06-15",
           "2026-06-16",
           "2026-06-17",
@@ -1692,10 +1728,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "江別出張所": [
-          "2026-06-12",
           "2026-06-15",
           "2026-06-16",
           "2026-06-17",
@@ -1703,10 +1739,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "室蘭支局": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -1716,10 +1752,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "小樽支局": [
-          "2026-06-12",
           "2026-06-15",
           "2026-06-16",
           "2026-06-17",
@@ -1727,10 +1763,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "西出張所": [
-          "2026-06-11",
           "2026-06-12",
           "2026-06-15",
           "2026-06-16",
@@ -1739,10 +1775,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "滝川支局": [
-          "2026-06-12",
           "2026-06-15",
           "2026-06-16",
           "2026-06-17",
@@ -1750,20 +1786,20 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "苫小牧支局": [
-          "2026-06-15",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "南出張所": [
-          "2026-06-09",
           "2026-06-10",
           "2026-06-11",
           "2026-06-12",
@@ -1774,20 +1810,20 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "日高支局": [
-          "2026-06-15",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "白石出張所": [
-          "2026-06-11",
           "2026-06-12",
           "2026-06-15",
           "2026-06-16",
@@ -1796,10 +1832,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "北出張所": [
-          "2026-06-11",
           "2026-06-12",
           "2026-06-15",
           "2026-06-16",
@@ -1808,10 +1844,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局登記部門": [
-          "2026-06-01",
           "2026-06-02",
           "2026-06-03",
           "2026-06-04",
@@ -1828,12 +1864,12 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局登記部門": [
-          "2026-06-01",
           "2026-06-02",
           "2026-06-03",
           "2026-06-04",
@@ -1850,7 +1886,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
@@ -2033,58 +2070,57 @@
     "sendai": {
       "realEstate": {
         "塩竈支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "気仙沼支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "古川支局": [
-          "2026-06-15",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "石巻支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "大河原支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "登米支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局登記部門": [
-          "2026-06-09",
           "2026-06-10",
           "2026-06-11",
           "2026-06-12",
@@ -2095,21 +2131,21 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "名取出張所": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局登記部門": [
-          "2026-06-09",
           "2026-06-10",
           "2026-06-11",
           "2026-06-12",
@@ -2120,7 +2156,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
@@ -2221,92 +2258,92 @@
     "yamagata": {
       "realEstate": {
         "寒河江支局": [
-          "2025-06-24",
-          "2026-06-15",
+          "2025-06-25",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "酒田支局": [
-          "2025-06-24",
-          "2026-06-15",
+          "2025-06-25",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "新庄支局": [
-          "2025-06-24",
-          "2026-06-15",
+          "2025-06-25",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "村山出張所": [
-          "2025-06-24",
-          "2026-06-15",
+          "2025-06-25",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "鶴岡支局": [
-          "2025-06-24",
-          "2026-06-15",
+          "2025-06-25",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "米沢支局": [
-          "2025-06-24",
-          "2026-06-15",
+          "2025-06-25",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局登記部門": [
-          "2026-06-15",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局登記部門": [
-          "2026-06-15",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
@@ -2603,7 +2640,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "港出張所": [
           "2026-02-24",
@@ -2687,7 +2725,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "渋谷出張所": [
           "2026-02-24",
@@ -2771,7 +2810,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "城南出張所": [
           "2026-02-24",
@@ -2855,7 +2895,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "城北出張所": [
           "2026-02-24",
@@ -2939,7 +2980,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "新宿出張所": [
           "2026-02-24",
@@ -3023,7 +3065,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "杉並出張所": [
           "2026-02-24",
@@ -3107,7 +3150,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "世田谷出張所": [
           "2026-02-24",
@@ -3191,7 +3235,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "西多摩支局": [
           "2026-02-24",
@@ -3275,7 +3320,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "台東出張所": [
           "2026-02-24",
@@ -3359,7 +3405,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "中野出張所": [
           "2026-02-24",
@@ -3443,7 +3490,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "町田出張所": [
           "2026-02-24",
@@ -3527,7 +3575,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "田無出張所": [
           "2026-02-24",
@@ -3611,7 +3660,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "八王子支局": [
           "2026-02-24",
@@ -3695,7 +3745,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "板橋出張所": [
           "2026-02-24",
@@ -3779,7 +3830,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "品川出張所": [
           "2026-02-24",
@@ -3863,7 +3915,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "府中支局": [
           "2026-02-24",
@@ -3947,7 +4000,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "豊島出張所": [
           "2026-02-24",
@@ -4031,7 +4085,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "北出張所": [
           "2026-02-24",
@@ -4115,7 +4170,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "墨田出張所": [
           "2026-02-24",
@@ -4199,7 +4255,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局登記部門": [
           "2026-02-24",
@@ -4283,7 +4340,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "立川出張所": [
           "2026-02-24",
@@ -4367,7 +4425,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "練馬出張所": [
           "2026-02-24",
@@ -4451,7 +4510,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
@@ -4537,7 +4597,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "港出張所": [
           "2026-02-24",
@@ -4621,7 +4682,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "渋谷出張所": [
           "2026-02-24",
@@ -4705,7 +4767,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "城南出張所": [
           "2026-02-24",
@@ -4789,7 +4852,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "城北出張所": [
           "2026-02-24",
@@ -4873,7 +4937,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "新宿出張所": [
           "2026-02-24",
@@ -4957,7 +5022,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "杉並出張所": [
           "2026-02-24",
@@ -5041,7 +5107,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "世田谷出張所": [
           "2026-02-24",
@@ -5125,7 +5192,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "西多摩支局": [
           "2026-02-24",
@@ -5209,7 +5277,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "台東出張所": [
           "2026-02-24",
@@ -5293,7 +5362,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "中野出張所": [
           "2026-02-24",
@@ -5377,7 +5447,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "町田出張所": [
           "2026-02-24",
@@ -5461,7 +5532,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "田無出張所": [
           "2026-02-24",
@@ -5545,7 +5617,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "八王子支局": [
           "2026-02-24",
@@ -5629,7 +5702,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "板橋出張所": [
           "2026-02-24",
@@ -5713,7 +5787,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "品川出張所": [
           "2026-02-24",
@@ -5797,7 +5872,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "府中支局": [
           "2026-02-24",
@@ -5881,7 +5957,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "豊島出張所": [
           "2026-02-24",
@@ -5965,7 +6042,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "北出張所": [
           "2026-02-24",
@@ -6049,7 +6127,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "墨田出張所": [
           "2026-02-24",
@@ -6133,7 +6212,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局登記部門": [
           "2026-02-24",
@@ -6217,7 +6297,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "立川出張所": [
           "2026-02-24",
@@ -6301,7 +6382,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "練馬出張所": [
           "2026-02-24",
@@ -6385,14 +6467,14 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
     "yokohama": {
       "realEstate": {
         "旭出張所": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6406,10 +6488,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "栄出張所": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6423,10 +6505,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "横須賀支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6440,10 +6522,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "金沢出張所": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6457,10 +6539,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "戸塚出張所": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6474,10 +6556,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "厚木支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6491,10 +6573,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "港北出張所": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6508,10 +6590,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "湘南支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6525,10 +6607,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "神奈川出張所": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6542,10 +6624,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "西湘二宮支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6559,10 +6641,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "青葉出張所": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6576,10 +6658,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "川崎支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6593,10 +6675,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "相模原支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6610,10 +6692,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "大和出張所": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6627,10 +6709,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局登記部門": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6644,10 +6726,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "麻生出張所": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6661,12 +6743,12 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "湘南支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6680,10 +6762,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局登記部門": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -6697,157 +6779,158 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
     "saitama": {
       "realEstate": {
         "越谷支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "久喜支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "熊谷支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "鴻巣出張所": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "坂戸出張所": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "志木出張所": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "春日部出張所": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "所沢支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "上尾出張所": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "川越支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "川口出張所": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "草加出張所": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "秩父支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "東松山支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "飯能出張所": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本庄出張所": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
@@ -7135,78 +7218,78 @@
     "utsunomiya": {
       "realEstate": {
         "小山出張所": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "真岡支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "足利支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "大田原支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "栃木支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "日光支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
@@ -7634,7 +7717,6 @@
     "niigata": {
       "realEstate": {
         "佐渡支局": [
-          "2026-05-28",
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
@@ -7653,10 +7735,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "三条支局": [
-          "2026-05-28",
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
@@ -7675,10 +7757,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "糸魚川支局": [
-          "2026-05-28",
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
@@ -7697,10 +7779,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "十日町支局": [
-          "2026-05-28",
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
@@ -7719,10 +7801,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "上越支局": [
-          "2026-05-28",
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
@@ -7741,10 +7823,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "新津支局": [
-          "2026-05-28",
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
@@ -7763,10 +7845,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "新発田支局": [
-          "2026-05-28",
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
@@ -7785,10 +7867,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "村上支局": [
-          "2026-05-28",
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
@@ -7807,10 +7889,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "長岡支局": [
-          "2026-05-28",
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
@@ -7829,10 +7911,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "南魚沼支局": [
-          "2026-05-28",
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
@@ -7851,10 +7933,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "柏崎支局": [
-          "2026-05-28",
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
@@ -7873,10 +7955,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局不動産・法人登記部門": [
-          "2026-05-28",
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
@@ -7895,12 +7977,12 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局不動産・法人登記部門": [
-          "2026-05-28",
           "2026-05-29",
           "2026-06-01",
           "2026-06-02",
@@ -7919,128 +8001,128 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
     "shizuoka": {
       "realEstate": {
         "下田支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "掛川支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "沼津支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "清水出張所": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "袋井支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "藤枝支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "熱海出張所": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "磐田出張所": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "浜松支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "富士支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局登記部門": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "沼津支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "浜松支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局登記部門": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
     "nagoya": {
       "realEstate": {
         "一宮支局": [
-          "2026-06-15",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "岡崎支局": [
-          "2026-06-09",
           "2026-06-10",
           "2026-06-11",
           "2026-06-12",
@@ -8051,63 +8133,63 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "刈谷支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "春日井支局": [
-          "2026-06-15",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "新城支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "西尾支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "津島支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "熱田出張所": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "半田支局": [
-          "2026-06-11",
           "2026-06-12",
           "2026-06-15",
           "2026-06-16",
@@ -8116,28 +8198,28 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "豊橋支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "豊川出張所": [
-          "2026-06-15",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "豊田支局": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -8147,11 +8229,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局登記部門": [
-          "2026-06-09",
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -8161,10 +8242,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "名東出張所": [
-          "2026-06-12",
           "2026-06-15",
           "2026-06-16",
           "2026-06-17",
@@ -8172,12 +8253,12 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "岡崎支局": [
-          "2026-06-09",
           "2026-06-10",
           "2026-06-11",
           "2026-06-12",
@@ -8188,11 +8269,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局登記部門": [
-          "2026-06-09",
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -8202,7 +8282,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
@@ -8521,509 +8602,281 @@
     "toyama": {
       "realEstate": {
         "魚津支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "高岡支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "砺波支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局登記部門": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局登記部門": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
     "osaka": {
       "realEstate": {
         "岸和田支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "堺支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "守口出張所": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "池田出張所": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "天王寺出張所": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "東大阪支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "富田林支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "北出張所": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "北大阪支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "枚方出張所": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "堺支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "東大阪支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "北大阪支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
     "kyoto": {
       "realEstate": {
         "宇治支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "園部支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "宮津支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "京丹後支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "嵯峨出張所": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "舞鶴支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "伏見出張所": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "福知山支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "木津出張所": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
     "kobe": {
-      "realEstate": {
-        "伊丹支局": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29",
-          "2026-06-30",
-          "2026-07-02"
-        ],
-        "加古川支局": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29",
-          "2026-06-30",
-          "2026-07-01"
-        ],
-        "三田出張所": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29"
-        ],
-        "社支局": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-29",
-          "2026-06-30",
-          "2026-07-01",
-          "2026-07-02",
-          "2026-07-03",
-          "2026-07-06"
-        ],
-        "洲本支局": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29",
-          "2026-06-30",
-          "2026-07-01"
-        ],
-        "須磨出張所": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29",
-          "2026-06-30"
-        ],
-        "西宮支局": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29",
-          "2026-06-30"
-        ],
-        "東神戸出張所": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-26",
-          "2026-06-29",
-          "2026-06-30",
-          "2026-07-01",
-          "2026-07-02"
-        ],
-        "尼崎支局": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29",
-          "2026-06-30"
-        ],
-        "柏原支局": [
-          "2025-07-01",
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29",
-          "2026-06-30",
-          "2026-07-02"
-        ],
-        "八鹿出張所": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29"
-        ],
-        "姫路支局": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29",
-          "2026-06-30",
-          "2026-07-01",
-          "2026-07-02"
-        ],
-        "豊岡支局": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29",
-          "2026-06-30"
-        ],
-        "北出張所": [
-          "2025-07-01",
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29",
-          "2026-06-30"
-        ],
-        "本局不動産登記部門": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29"
-        ],
-        "明石支局": [
-          "2025-07-01",
-          "2025-07-02",
-          "2025-07-03",
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-07-03",
-          "2026-07-06"
-        ],
-        "龍野支局": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29",
-          "2026-06-30"
-        ]
-      },
-      "commercial": {
-        "本局法人登記部門": [
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24",
-          "2026-06-25",
-          "2026-06-26",
-          "2026-06-29",
-          "2026-06-30",
-          "2026-07-02"
-        ]
-      }
+      "realEstate": {},
+      "commercial": {}
     },
     "nara": {
       "realEstate": {
@@ -9088,325 +8941,201 @@
       }
     },
     "otsu": {
-      "realEstate": {
-        "甲賀支局": [
-          "2026-06-11",
-          "2026-06-12",
-          "2026-06-15",
-          "2026-06-16",
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ],
-        "高島出張所": [
-          "2026-06-11",
-          "2026-06-12",
-          "2026-06-15",
-          "2026-06-16",
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ],
-        "長浜支局": [
-          "2026-06-11",
-          "2026-06-12",
-          "2026-06-15",
-          "2026-06-16",
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ],
-        "東近江出張所": [
-          "2026-06-11",
-          "2026-06-12",
-          "2026-06-15",
-          "2026-06-16",
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ],
-        "彦根支局": [
-          "2026-06-11",
-          "2026-06-12",
-          "2026-06-15",
-          "2026-06-16",
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ],
-        "本局": [
-          "2026-06-11",
-          "2026-06-12",
-          "2026-06-15",
-          "2026-06-16",
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ]
-      },
-      "commercial": {
-        "本局": [
-          "2026-06-11",
-          "2026-06-12",
-          "2026-06-15",
-          "2026-06-16",
-          "2026-06-17",
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ]
-      }
+      "realEstate": {},
+      "commercial": {}
     },
     "wakayama": {
       "realEstate": {
         "橋本支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "御坊支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "新宮支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "田辺支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
     "hiroshima": {
       "realEstate": {
         "可部出張所": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "呉支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "三次支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "東広島支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "廿日市支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "尾道支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "福山支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局不動産登記部門": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局法人登記部門": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
     "okayama": {
-      "realEstate": {
-        "笠岡支局": [
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ],
-        "高梁支局": [
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ],
-        "倉敷支局": [
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ],
-        "津山支局": [
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ],
-        "備前支局": [
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ],
-        "本局": [
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ]
-      },
-      "commercial": {
-        "本局": [
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ]
-      }
+      "realEstate": {},
+      "commercial": {}
     },
     "yamaguchi": {
       "realEstate": {
         "宇部支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "下関支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "岩国支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "周南支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "萩支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "柳井出張所": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
     "tottori": {
       "realEstate": {
         "倉吉支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
@@ -9414,7 +9143,6 @@
           "2026-06-25"
         ],
         "米子支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
@@ -9422,7 +9150,6 @@
           "2026-06-25"
         ],
         "本局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
@@ -9432,11 +9159,11 @@
       },
       "commercial": {
         "本局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
@@ -9489,45 +9216,8 @@
       }
     },
     "takamatsu": {
-      "realEstate": {
-        "寒川出張所": [
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ],
-        "観音寺支局": [
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ],
-        "丸亀支局": [
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ],
-        "本局": [
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ]
-      },
-      "commercial": {
-        "本局": [
-          "2026-06-18",
-          "2026-06-19",
-          "2026-06-22",
-          "2026-06-23",
-          "2026-06-24"
-        ]
-      }
+      "realEstate": {},
+      "commercial": {}
     },
     "tokushima": {
       "realEstate": {
@@ -9618,68 +9308,68 @@
     "matsuyama": {
       "realEstate": {
         "宇和島支局": [
-          "2026-06-23",
           "2026-06-24",
           "2026-06-25",
           "2026-06-26",
           "2026-06-29",
-          "2026-06-30"
+          "2026-06-30",
+          "2026-07-01"
         ],
         "今治支局": [
-          "2026-06-23",
           "2026-06-24",
           "2026-06-25",
           "2026-06-26",
           "2026-06-29",
-          "2026-06-30"
+          "2026-06-30",
+          "2026-07-01"
         ],
         "四国中央支局": [
-          "2026-06-23",
           "2026-06-24",
           "2026-06-25",
           "2026-06-26",
           "2026-06-29",
-          "2026-06-30"
+          "2026-06-30",
+          "2026-07-01"
         ],
         "西条支局": [
-          "2026-06-23",
           "2026-06-24",
           "2026-06-25",
           "2026-06-26",
           "2026-06-29",
-          "2026-06-30"
+          "2026-06-30",
+          "2026-07-01"
         ],
         "大洲支局": [
-          "2026-06-23",
           "2026-06-24",
           "2026-06-25",
           "2026-06-26",
           "2026-06-29",
-          "2026-06-30"
+          "2026-06-30",
+          "2026-07-01"
         ],
         "砥部出張所": [
-          "2026-06-23",
           "2026-06-24",
           "2026-06-25",
           "2026-06-26",
           "2026-06-29",
-          "2026-06-30"
+          "2026-06-30",
+          "2026-07-01"
         ],
         "本局": [
-          "2026-06-23",
           "2026-06-24",
           "2026-06-25",
           "2026-06-26",
           "2026-06-29",
-          "2026-06-30"
+          "2026-06-30",
+          "2026-07-01"
         ]
       },
       "commercial": {
         "本局": [
-          "2026-06-23",
           "2026-06-24",
           "2026-06-25",
-          "2026-06-26"
+          "2026-06-26",
+          "2026-06-29"
         ]
       }
     },
@@ -9776,7 +9466,6 @@
     "fukuoka": {
       "realEstate": {
         "久留米支局": [
-          "2026-06-12",
           "2026-06-15",
           "2026-06-16",
           "2026-06-17",
@@ -9784,10 +9473,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "行橋支局": [
-          "2026-06-12",
           "2026-06-15",
           "2026-06-16",
           "2026-06-17",
@@ -9795,7 +9484,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "西新出張所": [
           "2026-06-15",
@@ -9805,10 +9495,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "筑紫支局": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -9818,36 +9508,36 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "朝倉支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "直方支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "田川支局": [
-          "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "粕屋出張所": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -9857,19 +9547,19 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "八女支局": [
-          "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "八幡出張所": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -9879,10 +9569,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "飯塚支局": [
-          "2026-05-26",
           "2026-05-27",
           "2026-05-28",
           "2026-05-29",
@@ -9903,10 +9593,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "福間出張所": [
-          "2026-06-01",
           "2026-06-02",
           "2026-06-03",
           "2026-06-04",
@@ -9923,10 +9613,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "北九州支局": [
-          "2026-06-02",
           "2026-06-03",
           "2026-06-04",
           "2026-06-05",
@@ -9942,10 +9632,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局": [
-          "2026-05-26",
           "2026-05-27",
           "2026-05-28",
           "2026-05-29",
@@ -9966,22 +9656,22 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "柳川支局": [
-          "2026-06-15",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "北九州支局": [
-          "2026-06-02",
           "2026-06-03",
           "2026-06-04",
           "2026-06-05",
@@ -9997,10 +9687,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局": [
-          "2026-05-26",
           "2026-05-27",
           "2026-05-28",
           "2026-05-29",
@@ -10021,14 +9711,14 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
     "nagasaki": {
       "realEstate": {
         "壱岐支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -10042,10 +9732,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "五島支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -10059,10 +9749,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "佐世保支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -10076,10 +9766,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "対馬支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -10093,10 +9783,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "島原支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -10110,10 +9800,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "平戸支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -10127,10 +9817,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -10144,10 +9834,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "諫早支局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -10161,12 +9851,12 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局": [
-          "2026-06-04",
           "2026-06-05",
           "2026-06-08",
           "2026-06-09",
@@ -10180,7 +9870,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
@@ -10301,7 +9992,6 @@
     "oita": {
       "realEstate": {
         "宇佐支局": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -10311,10 +10001,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "杵築支局": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -10324,10 +10014,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "佐伯支局": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -10337,10 +10027,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "竹田支局": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -10350,10 +10040,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "中津支局": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -10363,10 +10053,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "日田支局": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -10376,10 +10066,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -10389,12 +10079,12 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -10404,42 +10094,42 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
     "kagoshima": {
       "realEstate": {
         "奄美支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "鹿屋支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "種子島出張所": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "出水出張所": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "川内支局": [
-          "2026-06-10",
           "2026-06-11",
           "2026-06-12",
           "2026-06-15",
@@ -10449,31 +10139,31 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "曽於出張所": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "知覧支局": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "南さつま出張所": [
-          "2026-06-18",
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "本局": [
-          "2026-06-02",
           "2026-06-03",
           "2026-06-04",
           "2026-06-05",
@@ -10489,10 +10179,10 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ],
         "霧島支局": [
-          "2026-06-11",
           "2026-06-12",
           "2026-06-15",
           "2026-06-16",
@@ -10501,12 +10191,12 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       },
       "commercial": {
         "本局": [
-          "2026-06-02",
           "2026-06-03",
           "2026-06-04",
           "2026-06-05",
@@ -10522,14 +10212,14 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
     "miyazaki": {
       "realEstate": {
         "延岡支局": [
-          "2026-06-11",
           "2026-06-12",
           "2026-06-15",
           "2026-06-16",
@@ -10540,10 +10230,14 @@
           "2026-06-23",
           "2026-06-24",
           "2026-06-25",
-          "2026-06-30"
+          "2026-06-26",
+          "2026-06-29",
+          "2026-06-30",
+          "2026-07-01",
+          "2026-07-02"
         ],
         "高鍋出張所": [
-          "2026-06-11",
+          "2025-07-01",
           "2026-06-12",
           "2026-06-15",
           "2026-06-16",
@@ -10554,10 +10248,12 @@
           "2026-06-23",
           "2026-06-24",
           "2026-06-25",
-          "2026-06-30"
+          "2026-06-26",
+          "2026-06-29",
+          "2026-06-30",
+          "2026-07-02"
         ],
         "小林出張所": [
-          "2026-06-11",
           "2026-06-12",
           "2026-06-15",
           "2026-06-16",
@@ -10568,10 +10264,13 @@
           "2026-06-23",
           "2026-06-24",
           "2026-06-25",
-          "2026-06-30"
+          "2026-06-26",
+          "2026-06-29",
+          "2026-06-30",
+          "2026-07-01",
+          "2026-07-02"
         ],
         "都城支局": [
-          "2026-06-11",
           "2026-06-12",
           "2026-06-15",
           "2026-06-16",
@@ -10582,10 +10281,14 @@
           "2026-06-23",
           "2026-06-24",
           "2026-06-25",
-          "2026-06-30"
+          "2026-06-26",
+          "2026-06-29",
+          "2026-06-30",
+          "2026-07-01",
+          "2026-07-02"
         ],
         "日南支局": [
-          "2026-06-11",
+          "2025-07-01",
           "2026-06-12",
           "2026-06-15",
           "2026-06-16",
@@ -10596,10 +10299,12 @@
           "2026-06-23",
           "2026-06-24",
           "2026-06-25",
-          "2026-06-30"
+          "2026-06-26",
+          "2026-06-29",
+          "2026-06-30",
+          "2026-07-02"
         ],
         "本局": [
-          "2026-06-11",
           "2026-06-12",
           "2026-06-15",
           "2026-06-16",
@@ -10610,12 +10315,15 @@
           "2026-06-23",
           "2026-06-24",
           "2026-06-25",
-          "2026-06-30"
+          "2026-06-26",
+          "2026-06-29",
+          "2026-06-30",
+          "2026-07-01",
+          "2026-07-02"
         ]
       },
       "commercial": {
         "本局": [
-          "2026-06-11",
           "2026-06-12",
           "2026-06-15",
           "2026-06-16",
@@ -10624,7 +10332,8 @@
           "2026-06-19",
           "2026-06-22",
           "2026-06-23",
-          "2026-06-24"
+          "2026-06-24",
+          "2026-06-25"
         ]
       }
     },
@@ -10802,8 +10511,8 @@
       "commercial": 10
     },
     "tokyo": {
-      "realEstate": 1886,
-      "commercial": 1886
+      "realEstate": 1909,
+      "commercial": 1909
     },
     "yokohama": {
       "realEstate": 240,
@@ -10846,8 +10555,8 @@
       "commercial": 15
     },
     "nagoya": {
-      "realEstate": 117,
-      "commercial": 24
+      "realEstate": 116,
+      "commercial": 23
     },
     "gifu": {
       "realEstate": 98,
@@ -10878,16 +10587,16 @@
       "commercial": 5
     },
     "kobe": {
-      "realEstate": 179,
-      "commercial": 11
+      "realEstate": 0,
+      "commercial": 0
     },
     "nara": {
       "realEstate": 40,
       "commercial": 6
     },
     "otsu": {
-      "realEstate": 60,
-      "commercial": 10
+      "realEstate": 0,
+      "commercial": 0
     },
     "wakayama": {
       "realEstate": 30,
@@ -10898,15 +10607,15 @@
       "commercial": 5
     },
     "okayama": {
-      "realEstate": 18,
-      "commercial": 3
+      "realEstate": 0,
+      "commercial": 0
     },
     "yamaguchi": {
       "realEstate": 35,
       "commercial": 5
     },
     "tottori": {
-      "realEstate": 18,
+      "realEstate": 15,
       "commercial": 5
     },
     "matsue": {
@@ -10914,8 +10623,8 @@
       "commercial": 5
     },
     "takamatsu": {
-      "realEstate": 20,
-      "commercial": 5
+      "realEstate": 0,
+      "commercial": 0
     },
     "tokushima": {
       "realEstate": 18,
@@ -10934,7 +10643,7 @@
       "commercial": 12
     },
     "fukuoka": {
-      "realEstate": 173,
+      "realEstate": 174,
       "commercial": 39
     },
     "nagasaki": {
@@ -10954,7 +10663,7 @@
       "commercial": 17
     },
     "miyazaki": {
-      "realEstate": 72,
+      "realEstate": 90,
       "commercial": 10
     },
     "naha": {
@@ -10979,7 +10688,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "倶知安支局": {
           "2026-06-12": "2026-06-19",
@@ -10990,7 +10700,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "恵庭出張所": {
           "2026-06-12": "2026-06-18",
@@ -11001,7 +10712,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "江別出張所": {
           "2026-06-12": "2026-06-22",
@@ -11012,7 +10724,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "室蘭支局": {
           "2026-06-10": "2026-06-16",
@@ -11025,7 +10738,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "小樽支局": {
           "2026-06-12": "2026-06-17",
@@ -11036,7 +10750,8 @@
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "西出張所": {
           "2026-06-11": "2026-06-17",
@@ -11048,7 +10763,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "滝川支局": {
           "2026-06-12": "2026-06-22",
@@ -11059,7 +10775,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         },
         "苫小牧支局": {
           "2026-06-15": "2026-06-19",
@@ -11069,7 +10786,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "南出張所": {
           "2026-06-09": "2026-06-17",
@@ -11083,7 +10801,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "日高支局": {
           "2026-06-15": "2026-06-19",
@@ -11093,7 +10812,8 @@
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "白石出張所": {
           "2026-06-11": "2026-06-17",
@@ -11105,7 +10825,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "北出張所": {
           "2026-06-11": "2026-06-17",
@@ -11117,7 +10838,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "本局登記部門": {
           "2026-06-01": "2026-06-05",
@@ -11137,7 +10859,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         }
       },
       "commercial": {
@@ -11159,7 +10882,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-08"
         }
       }
     },
@@ -11358,14 +11082,16 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-08"
         },
         "気仙沼支局": {
           "2026-06-18": "2026-06-23",
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "古川支局": {
           "2026-06-15": "2026-06-24",
@@ -11375,7 +11101,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         },
         "石巻支局": {
           "2026-06-17": "2026-06-26",
@@ -11383,7 +11110,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         },
         "大河原支局": {
           "2026-06-16": "2026-06-25",
@@ -11392,7 +11120,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         },
         "登米支局": {
           "2026-06-17": "2026-06-24",
@@ -11400,7 +11129,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "本局登記部門": {
           "2026-06-09": "2026-06-30",
@@ -11414,7 +11144,8 @@
           "2026-06-19": "2026-07-07",
           "2026-06-22": "2026-07-08",
           "2026-06-23": "2026-07-09",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-09"
         },
         "名取出張所": {
           "2026-06-16": "2026-07-01",
@@ -11423,7 +11154,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         }
       },
       "commercial": {
@@ -11439,7 +11171,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         }
       }
     },
@@ -11543,6 +11276,7 @@
       "realEstate": {
         "寒河江支局": {
           "2025-06-24": "2026-03-28",
+          "2025-06-25": "2026-03-28",
           "2026-06-15": "2026-06-22",
           "2026-06-16": "2026-06-23",
           "2026-06-17": "2026-06-24",
@@ -11550,10 +11284,12 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "酒田支局": {
           "2025-06-24": "2026-01-31",
+          "2025-06-25": "2026-01-31",
           "2026-06-15": "2026-06-23",
           "2026-06-16": "2026-06-24",
           "2026-06-17": "2026-06-25",
@@ -11561,10 +11297,12 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "新庄支局": {
           "2025-06-24": "2026-02-21",
+          "2025-06-25": "2026-02-21",
           "2026-06-15": "2026-06-22",
           "2026-06-16": "2026-06-23",
           "2026-06-17": "2026-06-24",
@@ -11572,10 +11310,12 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "村山出張所": {
           "2025-06-24": "2026-02-21",
+          "2025-06-25": "2026-02-21",
           "2026-06-15": "2026-06-19",
           "2026-06-16": "2026-06-22",
           "2026-06-17": "2026-06-23",
@@ -11583,10 +11323,12 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "鶴岡支局": {
           "2025-06-24": "2026-01-31",
+          "2025-06-25": "2026-01-31",
           "2026-06-15": "2026-06-22",
           "2026-06-16": "2026-06-23",
           "2026-06-17": "2026-06-24",
@@ -11594,10 +11336,12 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "米沢支局": {
           "2025-06-24": "2026-03-28",
+          "2025-06-25": "2026-03-28",
           "2026-06-15": "2026-06-24",
           "2026-06-16": "2026-06-26",
           "2026-06-17": "2026-06-29",
@@ -11605,7 +11349,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "本局登記部門": {
           "2026-06-15": "2026-06-24",
@@ -11615,7 +11360,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         }
       },
       "commercial": {
@@ -11627,7 +11373,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         }
       }
     },
@@ -11951,7 +11698,8 @@
           "2026-06-19": "2026-07-15",
           "2026-06-22": "2026-07-16",
           "2026-06-23": "2026-07-16",
-          "2026-06-24": "2026-07-17"
+          "2026-06-24": "2026-07-17",
+          "2026-06-25": "2026-07-21"
         },
         "港出張所": {
           "2026-02-24": "2026-03-24",
@@ -12035,7 +11783,8 @@
           "2026-06-19": "2026-07-16",
           "2026-06-22": "2026-07-17",
           "2026-06-23": "2026-07-21",
-          "2026-06-24": "2026-07-21"
+          "2026-06-24": "2026-07-21",
+          "2026-06-25": "2026-07-22"
         },
         "渋谷出張所": {
           "2026-02-24": "2026-03-19",
@@ -12119,7 +11868,8 @@
           "2026-06-19": "2026-07-22",
           "2026-06-22": "2026-07-23",
           "2026-06-23": "2026-07-24",
-          "2026-06-24": "2026-07-24"
+          "2026-06-24": "2026-07-24",
+          "2026-06-25": "2026-07-27"
         },
         "城南出張所": {
           "2026-02-24": "2026-03-26",
@@ -12203,7 +11953,8 @@
           "2026-06-19": "2026-07-23",
           "2026-06-22": "2026-07-23",
           "2026-06-23": "2026-07-24",
-          "2026-06-24": "2026-07-24"
+          "2026-06-24": "2026-07-24",
+          "2026-06-25": "2026-07-27"
         },
         "城北出張所": {
           "2026-02-24": "2026-03-26",
@@ -12287,7 +12038,8 @@
           "2026-06-19": "2026-07-24",
           "2026-06-22": "2026-07-27",
           "2026-06-23": "2026-07-27",
-          "2026-06-24": "2026-07-28"
+          "2026-06-24": "2026-07-28",
+          "2026-06-25": "2026-07-29"
         },
         "新宿出張所": {
           "2026-02-24": "2026-03-24",
@@ -12371,7 +12123,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         },
         "杉並出張所": {
           "2026-02-24": "2026-03-16",
@@ -12455,7 +12208,8 @@
           "2026-06-19": "2026-07-14",
           "2026-06-22": "2026-07-15",
           "2026-06-23": "2026-07-16",
-          "2026-06-24": "2026-07-16"
+          "2026-06-24": "2026-07-16",
+          "2026-06-25": "2026-07-17"
         },
         "世田谷出張所": {
           "2026-02-24": "2026-03-27",
@@ -12539,7 +12293,8 @@
           "2026-06-19": "2026-07-22",
           "2026-06-22": "2026-07-23",
           "2026-06-23": "2026-07-24",
-          "2026-06-24": "2026-07-24"
+          "2026-06-24": "2026-07-24",
+          "2026-06-25": "2026-07-27"
         },
         "西多摩支局": {
           "2026-02-24": "2026-03-24",
@@ -12623,7 +12378,8 @@
           "2026-06-19": "2026-07-17",
           "2026-06-22": "2026-07-22",
           "2026-06-23": "2026-07-23",
-          "2026-06-24": "2026-07-24"
+          "2026-06-24": "2026-07-24",
+          "2026-06-25": "2026-07-24"
         },
         "台東出張所": {
           "2026-02-24": "2026-03-17",
@@ -12707,7 +12463,8 @@
           "2026-06-19": "2026-07-15",
           "2026-06-22": "2026-07-16",
           "2026-06-23": "2026-07-16",
-          "2026-06-24": "2026-07-17"
+          "2026-06-24": "2026-07-17",
+          "2026-06-25": "2026-07-17"
         },
         "中野出張所": {
           "2026-02-24": "2026-03-11",
@@ -12791,7 +12548,8 @@
           "2026-06-19": "2026-07-08",
           "2026-06-22": "2026-07-09",
           "2026-06-23": "2026-07-10",
-          "2026-06-24": "2026-07-13"
+          "2026-06-24": "2026-07-13",
+          "2026-06-25": "2026-07-14"
         },
         "町田出張所": {
           "2026-02-24": "2026-03-24",
@@ -12875,7 +12633,8 @@
           "2026-06-19": "2026-07-16",
           "2026-06-22": "2026-07-17",
           "2026-06-23": "2026-07-21",
-          "2026-06-24": "2026-07-22"
+          "2026-06-24": "2026-07-22",
+          "2026-06-25": "2026-07-22"
         },
         "田無出張所": {
           "2026-02-24": "2026-03-25",
@@ -12959,7 +12718,8 @@
           "2026-06-19": "2026-07-21",
           "2026-06-22": "2026-07-21",
           "2026-06-23": "2026-07-22",
-          "2026-06-24": "2026-07-22"
+          "2026-06-24": "2026-07-22",
+          "2026-06-25": "2026-07-22"
         },
         "八王子支局": {
           "2026-02-24": "2026-03-12",
@@ -13043,7 +12803,8 @@
           "2026-06-19": "2026-07-21",
           "2026-06-22": "2026-07-21",
           "2026-06-23": "2026-07-22",
-          "2026-06-24": "2026-07-22"
+          "2026-06-24": "2026-07-22",
+          "2026-06-25": "2026-07-23"
         },
         "板橋出張所": {
           "2026-02-24": "2026-03-19",
@@ -13127,7 +12888,8 @@
           "2026-06-19": "2026-07-14",
           "2026-06-22": "2026-07-15",
           "2026-06-23": "2026-07-16",
-          "2026-06-24": "2026-07-16"
+          "2026-06-24": "2026-07-16",
+          "2026-06-25": "2026-07-17"
         },
         "品川出張所": {
           "2026-02-24": "2026-03-26",
@@ -13211,7 +12973,8 @@
           "2026-06-19": "2026-07-17",
           "2026-06-22": "2026-07-21",
           "2026-06-23": "2026-07-22",
-          "2026-06-24": "2026-07-23"
+          "2026-06-24": "2026-07-23",
+          "2026-06-25": "2026-07-24"
         },
         "府中支局": {
           "2026-02-24": "2026-04-02",
@@ -13295,7 +13058,8 @@
           "2026-06-19": "2026-07-17",
           "2026-06-22": "2026-07-21",
           "2026-06-23": "2026-07-22",
-          "2026-06-24": "2026-07-23"
+          "2026-06-24": "2026-07-23",
+          "2026-06-25": "2026-07-24"
         },
         "豊島出張所": {
           "2026-02-24": "2026-03-23",
@@ -13379,7 +13143,8 @@
           "2026-06-19": "2026-07-13",
           "2026-06-22": "2026-07-15",
           "2026-06-23": "2026-07-16",
-          "2026-06-24": "2026-07-17"
+          "2026-06-24": "2026-07-17",
+          "2026-06-25": "2026-07-21"
         },
         "北出張所": {
           "2026-02-24": "2026-03-27",
@@ -13463,7 +13228,8 @@
           "2026-06-19": "2026-07-21",
           "2026-06-22": "2026-07-22",
           "2026-06-23": "2026-07-23",
-          "2026-06-24": "2026-07-23"
+          "2026-06-24": "2026-07-23",
+          "2026-06-25": "2026-07-24"
         },
         "墨田出張所": {
           "2026-02-24": "2026-03-18",
@@ -13547,7 +13313,8 @@
           "2026-06-19": "2026-07-17",
           "2026-06-22": "2026-07-21",
           "2026-06-23": "2026-07-21",
-          "2026-06-24": "2026-07-22"
+          "2026-06-24": "2026-07-22",
+          "2026-06-25": "2026-07-23"
         },
         "本局登記部門": {
           "2026-02-24": "2026-03-23",
@@ -13631,7 +13398,8 @@
           "2026-06-19": "2026-07-16",
           "2026-06-22": "2026-07-17",
           "2026-06-23": "2026-07-21",
-          "2026-06-24": "2026-07-22"
+          "2026-06-24": "2026-07-22",
+          "2026-06-25": "2026-07-23"
         },
         "立川出張所": {
           "2026-02-24": "2026-03-17",
@@ -13715,7 +13483,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         },
         "練馬出張所": {
           "2026-02-24": "2026-03-16",
@@ -13799,7 +13568,8 @@
           "2026-06-19": "2026-07-21",
           "2026-06-22": "2026-07-22",
           "2026-06-23": "2026-07-23",
-          "2026-06-24": "2026-07-27"
+          "2026-06-24": "2026-07-27",
+          "2026-06-25": "2026-07-28"
         }
       },
       "commercial": {
@@ -13885,7 +13655,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         },
         "港出張所": {
           "2026-02-24": "2026-03-19",
@@ -13969,7 +13740,8 @@
           "2026-06-19": "2026-07-17",
           "2026-06-22": "2026-07-21",
           "2026-06-23": "2026-07-22",
-          "2026-06-24": "2026-07-22"
+          "2026-06-24": "2026-07-22",
+          "2026-06-25": "2026-07-23"
         },
         "渋谷出張所": {
           "2026-02-24": "2026-03-18",
@@ -14053,7 +13825,8 @@
           "2026-06-19": "2026-07-10",
           "2026-06-22": "2026-07-13",
           "2026-06-23": "2026-07-14",
-          "2026-06-24": "2026-07-14"
+          "2026-06-24": "2026-07-14",
+          "2026-06-25": "2026-07-15"
         },
         "城南出張所": {
           "2026-02-24": "2026-03-09",
@@ -14137,7 +13910,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "城北出張所": {
           "2026-02-24": "2026-03-05",
@@ -14221,7 +13995,8 @@
           "2026-06-19": "2026-07-03",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-07",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-08"
         },
         "新宿出張所": {
           "2026-02-24": "2026-03-19",
@@ -14305,7 +14080,8 @@
           "2026-06-19": "2026-07-21",
           "2026-06-22": "2026-07-22",
           "2026-06-23": "2026-07-23",
-          "2026-06-24": "2026-07-24"
+          "2026-06-24": "2026-07-24",
+          "2026-06-25": "2026-07-27"
         },
         "杉並出張所": {
           "2026-02-24": "2026-03-06",
@@ -14389,7 +14165,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "世田谷出張所": {
           "2026-02-24": "2026-03-06",
@@ -14473,7 +14250,8 @@
           "2026-06-19": "2026-07-15",
           "2026-06-22": "2026-07-16",
           "2026-06-23": "2026-07-17",
-          "2026-06-24": "2026-07-21"
+          "2026-06-24": "2026-07-21",
+          "2026-06-25": "2026-07-22"
         },
         "西多摩支局": {
           "2026-02-24": "2026-03-10",
@@ -14557,7 +14335,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         },
         "台東出張所": {
           "2026-02-24": "2026-03-11",
@@ -14641,7 +14420,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-08"
         },
         "中野出張所": {
           "2026-02-24": "2026-03-06",
@@ -14725,7 +14505,8 @@
           "2026-06-19": "2026-07-03",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-07",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-08",
+          "2026-06-25": "2026-07-09"
         },
         "町田出張所": {
           "2026-02-24": "2026-03-11",
@@ -14809,7 +14590,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         },
         "田無出張所": {
           "2026-02-24": "2026-03-11",
@@ -14893,7 +14675,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         },
         "八王子支局": {
           "2026-02-24": "2026-03-05",
@@ -14977,7 +14760,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         },
         "板橋出張所": {
           "2026-02-24": "2026-03-06",
@@ -15061,7 +14845,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "品川出張所": {
           "2026-02-24": "2026-03-06",
@@ -15145,7 +14930,8 @@
           "2026-06-19": "2026-07-16",
           "2026-06-22": "2026-07-17",
           "2026-06-23": "2026-07-21",
-          "2026-06-24": "2026-07-22"
+          "2026-06-24": "2026-07-22",
+          "2026-06-25": "2026-07-23"
         },
         "府中支局": {
           "2026-02-24": "2026-03-06",
@@ -15229,7 +15015,8 @@
           "2026-06-19": "2026-07-07",
           "2026-06-22": "2026-07-08",
           "2026-06-23": "2026-07-09",
-          "2026-06-24": "2026-07-10"
+          "2026-06-24": "2026-07-10",
+          "2026-06-25": "2026-07-13"
         },
         "豊島出張所": {
           "2026-02-24": "2026-03-09",
@@ -15313,7 +15100,8 @@
           "2026-06-19": "2026-07-07",
           "2026-06-22": "2026-07-08",
           "2026-06-23": "2026-07-09",
-          "2026-06-24": "2026-07-10"
+          "2026-06-24": "2026-07-10",
+          "2026-06-25": "2026-07-13"
         },
         "北出張所": {
           "2026-02-24": "2026-03-06",
@@ -15397,7 +15185,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-06"
         },
         "墨田出張所": {
           "2026-02-24": "2026-03-09",
@@ -15481,7 +15270,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         },
         "本局登記部門": {
           "2026-02-24": "2026-03-16",
@@ -15565,7 +15355,8 @@
           "2026-06-19": "2026-07-17",
           "2026-06-22": "2026-07-21",
           "2026-06-23": "2026-07-22",
-          "2026-06-24": "2026-07-23"
+          "2026-06-24": "2026-07-23",
+          "2026-06-25": "2026-07-24"
         },
         "立川出張所": {
           "2026-02-24": "2026-03-09",
@@ -15649,7 +15440,8 @@
           "2026-06-19": "2026-07-10",
           "2026-06-22": "2026-07-13",
           "2026-06-23": "2026-07-14",
-          "2026-06-24": "2026-07-15"
+          "2026-06-24": "2026-07-15",
+          "2026-06-25": "2026-07-16"
         },
         "練馬出張所": {
           "2026-02-24": "2026-03-06",
@@ -15733,7 +15525,8 @@
           "2026-06-19": "2026-07-07",
           "2026-06-22": "2026-07-08",
           "2026-06-23": "2026-07-09",
-          "2026-06-24": "2026-07-10"
+          "2026-06-24": "2026-07-10",
+          "2026-06-25": "2026-07-13"
         }
       }
     },
@@ -15754,7 +15547,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-07",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-08",
+          "2026-06-25": "2026-07-08"
         },
         "栄出張所": {
           "2026-06-04": "2026-06-22",
@@ -15771,7 +15565,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "横須賀支局": {
           "2026-06-04": "2026-06-25",
@@ -15788,7 +15583,8 @@
           "2026-06-19": "2026-07-08",
           "2026-06-22": "2026-07-09",
           "2026-06-23": "2026-07-10",
-          "2026-06-24": "2026-07-13"
+          "2026-06-24": "2026-07-13",
+          "2026-06-25": "2026-07-14"
         },
         "金沢出張所": {
           "2026-06-04": "2026-06-29",
@@ -15805,7 +15601,8 @@
           "2026-06-19": "2026-07-10",
           "2026-06-22": "2026-07-13",
           "2026-06-23": "2026-07-14",
-          "2026-06-24": "2026-07-14"
+          "2026-06-24": "2026-07-14",
+          "2026-06-25": "2026-07-15"
         },
         "戸塚出張所": {
           "2026-06-04": "2026-07-01",
@@ -15822,7 +15619,8 @@
           "2026-06-19": "2026-07-15",
           "2026-06-22": "2026-07-16",
           "2026-06-23": "2026-07-17",
-          "2026-06-24": "2026-07-17"
+          "2026-06-24": "2026-07-17",
+          "2026-06-25": "2026-07-21"
         },
         "厚木支局": {
           "2026-06-04": "2026-06-18",
@@ -15839,7 +15637,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "港北出張所": {
           "2026-06-04": "2026-06-26",
@@ -15856,7 +15655,8 @@
           "2026-06-19": "2026-07-09",
           "2026-06-22": "2026-07-10",
           "2026-06-23": "2026-07-13",
-          "2026-06-24": "2026-07-14"
+          "2026-06-24": "2026-07-14",
+          "2026-06-25": "2026-07-15"
         },
         "湘南支局": {
           "2026-06-04": "2026-06-30",
@@ -15873,7 +15673,8 @@
           "2026-06-19": "2026-07-13",
           "2026-06-22": "2026-07-14",
           "2026-06-23": "2026-07-15",
-          "2026-06-24": "2026-07-15"
+          "2026-06-24": "2026-07-15",
+          "2026-06-25": "2026-07-16"
         },
         "神奈川出張所": {
           "2026-06-04": "2026-06-29",
@@ -15890,7 +15691,8 @@
           "2026-06-19": "2026-07-09",
           "2026-06-22": "2026-07-10",
           "2026-06-23": "2026-07-10",
-          "2026-06-24": "2026-07-13"
+          "2026-06-24": "2026-07-13",
+          "2026-06-25": "2026-07-14"
         },
         "西湘二宮支局": {
           "2026-06-04": "2026-07-02",
@@ -15907,7 +15709,8 @@
           "2026-06-19": "2026-07-15",
           "2026-06-22": "2026-07-16",
           "2026-06-23": "2026-07-17",
-          "2026-06-24": "2026-07-21"
+          "2026-06-24": "2026-07-21",
+          "2026-06-25": "2026-07-22"
         },
         "青葉出張所": {
           "2026-06-04": "2026-06-26",
@@ -15924,7 +15727,8 @@
           "2026-06-19": "2026-07-08",
           "2026-06-22": "2026-07-09",
           "2026-06-23": "2026-07-10",
-          "2026-06-24": "2026-07-13"
+          "2026-06-24": "2026-07-13",
+          "2026-06-25": "2026-07-14"
         },
         "川崎支局": {
           "2026-06-04": "2026-06-22",
@@ -15941,7 +15745,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-08"
         },
         "相模原支局": {
           "2026-06-04": "2026-06-25",
@@ -15958,7 +15763,8 @@
           "2026-06-19": "2026-07-08",
           "2026-06-22": "2026-07-09",
           "2026-06-23": "2026-07-10",
-          "2026-06-24": "2026-07-13"
+          "2026-06-24": "2026-07-13",
+          "2026-06-25": "2026-07-14"
         },
         "大和出張所": {
           "2026-06-04": "2026-06-26",
@@ -15975,7 +15781,8 @@
           "2026-06-19": "2026-07-08",
           "2026-06-22": "2026-07-09",
           "2026-06-23": "2026-07-10",
-          "2026-06-24": "2026-07-10"
+          "2026-06-24": "2026-07-10",
+          "2026-06-25": "2026-07-14"
         },
         "本局登記部門": {
           "2026-06-04": "2026-06-16",
@@ -15992,7 +15799,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "麻生出張所": {
           "2026-06-04": "2026-06-16",
@@ -16009,7 +15817,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         }
       },
       "commercial": {
@@ -16028,7 +15837,8 @@
           "2026-06-19": "2026-07-13",
           "2026-06-22": "2026-07-14",
           "2026-06-23": "2026-07-15",
-          "2026-06-24": "2026-07-17"
+          "2026-06-24": "2026-07-17",
+          "2026-06-25": "2026-07-21"
         },
         "本局登記部門": {
           "2026-06-04": "2026-06-23",
@@ -16045,7 +15855,8 @@
           "2026-06-19": "2026-07-08",
           "2026-06-22": "2026-07-09",
           "2026-06-23": "2026-07-10",
-          "2026-06-24": "2026-07-13"
+          "2026-06-24": "2026-07-13",
+          "2026-06-25": "2026-07-13"
         }
       }
     },
@@ -16057,7 +15868,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-02"
         },
         "久喜支局": {
           "2026-06-17": "2026-06-26",
@@ -16065,7 +15877,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-03"
         },
         "熊谷支局": {
           "2026-06-17": "2026-06-29",
@@ -16073,7 +15886,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-06"
         },
         "鴻巣出張所": {
           "2026-06-17": "2026-06-26",
@@ -16081,7 +15895,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-03"
         },
         "坂戸出張所": {
           "2026-06-17": "2026-06-26",
@@ -16089,7 +15904,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-03"
         },
         "志木出張所": {
           "2026-06-17": "2026-06-26",
@@ -16097,7 +15913,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-03"
         },
         "春日部出張所": {
           "2026-06-17": "2026-06-29",
@@ -16105,7 +15922,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-06"
         },
         "所沢支局": {
           "2026-06-17": "2026-06-26",
@@ -16113,7 +15931,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-03"
         },
         "上尾出張所": {
           "2026-06-17": "2026-06-29",
@@ -16121,7 +15940,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-06"
         },
         "川越支局": {
           "2026-06-17": "2026-06-26",
@@ -16129,7 +15949,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-03"
         },
         "川口出張所": {
           "2026-06-17": "2026-06-25",
@@ -16137,7 +15958,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-02"
         },
         "草加出張所": {
           "2026-06-17": "2026-06-26",
@@ -16145,7 +15967,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-03"
         },
         "秩父支局": {
           "2026-06-17": "2026-06-26",
@@ -16153,7 +15976,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-03"
         },
         "東松山支局": {
           "2026-06-17": "2026-06-29",
@@ -16161,7 +15985,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-06"
         },
         "飯能出張所": {
           "2026-06-17": "2026-06-29",
@@ -16169,7 +15994,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-06"
         },
         "本局": {
           "2026-06-17": "2026-06-30",
@@ -16177,7 +16003,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-07"
         },
         "本庄出張所": {
           "2026-06-17": "2026-06-29",
@@ -16185,7 +16012,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-06"
         }
       },
       "commercial": {
@@ -16195,7 +16023,8 @@
           "2026-06-19": "2026-07-07",
           "2026-06-22": "2026-07-08",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-10",
+          "2026-06-25": "2026-07-10"
         }
       }
     },
@@ -16500,7 +16329,8 @@
           "2026-06-19": "2026-07-08",
           "2026-06-22": "2026-07-08",
           "2026-06-23": "2026-07-09",
-          "2026-06-24": "2026-07-10"
+          "2026-06-24": "2026-07-10",
+          "2026-06-25": "2026-07-13"
         },
         "真岡支局": {
           "2026-06-16": "2026-06-29",
@@ -16509,7 +16339,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "足利支局": {
           "2026-06-16": "2026-06-26",
@@ -16518,7 +16349,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "大田原支局": {
           "2026-06-16": "2026-07-07",
@@ -16527,7 +16359,8 @@
           "2026-06-19": "2026-07-10",
           "2026-06-22": "2026-07-13",
           "2026-06-23": "2026-07-14",
-          "2026-06-24": "2026-07-15"
+          "2026-06-24": "2026-07-15",
+          "2026-06-25": "2026-07-16"
         },
         "栃木支局": {
           "2026-06-16": "2026-06-30",
@@ -16536,7 +16369,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-07"
         },
         "日光支局": {
           "2026-06-16": "2026-06-29",
@@ -16545,7 +16379,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-08"
         },
         "本局": {
           "2026-06-16": "2026-07-01",
@@ -16554,7 +16389,8 @@
           "2026-06-19": "2026-07-03",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-07",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-08"
         }
       },
       "commercial": {
@@ -16565,7 +16401,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         }
       }
     },
@@ -17037,7 +16874,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "三条支局": {
           "2026-05-28": "2026-06-09",
@@ -17059,7 +16897,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "糸魚川支局": {
           "2026-05-28": "2026-06-02",
@@ -17081,7 +16920,8 @@
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "十日町支局": {
           "2026-05-28": "2026-06-03",
@@ -17103,7 +16943,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "上越支局": {
           "2026-05-28": "2026-06-12",
@@ -17125,7 +16966,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-08"
         },
         "新津支局": {
           "2026-05-28": "2026-06-09",
@@ -17147,7 +16989,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         },
         "新発田支局": {
           "2026-05-28": "2026-06-04",
@@ -17169,7 +17012,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "村上支局": {
           "2026-05-28": "2026-06-03",
@@ -17191,7 +17035,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "長岡支局": {
           "2026-05-28": "2026-06-12",
@@ -17213,7 +17058,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "南魚沼支局": {
           "2026-05-28": "2026-06-03",
@@ -17235,7 +17081,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "柏崎支局": {
           "2026-05-28": "2026-06-03",
@@ -17257,7 +17104,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "本局不動産・法人登記部門": {
           "2026-05-28": "2026-06-19",
@@ -17279,7 +17127,8 @@
           "2026-06-19": "2026-07-10",
           "2026-06-22": "2026-07-13",
           "2026-06-23": "2026-07-14",
-          "2026-06-24": "2026-07-14"
+          "2026-06-24": "2026-07-14",
+          "2026-06-25": "2026-07-15"
         }
       },
       "commercial": {
@@ -17303,7 +17152,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-08"
         }
       }
     },
@@ -17314,77 +17164,88 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "掛川支局": {
           "2026-06-18": "2026-06-25",
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "沼津支局": {
           "2026-06-18": "2026-06-26",
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         },
         "清水出張所": {
           "2026-06-18": "2026-07-02",
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-09"
         },
         "袋井支局": {
           "2026-06-18": "2026-06-25",
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "藤枝支局": {
           "2026-06-18": "2026-06-29",
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         },
         "熱海出張所": {
           "2026-06-18": "2026-07-01",
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-08"
         },
         "磐田出張所": {
           "2026-06-18": "2026-06-25",
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         },
         "浜松支局": {
           "2026-06-18": "2026-06-30",
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "富士支局": {
           "2026-06-18": "2026-06-25",
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "本局登記部門": {
           "2026-06-18": "2026-06-26",
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         }
       },
       "commercial": {
@@ -17393,21 +17254,24 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-06"
         },
         "浜松支局": {
           "2026-06-18": "2026-06-29",
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "本局登記部門": {
           "2026-06-18": "2026-06-25",
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         }
       }
     },
@@ -17421,7 +17285,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         },
         "岡崎支局": {
           "2026-06-09": "2026-06-18",
@@ -17435,7 +17300,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         },
         "刈谷支局": {
           "2026-06-16": "2026-06-24",
@@ -17444,7 +17310,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         },
         "春日井支局": {
           "2026-06-15": "2026-06-24",
@@ -17454,7 +17321,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         },
         "新城支局": {
           "2026-06-16": "2026-06-24",
@@ -17463,7 +17331,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-02"
         },
         "西尾支局": {
           "2026-06-17": "2026-06-24",
@@ -17471,7 +17340,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "津島支局": {
           "2026-06-16": "2026-06-24",
@@ -17480,7 +17350,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         },
         "熱田出張所": {
           "2026-06-17": "2026-06-24",
@@ -17488,7 +17359,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "半田支局": {
           "2026-06-11": "2026-06-23",
@@ -17500,7 +17372,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "豊橋支局": {
           "2026-06-17": "2026-06-24",
@@ -17508,7 +17381,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "豊川出張所": {
           "2026-06-15": "2026-06-23",
@@ -17518,7 +17392,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         },
         "豊田支局": {
           "2026-06-10": "2026-06-24",
@@ -17531,7 +17406,8 @@
           "2026-06-19": "2026-07-03",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-08",
+          "2026-06-25": "2026-07-09"
         },
         "本局登記部門": {
           "2026-06-09": "2026-06-24",
@@ -17545,7 +17421,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "名東出張所": {
           "2026-06-12": "2026-06-24",
@@ -17556,7 +17433,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         }
       },
       "commercial": {
@@ -17572,7 +17450,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         },
         "本局登記部門": {
           "2026-06-09": "2026-06-19",
@@ -17586,7 +17465,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         }
       }
     },
@@ -17926,7 +17806,8 @@
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "高岡支局": {
           "2026-06-16": "2026-06-19",
@@ -17935,7 +17816,8 @@
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "砺波支局": {
           "2026-06-16": "2026-06-19",
@@ -17944,7 +17826,8 @@
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "本局登記部門": {
           "2026-06-16": "2026-06-24",
@@ -17953,7 +17836,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-02"
         }
       },
       "commercial": {
@@ -17964,7 +17848,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         }
       }
     },
@@ -17977,7 +17862,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-09",
-          "2026-06-24": "2026-07-10"
+          "2026-06-24": "2026-07-10",
+          "2026-06-25": "2026-07-13"
         },
         "堺支局": {
           "2026-06-16": "2026-07-01",
@@ -17986,7 +17872,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         },
         "守口出張所": {
           "2026-06-16": "2026-06-26",
@@ -17995,7 +17882,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-08"
         },
         "池田出張所": {
           "2026-06-16": "2026-06-29",
@@ -18004,7 +17892,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "天王寺出張所": {
           "2026-06-16": "2026-07-01",
@@ -18013,7 +17902,8 @@
           "2026-06-19": "2026-07-03",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-10"
+          "2026-06-24": "2026-07-10",
+          "2026-06-25": "2026-07-13"
         },
         "東大阪支局": {
           "2026-06-16": "2026-07-01",
@@ -18022,7 +17912,8 @@
           "2026-06-19": "2026-07-03",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-07",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-08",
+          "2026-06-25": "2026-07-08"
         },
         "富田林支局": {
           "2026-06-16": "2026-07-15",
@@ -18031,7 +17922,8 @@
           "2026-06-19": "2026-07-16",
           "2026-06-22": "2026-07-17",
           "2026-06-23": "2026-07-21",
-          "2026-06-24": "2026-07-21"
+          "2026-06-24": "2026-07-21",
+          "2026-06-25": "2026-07-22"
         },
         "北出張所": {
           "2026-06-16": "2026-07-03",
@@ -18040,7 +17932,8 @@
           "2026-06-19": "2026-07-07",
           "2026-06-22": "2026-07-08",
           "2026-06-23": "2026-07-09",
-          "2026-06-24": "2026-07-10"
+          "2026-06-24": "2026-07-10",
+          "2026-06-25": "2026-07-13"
         },
         "北大阪支局": {
           "2026-06-16": "2026-07-01",
@@ -18049,7 +17942,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-08",
+          "2026-06-25": "2026-07-09"
         },
         "本局": {
           "2026-06-16": "2026-06-25",
@@ -18058,7 +17952,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         },
         "枚方出張所": {
           "2026-06-16": "2026-07-03",
@@ -18067,7 +17962,8 @@
           "2026-06-19": "2026-07-07",
           "2026-06-22": "2026-07-08",
           "2026-06-23": "2026-07-09",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         }
       },
       "commercial": {
@@ -18078,7 +17974,8 @@
           "2026-06-19": "2026-07-03",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-07",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-08",
+          "2026-06-25": "2026-07-09"
         },
         "東大阪支局": {
           "2026-06-16": "2026-06-30",
@@ -18087,7 +17984,8 @@
           "2026-06-19": "2026-07-03",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-08"
         },
         "北大阪支局": {
           "2026-06-16": "2026-06-29",
@@ -18096,7 +17994,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         },
         "本局": {
           "2026-06-16": "2026-06-26",
@@ -18105,7 +18004,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         }
       }
     },
@@ -18116,70 +18016,80 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-07"
         },
         "園部支局": {
           "2026-06-18": "2026-07-06",
           "2026-06-19": "2026-07-07",
           "2026-06-22": "2026-07-08",
           "2026-06-23": "2026-07-09",
-          "2026-06-24": "2026-07-10"
+          "2026-06-24": "2026-07-10",
+          "2026-06-25": "2026-07-13"
         },
         "宮津支局": {
           "2026-06-18": "2026-06-24",
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "京丹後支局": {
           "2026-06-18": "2026-07-01",
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-07",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-08",
+          "2026-06-25": "2026-07-09"
         },
         "嵯峨出張所": {
           "2026-06-18": "2026-07-01",
           "2026-06-19": "2026-07-03",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-07",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-08",
+          "2026-06-25": "2026-07-09"
         },
         "舞鶴支局": {
           "2026-06-18": "2026-06-26",
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         },
         "伏見出張所": {
           "2026-06-18": "2026-06-24",
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "福知山支局": {
           "2026-06-18": "2026-06-24",
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "本局": {
           "2026-06-18": "2026-07-03",
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-07",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-08",
+          "2026-06-25": "2026-07-09"
         },
         "木津出張所": {
           "2026-06-18": "2026-07-02",
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-08",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         }
       },
       "commercial": {
@@ -18188,7 +18098,8 @@
           "2026-06-19": "2026-07-14",
           "2026-06-22": "2026-07-15",
           "2026-06-23": "2026-07-16",
-          "2026-06-24": "2026-07-17"
+          "2026-06-24": "2026-07-17",
+          "2026-06-25": "2026-07-21"
         }
       }
     },
@@ -18598,7 +18509,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "御坊支局": {
           "2026-06-17": "2026-06-22",
@@ -18606,7 +18518,8 @@
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "新宮支局": {
           "2026-06-17": "2026-06-23",
@@ -18614,7 +18527,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "田辺支局": {
           "2026-06-17": "2026-06-23",
@@ -18622,7 +18536,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "本局": {
           "2026-06-17": "2026-06-23",
@@ -18630,7 +18545,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         }
       },
       "commercial": {
@@ -18640,7 +18556,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         }
       }
     },
@@ -18651,56 +18568,64 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-06"
         },
         "呉支局": {
           "2026-06-18": "2026-06-24",
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "三次支局": {
           "2026-06-18": "2026-06-24",
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "東広島支局": {
           "2026-06-18": "2026-06-23",
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "廿日市支局": {
           "2026-06-18": "2026-06-24",
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "尾道支局": {
           "2026-06-18": "2026-06-25",
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "福山支局": {
           "2026-06-18": "2026-06-26",
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         },
         "本局不動産登記部門": {
           "2026-06-18": "2026-06-25",
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         }
       },
       "commercial": {
@@ -18709,7 +18634,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-06"
         }
       }
     },
@@ -18761,49 +18687,56 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "下関支局": {
           "2026-06-18": "2026-06-30",
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "岩国支局": {
           "2026-06-18": "2026-06-24",
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "周南支局": {
           "2026-06-18": "2026-06-24",
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "萩支局": {
           "2026-06-18": "2026-06-24",
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "本局": {
           "2026-06-18": "2026-06-24",
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "柳井出張所": {
           "2026-06-18": "2026-06-25",
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         }
       },
       "commercial": {
@@ -18812,7 +18745,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         }
       }
     },
@@ -18824,7 +18758,7 @@
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
           "2026-06-24": "2026-06-30",
-          "2026-06-25": "2026-06-26"
+          "2026-06-25": "2026-07-01"
         },
         "米子支局": {
           "2026-06-18": "2026-06-24",
@@ -18832,7 +18766,7 @@
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
           "2026-06-24": "2026-06-30",
-          "2026-06-25": "2026-06-26"
+          "2026-06-25": "2026-07-01"
         },
         "本局": {
           "2026-06-18": "2026-06-22",
@@ -18840,7 +18774,7 @@
           "2026-06-22": "2026-06-24",
           "2026-06-23": "2026-06-25",
           "2026-06-24": "2026-06-26",
-          "2026-06-25": "2026-06-24"
+          "2026-06-25": "2026-06-29"
         }
       },
       "commercial": {
@@ -18849,7 +18783,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         }
       }
     },
@@ -19056,7 +18991,8 @@
           "2026-06-25": "2026-06-29",
           "2026-06-26": "2026-06-30",
           "2026-06-29": "2026-07-01",
-          "2026-06-30": "2026-06-30"
+          "2026-06-30": "2026-06-30",
+          "2026-07-01": "2026-07-02"
         },
         "今治支局": {
           "2026-06-23": "2026-06-24",
@@ -19064,7 +19000,8 @@
           "2026-06-25": "2026-06-26",
           "2026-06-26": "2026-06-29",
           "2026-06-29": "2026-06-30",
-          "2026-06-30": "2026-06-30"
+          "2026-06-30": "2026-06-30",
+          "2026-07-01": "2026-07-01"
         },
         "四国中央支局": {
           "2026-06-23": "2026-06-24",
@@ -19072,7 +19009,8 @@
           "2026-06-25": "2026-06-26",
           "2026-06-26": "2026-06-29",
           "2026-06-29": "2026-06-30",
-          "2026-06-30": "2026-06-30"
+          "2026-06-30": "2026-06-30",
+          "2026-07-01": "2026-07-01"
         },
         "西条支局": {
           "2026-06-23": "2026-06-25",
@@ -19080,7 +19018,8 @@
           "2026-06-25": "2026-06-26",
           "2026-06-26": "2026-06-29",
           "2026-06-29": "2026-06-30",
-          "2026-06-30": "2026-06-29"
+          "2026-06-30": "2026-06-29",
+          "2026-07-01": "2026-07-01"
         },
         "大洲支局": {
           "2026-06-23": "2026-06-24",
@@ -19088,7 +19027,8 @@
           "2026-06-25": "2026-06-26",
           "2026-06-26": "2026-06-29",
           "2026-06-29": "2026-06-30",
-          "2026-06-30": "2026-06-30"
+          "2026-06-30": "2026-06-30",
+          "2026-07-01": "2026-07-01"
         },
         "砥部出張所": {
           "2026-06-23": "2026-06-24",
@@ -19096,7 +19036,8 @@
           "2026-06-25": "2026-06-29",
           "2026-06-26": "2026-06-29",
           "2026-06-29": "2026-06-30",
-          "2026-06-30": "2026-06-30"
+          "2026-06-30": "2026-06-30",
+          "2026-07-01": "2026-07-01"
         },
         "本局": {
           "2026-06-23": "2026-06-24",
@@ -19104,7 +19045,8 @@
           "2026-06-25": "2026-06-26",
           "2026-06-26": "2026-06-29",
           "2026-06-29": "2026-06-30",
-          "2026-06-30": "2026-06-30"
+          "2026-06-30": "2026-06-30",
+          "2026-07-01": "2026-07-01"
         }
       },
       "commercial": {
@@ -19112,7 +19054,8 @@
           "2026-06-23": "2026-06-19",
           "2026-06-24": "2026-06-22",
           "2026-06-25": "2026-06-23",
-          "2026-06-26": "2026-06-24"
+          "2026-06-26": "2026-06-24",
+          "2026-06-29": "2026-06-25"
         }
       }
     },
@@ -19223,7 +19166,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "行橋支局": {
           "2026-05-26": "2026-06-24",
@@ -19247,7 +19191,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-03",
-          "2026-06-24": "2026-07-06"
+          "2026-06-24": "2026-07-06",
+          "2026-06-25": "2026-07-07"
         },
         "西新出張所": {
           "2026-06-15": "2026-06-25",
@@ -19257,7 +19202,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         },
         "筑紫支局": {
           "2026-06-10": "2026-06-24",
@@ -19270,7 +19216,8 @@
           "2026-06-19": "2026-07-03",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-07",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-08",
+          "2026-06-25": "2026-07-09"
         },
         "朝倉支局": {
           "2026-06-16": "2026-06-24",
@@ -19279,7 +19226,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         },
         "直方支局": {
           "2026-06-16": "2026-06-23",
@@ -19288,7 +19236,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "田川支局": {
           "2026-06-17": "2026-06-24",
@@ -19296,7 +19245,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "粕屋出張所": {
           "2026-06-10": "2026-06-18",
@@ -19309,7 +19259,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         },
         "八女支局": {
           "2026-06-16": "2026-06-24",
@@ -19318,7 +19269,8 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-02"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03"
         },
         "八幡出張所": {
           "2026-06-10": "2026-06-24",
@@ -19331,7 +19283,8 @@
           "2026-06-19": "2026-07-03",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-07",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-08",
+          "2026-06-25": "2026-07-09"
         },
         "飯塚支局": {
           "2026-05-26": "2026-06-24",
@@ -19355,7 +19308,8 @@
           "2026-06-19": "2026-07-15",
           "2026-06-22": "2026-07-15",
           "2026-06-23": "2026-07-16",
-          "2026-06-24": "2026-07-16"
+          "2026-06-24": "2026-07-16",
+          "2026-06-25": "2026-07-16"
         },
         "福間出張所": {
           "2026-06-01": "2026-06-24",
@@ -19375,7 +19329,8 @@
           "2026-06-19": "2026-07-10",
           "2026-06-22": "2026-07-10",
           "2026-06-23": "2026-07-10",
-          "2026-06-24": "2026-07-10"
+          "2026-06-24": "2026-07-10",
+          "2026-06-25": "2026-07-13"
         },
         "北九州支局": {
           "2026-06-02": "2026-06-23",
@@ -19394,7 +19349,8 @@
           "2026-06-19": "2026-07-09",
           "2026-06-22": "2026-07-10",
           "2026-06-23": "2026-07-13",
-          "2026-06-24": "2026-07-13"
+          "2026-06-24": "2026-07-13",
+          "2026-06-25": "2026-07-14"
         },
         "本局": {
           "2026-05-26": "2026-06-24",
@@ -19418,7 +19374,8 @@
           "2026-06-19": "2026-07-09",
           "2026-06-22": "2026-07-09",
           "2026-06-23": "2026-07-09",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-09"
         },
         "柳川支局": {
           "2026-06-15": "2026-06-24",
@@ -19428,7 +19385,8 @@
           "2026-06-19": "2026-06-30",
           "2026-06-22": "2026-07-01",
           "2026-06-23": "2026-07-02",
-          "2026-06-24": "2026-07-03"
+          "2026-06-24": "2026-07-03",
+          "2026-06-25": "2026-07-06"
         }
       },
       "commercial": {
@@ -19473,7 +19431,8 @@
           "2026-06-19": "2026-07-10",
           "2026-06-22": "2026-07-13",
           "2026-06-23": "2026-07-14",
-          "2026-06-24": "2026-07-15"
+          "2026-06-24": "2026-07-15",
+          "2026-06-25": "2026-07-16"
         },
         "本局": {
           "2026-05-26": "2026-06-10",
@@ -19497,7 +19456,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-07",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-13"
         }
       }
     },
@@ -19518,7 +19478,8 @@
           "2026-06-19": "2026-06-23",
           "2026-06-22": "2026-06-24",
           "2026-06-23": "2026-06-25",
-          "2026-06-24": "2026-06-26"
+          "2026-06-24": "2026-06-26",
+          "2026-06-25": "2026-06-29"
         },
         "五島支局": {
           "2026-06-04": "2026-06-08",
@@ -19535,7 +19496,8 @@
           "2026-06-19": "2026-06-23",
           "2026-06-22": "2026-06-24",
           "2026-06-23": "2026-06-25",
-          "2026-06-24": "2026-06-26"
+          "2026-06-24": "2026-06-26",
+          "2026-06-25": "2026-06-29"
         },
         "佐世保支局": {
           "2026-06-04": "2026-06-24",
@@ -19552,7 +19514,8 @@
           "2026-06-19": "2026-07-09",
           "2026-06-22": "2026-07-10",
           "2026-06-23": "2026-07-13",
-          "2026-06-24": "2026-07-14"
+          "2026-06-24": "2026-07-14",
+          "2026-06-25": "2026-07-14"
         },
         "対馬支局": {
           "2026-06-04": "2026-06-08",
@@ -19569,7 +19532,8 @@
           "2026-06-19": "2026-06-23",
           "2026-06-22": "2026-06-24",
           "2026-06-23": "2026-06-25",
-          "2026-06-24": "2026-06-26"
+          "2026-06-24": "2026-06-26",
+          "2026-06-25": "2026-06-29"
         },
         "島原支局": {
           "2026-06-04": "2026-06-09",
@@ -19586,7 +19550,8 @@
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "平戸支局": {
           "2026-06-04": "2026-06-09",
@@ -19603,7 +19568,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "本局": {
           "2026-06-04": "2026-06-25",
@@ -19620,7 +19586,8 @@
           "2026-06-19": "2026-07-09",
           "2026-06-22": "2026-07-10",
           "2026-06-23": "2026-07-13",
-          "2026-06-24": "2026-07-14"
+          "2026-06-24": "2026-07-14",
+          "2026-06-25": "2026-07-15"
         },
         "諫早支局": {
           "2026-06-04": "2026-06-24",
@@ -19637,7 +19604,8 @@
           "2026-06-19": "2026-07-06",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-07",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-08",
+          "2026-06-25": "2026-07-09"
         }
       },
       "commercial": {
@@ -19656,7 +19624,8 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-07-01"
         }
       }
     },
@@ -19796,7 +19765,8 @@
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "杵築支局": {
           "2026-06-10": "2026-06-15",
@@ -19809,7 +19779,8 @@
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "佐伯支局": {
           "2026-06-10": "2026-06-17",
@@ -19822,7 +19793,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "竹田支局": {
           "2026-06-10": "2026-06-17",
@@ -19835,7 +19807,8 @@
           "2026-06-19": "2026-06-26",
           "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02"
         },
         "中津支局": {
           "2026-06-10": "2026-06-15",
@@ -19848,7 +19821,8 @@
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "日田支局": {
           "2026-06-10": "2026-06-15",
@@ -19861,7 +19835,8 @@
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "本局": {
           "2026-06-10": "2026-06-23",
@@ -19874,7 +19849,8 @@
           "2026-06-19": "2026-07-02",
           "2026-06-22": "2026-07-03",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-08"
         }
       },
       "commercial": {
@@ -19889,7 +19865,8 @@
           "2026-06-19": "2026-07-03",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-07",
-          "2026-06-24": "2026-07-08"
+          "2026-06-24": "2026-07-08",
+          "2026-06-25": "2026-07-09"
         }
       }
     },
@@ -19900,28 +19877,32 @@
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "鹿屋支局": {
           "2026-06-18": "2026-06-23",
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "種子島出張所": {
           "2026-06-18": "2026-06-22",
           "2026-06-19": "2026-06-23",
           "2026-06-22": "2026-06-24",
           "2026-06-23": "2026-06-25",
-          "2026-06-24": "2026-06-26"
+          "2026-06-24": "2026-06-26",
+          "2026-06-25": "2026-06-29"
         },
         "出水出張所": {
           "2026-06-18": "2026-06-24",
           "2026-06-19": "2026-06-25",
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
-          "2026-06-24": "2026-06-30"
+          "2026-06-24": "2026-06-30",
+          "2026-06-25": "2026-07-01"
         },
         "川内支局": {
           "2026-06-10": "2026-06-29",
@@ -19934,28 +19915,32 @@
           "2026-06-19": "2026-07-08",
           "2026-06-22": "2026-07-09",
           "2026-06-23": "2026-07-09",
-          "2026-06-24": "2026-07-10"
+          "2026-06-24": "2026-07-10",
+          "2026-06-25": "2026-07-10"
         },
         "曽於出張所": {
           "2026-06-18": "2026-06-23",
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "知覧支局": {
           "2026-06-18": "2026-06-22",
           "2026-06-19": "2026-06-23",
           "2026-06-22": "2026-06-24",
           "2026-06-23": "2026-06-25",
-          "2026-06-24": "2026-06-26"
+          "2026-06-24": "2026-06-26",
+          "2026-06-25": "2026-06-29"
         },
         "南さつま出張所": {
           "2026-06-18": "2026-06-23",
           "2026-06-19": "2026-06-24",
           "2026-06-22": "2026-06-25",
           "2026-06-23": "2026-06-26",
-          "2026-06-24": "2026-06-29"
+          "2026-06-24": "2026-06-29",
+          "2026-06-25": "2026-06-30"
         },
         "本局": {
           "2026-06-02": "2026-06-24",
@@ -19974,7 +19959,8 @@
           "2026-06-19": "2026-07-07",
           "2026-06-22": "2026-07-08",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         },
         "霧島支局": {
           "2026-06-11": "2026-07-01",
@@ -19986,7 +19972,8 @@
           "2026-06-19": "2026-07-07",
           "2026-06-22": "2026-07-08",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-09"
         }
       },
       "commercial": {
@@ -20007,7 +19994,8 @@
           "2026-06-19": "2026-07-03",
           "2026-06-22": "2026-07-06",
           "2026-06-23": "2026-07-08",
-          "2026-06-24": "2026-07-09"
+          "2026-06-24": "2026-07-09",
+          "2026-06-25": "2026-07-10"
         }
       }
     },
@@ -20023,11 +20011,16 @@
           "2026-06-19": "2026-06-29",
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
-          "2026-06-24": "2026-07-01",
-          "2026-06-25": "2026-06-29",
-          "2026-06-30": "2026-06-30"
+          "2026-06-24": "2026-07-02",
+          "2026-06-25": "2026-07-03",
+          "2026-06-26": "2026-06-29",
+          "2026-06-29": "2026-06-30",
+          "2026-06-30": "2026-06-30",
+          "2026-07-01": "2026-07-01",
+          "2026-07-02": "2026-07-02"
         },
         "高鍋出張所": {
+          "2025-07-01": "2026-06-30",
           "2026-06-11": "2026-06-17",
           "2026-06-12": "2026-06-18",
           "2026-06-15": "2026-06-19",
@@ -20038,8 +20031,11 @@
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-29",
           "2026-06-24": "2026-06-30",
-          "2026-06-25": "2026-06-24",
-          "2026-06-30": "2026-06-29"
+          "2026-06-25": "2026-07-01",
+          "2026-06-26": "2026-06-25",
+          "2026-06-29": "2026-06-26",
+          "2026-06-30": "2026-06-29",
+          "2026-07-02": "2026-07-01"
         },
         "小林出張所": {
           "2026-06-11": "2026-06-22",
@@ -20052,24 +20048,33 @@
           "2026-06-22": "2026-06-30",
           "2026-06-23": "2026-07-01",
           "2026-06-24": "2026-07-02",
-          "2026-06-25": "2026-06-26",
-          "2026-06-30": "2026-07-01"
+          "2026-06-25": "2026-07-03",
+          "2026-06-26": "2026-06-29",
+          "2026-06-29": "2026-06-30",
+          "2026-06-30": "2026-07-01",
+          "2026-07-01": "2026-07-02",
+          "2026-07-02": "2026-07-03"
         },
         "都城支局": {
           "2026-06-11": "2026-06-19",
           "2026-06-12": "2026-06-23",
-          "2026-06-15": "2026-06-23",
-          "2026-06-16": "2026-06-24",
-          "2026-06-17": "2026-06-25",
+          "2026-06-15": "2026-06-24",
+          "2026-06-16": "2026-06-25",
+          "2026-06-17": "2026-06-24",
           "2026-06-18": "2026-06-25",
-          "2026-06-19": "2026-06-29",
-          "2026-06-22": "2026-06-30",
+          "2026-06-19": "2026-06-26",
+          "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
-          "2026-06-24": "2026-07-02",
-          "2026-06-25": "2026-06-26",
-          "2026-06-30": "2026-07-01"
+          "2026-06-24": "2026-07-01",
+          "2026-06-25": "2026-07-02",
+          "2026-06-26": "2026-06-29",
+          "2026-06-29": "2026-06-30",
+          "2026-06-30": "2026-07-01",
+          "2026-07-01": "2026-07-02",
+          "2026-07-02": "2026-07-03"
         },
         "日南支局": {
+          "2025-07-01": "2026-06-29",
           "2026-06-11": "2026-06-19",
           "2026-06-12": "2026-06-19",
           "2026-06-15": "2026-06-19",
@@ -20080,22 +20085,29 @@
           "2026-06-22": "2026-06-26",
           "2026-06-23": "2026-06-26",
           "2026-06-24": "2026-06-29",
-          "2026-06-25": "2026-06-24",
-          "2026-06-30": "2026-06-26"
+          "2026-06-25": "2026-07-01",
+          "2026-06-26": "2026-06-25",
+          "2026-06-29": "2026-06-26",
+          "2026-06-30": "2026-06-26",
+          "2026-07-02": "2026-07-01"
         },
         "本局": {
           "2026-06-11": "2026-06-18",
           "2026-06-12": "2026-06-22",
-          "2026-06-15": "2026-06-22",
-          "2026-06-16": "2026-06-23",
-          "2026-06-17": "2026-06-25",
+          "2026-06-15": "2026-06-23",
+          "2026-06-16": "2026-06-24",
+          "2026-06-17": "2026-06-24",
           "2026-06-18": "2026-06-25",
-          "2026-06-19": "2026-06-29",
-          "2026-06-22": "2026-06-30",
+          "2026-06-19": "2026-06-26",
+          "2026-06-22": "2026-06-29",
           "2026-06-23": "2026-06-30",
           "2026-06-24": "2026-07-01",
-          "2026-06-25": "2026-06-26",
-          "2026-06-30": "2026-06-30"
+          "2026-06-25": "2026-07-02",
+          "2026-06-26": "2026-06-29",
+          "2026-06-29": "2026-06-30",
+          "2026-06-30": "2026-06-30",
+          "2026-07-01": "2026-07-01",
+          "2026-07-02": "2026-07-02"
         }
       },
       "commercial": {
@@ -20109,7 +20121,8 @@
           "2026-06-19": "2026-07-01",
           "2026-06-22": "2026-07-02",
           "2026-06-23": "2026-07-06",
-          "2026-06-24": "2026-07-07"
+          "2026-06-24": "2026-07-07",
+          "2026-06-25": "2026-07-08"
         }
       }
     },

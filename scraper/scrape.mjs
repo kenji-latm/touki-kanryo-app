@@ -227,7 +227,7 @@ const JURISDICTIONS = [
     id: "kyoto",
     label: "京都地方法務局",
     kind: "pdfKyotoColumns",
-    pdfUrl: "https://houmukyoku.moj.go.jp/kyoto/content/001465450.pdf",
+    indexUrl: "https://houmukyoku.moj.go.jp/kyoto/category_00011.html",
     minimums: minimum(9, 40, 1, 5),
   },
   {
@@ -1233,7 +1233,7 @@ async function scrapeJurisdiction(stores, jurisdiction) {
     await parsePdfKobe(await getBuf(pdfUrl), stores, jurisdiction);
     sourcePages.push(pdfUrl);
   } else if (jurisdiction.kind === "pdfKyotoColumns") {
-    const pdfUrl = jurisdiction.pdfUrl;
+    const pdfUrl = jurisdiction.pdfUrl || extractPdfLink(dec(await getBuf(jurisdiction.indexUrl)), jurisdiction);
     console.log(`PDF: ${pdfUrl}`);
     await parsePdfKyotoColumns(await getBuf(pdfUrl), stores, jurisdiction);
     sourcePages.push(pdfUrl);
@@ -1428,7 +1428,7 @@ function mergeWithHistory(currentData, previousOutput) {
   return { data: mergedData, stats };
 }
 
-function buildOutput(stores, sourcePages, previousOutput) {
+function buildOutput(stores, sourcePages, previousOutput, fetchErrors = {}) {
   const current = prepareDataForOutput(stores);
   const { data: mergedRaw, stats } = mergeWithHistory(current.data, previousOutput);
   const merged = prepareDataForOutput(mergedRaw);
@@ -1443,6 +1443,7 @@ function buildOutput(stores, sourcePages, previousOutput) {
       label: j.label,
       sourceUrl: j.indexUrl || j.pageUrl || j.pdfUrl,
       fetchedPages: sourcePages[j.id] || [],
+      fetchError: fetchErrors[j.id] || null,
     })),
     note: "AM/PMは区別せず、同一申請日の遅い方の完了予定日を採用。不動産（表示）登記は対象外。過去に取得できた申請日データは履歴として保持。",
     history: {
@@ -1468,17 +1469,26 @@ function buildOutput(stores, sourcePages, previousOutput) {
 async function main() {
   const stores = makeStores();
   const sourcePages = {};
+  const fetchErrors = {};
+  const previousOutput = readPreviousOutput();
 
   for (const jurisdiction of JURISDICTIONS) {
     try {
       sourcePages[jurisdiction.id] = await scrapeJurisdiction(stores, jurisdiction);
     } catch (e) {
-      throw new Error(`${jurisdiction.label}の取得に失敗しました: ${e.message}`);
+      const message = `${jurisdiction.label}の取得に失敗しました: ${e.message}`;
+      fetchErrors[jurisdiction.id] = message;
+      console.warn(`WARN: ${message}`);
     }
   }
 
-  const previousOutput = readPreviousOutput();
-  const out = buildOutput(stores, sourcePages, previousOutput);
+  const currentEntries = dataEntryCount(prepareDataForOutput(stores).data);
+  const previousEntries = dataEntryCount(previousOutput?.data || {});
+  if (currentEntries === 0 && previousEntries === 0) {
+    throw new Error("全法務局の取得に失敗し、利用できる過去データもないため更新を中止しました。");
+  }
+
+  const out = buildOutput(stores, sourcePages, previousOutput, fetchErrors);
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, JSON.stringify(out, null, 2), "utf8");
   const JSOUT = OUT.replace(/\.json$/, ".js");
