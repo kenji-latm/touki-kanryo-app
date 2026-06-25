@@ -867,6 +867,7 @@
   }
 
   async function init() {
+    activateSharedFeatureFromUrl();
     populateJurisdictions();
     updateControls();
     updateDataMeta();
