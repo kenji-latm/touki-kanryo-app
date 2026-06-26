@@ -835,13 +835,7 @@
       <div id="pdfStatus" class="pdf-hint">署名検証・失効確認の最終判定は、登記・供託オンライン申請システム側で行われます。</div>
       <div id="pdfResults" class="pdf-results" aria-live="polite"></div>
     </section>
-    <section id="summary" class="summary idle" aria-live="polite">
-      <div class="status-dot" aria-hidden="true">?</div>
-      <div>
-        <h2>入力待ち</h2>
-        <p>電子署名サービス名や証明書名を入れると、該当する場面を表示します。</p>
-      </div>
-    </section>
+    <section id="summary" class="summary idle" aria-live="polite" hidden></section>
 
     <section id="results" class="results" aria-label="判定結果"></section>
 
@@ -1523,6 +1517,7 @@
     }
 
     function renderSummary(state, title, body, mark) {
+      summaryEl.hidden = false;
       summaryEl.className = `summary ${state}`;
       summaryEl.innerHTML = `
         <div class="status-dot" aria-hidden="true">${escapeHtml(mark)}</div>
@@ -1589,8 +1584,9 @@
       renderDirectory();
 
       if (!query) {
-        renderSummary("idle", "入力待ち", "電子署名サービス名や証明書名を入れると、該当する場面を表示します。", "?");
-        resultsEl.innerHTML = `<div class="empty-space">例のボタンからも確認できます。</div>`;
+        summaryEl.hidden = true;
+        summaryEl.innerHTML = "";
+        resultsEl.innerHTML = "";
         return;
       }
 
