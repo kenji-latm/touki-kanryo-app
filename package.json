@@ -3,10 +3,10 @@
   "scripts": {
     "scrape": "node --use-system-ca scraper/scrape.mjs",
     "build:single": "node scraper/build-single.mjs",
-    "build:zip": "node scraper/build-zip.mjs"
+    "build:zip": "node scraper/build-zip.mjs",
+    "scrape:signature": "node --use-system-ca scraper/update-electronic-signature-from-moj.js"
   },
   "dependencies": {
     "pdfjs-dist": "^5.6.205"
   }
 }
-
