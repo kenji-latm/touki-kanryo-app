@@ -2033,9 +2033,60 @@
       const nValue = normalize(value);
       if (!nValue) return true;
       return /^v\d+(\.\d+)*[a-z0-9]*$/i.test(nValue)
-        || /^(adobe|ppklite|etsi|cades|rfc3161|timestamp|tsa|signeddata)/i.test(nValue)
+        || /^(adobe|ppklite|etsi|cades|rfc3161|timestamp|tsa|tsu|signeddata)/i.test(nValue)
+        || nValue.includes("timestamp")
+        || nValue.includes("timestamper")
+        || nValue.includes("timestamping")
+        || nValue.includes("timesign")
+        || nValue.includes("amanotsu")
+        || nValue.includes("tsa")
         || nValue.includes("certificationauthority")
         || nValue.includes("signaturecertificationauthority");
+    }
+
+    function signatureKind(sig, certs) {
+      const values = [
+        sig.signerNamePdf,
+        sig.fieldName,
+        sig.reason,
+        sig.filter,
+        sig.subFilter,
+        sig.rawChunk,
+        ...certs.flatMap((cert) => [
+          cert.subject?.cn,
+          cert.subject?.o,
+          cert.subject?.text,
+          cert.issuer?.cn,
+          cert.issuer?.o,
+          cert.issuer?.text
+        ])
+      ].filter(Boolean);
+      const normalized = values.map(normalize).join(" ");
+      const raw = values.map((value) => String(value).toLowerCase()).join(" ");
+      const isTimestamp = normalized.includes("rfc3161")
+        || normalized.includes("doctimestamp")
+        || normalized.includes("timestamp")
+        || normalized.includes("timestamper")
+        || normalized.includes("timestamping")
+        || normalized.includes("timesign")
+        || normalized.includes("amanotsu")
+        || /\btsa\b/.test(raw)
+        || /\btsu\b/.test(raw)
+        || raw.includes("time stamp")
+        || raw.includes("time-stamp")
+        || raw.includes("タイムスタンプ");
+      if (isTimestamp) {
+        return {
+          type: "timestamp",
+          label: "タイムスタンプ/技術署名の可能性",
+          description: "PDFの時刻証明や検証用の署名と思われます。登記用の本人署名とは別枠で確認してください。"
+        };
+      }
+      return {
+        type: "signature",
+        label: "電子署名",
+        description: "登記利用可否の照合対象として確認しています。"
+      };
     }
 
     function humanReadableSigner(value) {
@@ -2059,6 +2110,9 @@
     }
 
     function signerCaution(sig, certs) {
+      if (signatureKind(sig, certs).type === "timestamp") {
+        return "この署名はタイムスタンプ等の技術署名の可能性があります。PDF内の主たる電子署名の結果もあわせて確認してください。";
+      }
       const hasHuman = signerCandidate(sig, certs) !== "PDF署名からは個人名を特定できません";
       if (hasHuman) return "";
       return "クラウドサイン等の立会人型では、電子証明書に契約当事者本人の氏名が入らないことがあります。契約者名はPDF本文、合意締結証明書、サービス画面で確認してください。";
@@ -2106,7 +2160,17 @@
       };
     }
 
-    function issuerCheckForMatches(matches) {
+    function issuerCheckForMatches(matches, kind) {
+      if (kind.type === "timestamp") {
+        const names = matches.slice(0, 3).map((item) => item.entry.name).join("、");
+        const matchText = names ? `読み取れた一致候補: ${names}。` : "";
+        return {
+          state: "warn",
+          label: "参考",
+          title: "タイムスタンプ署名（判定対象外）",
+          text: `${matchText}時刻証明・検証用署名の可能性が高いため、法務省掲載一覧との主たる照合対象から外しています。主たる電子署名の結果を確認してください。`
+        };
+      }
       if (!matches.length) {
         return {
           state: "no",
@@ -2126,7 +2190,15 @@
       };
     }
 
-    function authorityCheckForSignature(sig, certs) {
+    function authorityCheckForSignature(sig, certs, kind) {
+      if (kind.type === "timestamp") {
+        return {
+          state: "warn",
+          label: "対象外",
+          title: "権限者署名ではなく時刻証明",
+          text: "タイムスタンプ機関等による技術署名の可能性が高く、申請人・代表者・代理人・委任者の権限確認対象ではありません。"
+        };
+      }
       const signer = signerCandidate(sig, certs);
       const hasSigner = signer !== "PDF署名からは個人名を特定できません";
       return {
@@ -2177,17 +2249,20 @@
           seen.add(item.entry.name);
           uniqueMatches.push(item);
         }
-        const verdict = pdfVerdict(uniqueMatches);
         const referenceDate = sig.signingDate || new Date();
+        const kind = signatureKind(sig, certs);
+        const verdict = kind.type === "timestamp"
+          ? { state: "warn", text: "タイムスタンプ/技術署名のため、登記利用可否の主判定対象外です。" }
+          : pdfVerdict(uniqueMatches);
         const signer = signerCandidate(sig, certs);
         const caution = signerCaution(sig, certs);
         const pdfNameInfo = sig.signerNamePdf
           ? `${sig.signerNamePdf}${isTechnicalSignerName(sig.signerNamePdf) ? "（技術情報の可能性）" : ""}`
           : "不明";
         const checks = [
-          issuerCheckForMatches(uniqueMatches),
+          issuerCheckForMatches(uniqueMatches, kind),
           validityCheckForCerts(certs, referenceDate),
-          authorityCheckForSignature(sig, certs)
+          authorityCheckForSignature(sig, certs, kind)
         ];
         const checksHtml = `<div class="pdf-check-grid">${checks.map(renderCheckCard).join("")}</div>`;
         const broadMatchHint = uniqueMatches.length >= 4
@@ -2220,6 +2295,7 @@
             <h3>署名 ${index + 1}</h3>
             ${checksHtml}
             <div class="pdf-keyline">
+              <div><b>署名の種類:</b> ${escapeHtml(kind.label)}</div>
               <div><b>署名者名候補:</b> ${escapeHtml(signer)}</div>
               <div><b>署名日時:</b> ${escapeHtml(sig.signingDate ? formatDateTime(sig.signingDate) : (sig.signingDateRaw || "不明"))}</div>
             </div>
@@ -2231,6 +2307,7 @@
                 <dt>PDF署名名</dt><dd>${escapeHtml(pdfNameInfo)}</dd>
                 <dt>証明書主体</dt><dd>${escapeHtml(certificateSubjectSummary(certs))}</dd>
                 <dt>形式</dt><dd>${escapeHtml([sig.filter, sig.subFilter].filter(Boolean).join(" / ") || "不明")}</dd>
+                <dt>署名種別メモ</dt><dd>${escapeHtml(kind.description)}</dd>
                 <dt>署名データ</dt><dd>${escapeHtml(sig.hasContents ? `${sig.contentsBytes.length.toLocaleString()} bytes` : "未検出")}</dd>
                 <dt>確認範囲</dt><dd>署名の存在、署名者名候補、証明書発行者、有効期間、法務省掲載一覧との照合</dd>
               </dl>
