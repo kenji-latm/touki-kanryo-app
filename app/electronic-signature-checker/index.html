@@ -1627,7 +1627,8 @@
           filter: extractPdfNameValue(chunk, "Filter"),
           subFilter: extractPdfNameValue(chunk, "SubFilter"),
           contentsBytes: contentsMatch ? hexToBytes(contentsMatch[1]) : new Uint8Array(),
-          hasContents: Boolean(contentsMatch)
+          hasContents: Boolean(contentsMatch),
+          rawChunk: chunk
         });
       }
       return signatures;
@@ -1780,21 +1781,41 @@
       return out;
     }
 
+    function uniqueCertificates(certs) {
+      const seen = new Set();
+      return certs.filter((cert) => {
+        const key = `${cert.serial}|${cert.issuer.text}|${cert.subject.text}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
+    function scanCertificatesInDer(bytes) {
+      const certs = [];
+      for (let offset = 0; offset < bytes.length - 8; offset += 1) {
+        if (bytes[offset] !== 0x30 || (bytes[offset + 1] & 0x80) === 0) continue;
+        try {
+          const node = parseAsn1(bytes, offset, bytes.length, 0, { count: 0 });
+          const cert = parseCertificate(bytes, node);
+          if (cert) {
+            certs.push(cert);
+            offset = Math.max(offset, node.end - 1);
+          }
+        } catch {}
+      }
+      return uniqueCertificates(certs);
+    }
+
     function extractCertificatesFromCms(bytes) {
       if (!bytes || bytes.length < 16) return [];
+      const certs = [];
       try {
         const root = parseAsn1(bytes);
-        const certs = collectCertificates(bytes, root);
-        const seen = new Set();
-        return certs.filter((cert) => {
-          const key = `${cert.serial}|${cert.issuer.text}|${cert.subject.text}`;
-          if (seen.has(key)) return false;
-          seen.add(key);
-          return true;
-        });
-      } catch {
-        return [];
-      }
+        certs.push(...collectCertificates(bytes, root));
+      } catch {}
+      certs.push(...scanCertificatesInDer(bytes));
+      return uniqueCertificates(certs);
     }
 
     function formatDateTime(date) {
@@ -1817,6 +1838,16 @@
       return { state: "ok", text: `有効期間内（${formatDateTime(cert.notBefore)} から ${formatDateTime(cert.notAfter)}）` };
     }
 
+    const SIGNATURE_STOP_TERMS = new Set([
+      "adobe", "adobeppklite", "adobepkcs7detached", "etsicadesdetached", "adberfc3161",
+      "pkcs7", "cades", "detached", "signature", "signeddata", "timestamp", "rfc3161", "unknown"
+    ]);
+
+    function usefulTerm(term) {
+      const nTerm = normalize(term);
+      return nTerm.length >= 4 && !SIGNATURE_STOP_TERMS.has(nTerm) && !["株式会社", "limited", "corporation"].includes(nTerm);
+    }
+
     function certificateTerms(cert) {
       return [
         cert.subject?.cn,
@@ -1827,11 +1858,38 @@
         cert.issuer?.ou,
         cert.subject?.text,
         cert.issuer?.text
-      ].filter((term) => normalize(term).length >= 4 && !["株式会社", "limited", "corporation"].includes(normalize(term)));
+      ].filter(usefulTerm);
     }
 
-    function matchCertificateEntries(cert) {
-      const terms = certificateTerms(cert);
+    function printableStringsFromBytes(bytes) {
+      if (!bytes || !bytes.length) return [];
+      const text = bytesToBinaryString(bytes);
+      return [...text.matchAll(/[\x20-\x7e]{6,}/g)]
+        .map((match) => match[0].trim())
+        .filter(usefulTerm)
+        .slice(0, 120);
+    }
+
+    function printableStringsFromText(text) {
+      return [...String(text || "").matchAll(/[\x20-\x7e]{6,}/g)]
+        .map((match) => match[0].trim())
+        .filter(usefulTerm)
+        .slice(0, 120);
+    }
+
+    function signatureTerms(sig) {
+      return [
+        sig.signerNamePdf,
+        sig.fieldName,
+        sig.reason,
+        sig.filter,
+        sig.subFilter,
+        ...printableStringsFromText(sig.rawChunk || ""),
+        ...printableStringsFromBytes(sig.contentsBytes)
+      ].filter(usefulTerm);
+    }
+
+    function matchEntriesByTerms(terms, source) {
       const scored = entries.map((entry) => {
         const pieces = [entry.name, entry.provider, ...(entry.certificates || []), ...(entry.aliases || [])];
         let score = 0;
@@ -1842,24 +1900,68 @@
             const nPiece = normalize(piece);
             if (!nPiece || !nTerm) continue;
             let current = 0;
-            if (nPiece === nTerm) current = 120;
-            else if ((entry.certificates || []).includes(piece) && nPiece.includes(nTerm)) current = 105;
+            if (nPiece === nTerm) current = 125;
+            else if ((entry.certificates || []).includes(piece) && nPiece.includes(nTerm)) current = 110;
+            else if ((entry.certificates || []).includes(piece) && nTerm.includes(nPiece) && nPiece.length >= 12) current = 104;
             else if (nPiece.includes(nTerm)) current = 88;
-            else if (nTerm.includes(nPiece) && nPiece.length >= 8) current = 72;
+            else if (nTerm.includes(nPiece) && nPiece.length >= 8) current = 76;
             if (current > score) {
               score = current;
               evidence = term;
             }
           }
         }
-        return { entry, score, evidence };
+        return { entry, score, evidence, source };
       }).filter((item) => item.score >= 72)
         .sort((a, b) => b.score - a.score || a.entry.name.localeCompare(b.entry.name, "ja"));
-      return scored.slice(0, 8);
+      return scored.slice(0, 16);
+    }
+
+    function matchCertificateEntries(cert) {
+      return matchEntriesByTerms(certificateTerms(cert), "証明書");
+    }
+
+    function matchSignatureEntries(sig) {
+      return matchEntriesByTerms(signatureTerms(sig), "署名データ");
+    }
+
+    function isTechnicalSignerName(value) {
+      const nValue = normalize(value);
+      if (!nValue) return true;
+      return /^v\d+(\.\d+)*[a-z0-9]*$/i.test(nValue)
+        || /^(adobe|ppklite|etsi|cades|rfc3161|timestamp|tsa|signeddata)/i.test(nValue)
+        || nValue.includes("certificationauthority")
+        || nValue.includes("signaturecertificationauthority");
+    }
+
+    function humanReadableSigner(value) {
+      if (!value || isTechnicalSignerName(value)) return "";
+      return value;
+    }
+
+    function certificateSubjectSummary(certs) {
+      const subjects = certs.map((cert) => cert.subject?.text || cert.subject?.cn || cert.subject?.o).filter(Boolean);
+      return subjects.length ? subjects.join(" / ") : "不明";
+    }
+
+    function signerCandidate(sig, certs) {
+      const pdfName = humanReadableSigner(sig.signerNamePdf);
+      if (pdfName) return pdfName;
+      for (const cert of certs) {
+        const cn = humanReadableSigner(cert.subject?.cn);
+        if (cn) return cn;
+      }
+      return "PDF署名からは個人名を特定できません";
+    }
+
+    function signerCaution(sig, certs) {
+      const hasHuman = signerCandidate(sig, certs) !== "PDF署名からは個人名を特定できません";
+      if (hasHuman) return "";
+      return "クラウドサイン等の立会人型では、電子証明書に契約当事者本人の氏名が入らないことがあります。契約者名はPDF本文、合意締結証明書、サービス画面で確認してください。";
     }
 
     function pdfVerdict(matches) {
-      if (!matches.length) return { state: "no", text: "法務省掲載一覧では一致候補なし" };
+      if (!matches.length) return { state: "no", text: "読み取れた署名情報では掲載候補を特定できません" };
       const contexts = new Set(matches.flatMap((item) => item.entry.contexts || []));
       const hasApplication = contexts.has("applicationApplicant") || contexts.has("applicationProxy") || contexts.has("mandate");
       const hasAttachment = contexts.has("attachment");
@@ -1878,7 +1980,8 @@
       pdfStatus.textContent = `${file.name}：${signatures.length}件の署名情報を検出しました。`;
       pdfResults.innerHTML = signatures.map((sig, index) => {
         const certs = sig.certificates || [];
-        const allMatches = certs.flatMap((cert) => matchCertificateEntries(cert));
+        const signatureMatches = matchSignatureEntries(sig);
+        const allMatches = [...signatureMatches, ...certs.flatMap((cert) => matchCertificateEntries(cert))];
         const uniqueMatches = [];
         const seen = new Set();
         for (const item of allMatches) {
@@ -1888,38 +1991,51 @@
         }
         const verdict = pdfVerdict(uniqueMatches);
         const referenceDate = sig.signingDate || new Date();
-        const signer = sig.signerNamePdf || certs.find((cert) => cert.subject?.cn)?.subject?.cn || certs.find((cert) => cert.subject?.o)?.subject?.o || "不明";
+        const signer = signerCandidate(sig, certs);
+        const caution = signerCaution(sig, certs);
+        const pdfNameInfo = sig.signerNamePdf
+          ? `${sig.signerNamePdf}${isTechnicalSignerName(sig.signerNamePdf) ? "（技術情報の可能性）" : ""}`
+          : "不明";
+        const broadMatchHint = uniqueMatches.length >= 4
+          ? `<div class="pdf-hint">同じ認証局証明書を複数サービスが利用しているため、サービス名はPDF本文や合意締結証明書でも確認してください。</div>`
+          : "";
         const certHtml = certs.length ? certs.map((cert, certIndex) => {
           const validity = validityLabel(cert, referenceDate);
           const matches = matchCertificateEntries(cert);
           const matchHtml = matches.length
-            ? `<ul class="pdf-match-list">${matches.slice(0, 5).map((item) => `<li>${escapeHtml(item.entry.name)} <span class="context-badge hit">${escapeHtml(item.entry.kind)}</span></li>`).join("")}</ul>`
+            ? `<ul class="pdf-match-list">${matches.slice(0, 6).map((item) => `<li>${escapeHtml(item.entry.name)} <span class="context-badge hit">${escapeHtml(item.entry.kind)}</span></li>`).join("")}</ul>`
             : `<div class="pdf-hint">この証明書名・発行者では掲載候補を特定できませんでした。</div>`;
           return `
             <div class="pdf-cert">
               <p class="pdf-cert-title">証明書 ${certIndex + 1}</p>
               <dl class="pdf-meta-grid">
-                <dt>署名者候補</dt><dd>${escapeHtml(cert.subject?.cn || cert.subject?.o || cert.subject?.text || "不明")}</dd>
+                <dt>証明書主体</dt><dd>${escapeHtml(cert.subject?.cn || cert.subject?.o || cert.subject?.text || "不明")}</dd>
                 <dt>発行者</dt><dd>${escapeHtml(cert.issuer?.cn || cert.issuer?.o || cert.issuer?.text || "不明")}</dd>
                 <dt>有効期間</dt><dd><span class="pdf-verdict ${validity.state}">${escapeHtml(validity.text)}</span></dd>
                 <dt>照合候補</dt><dd>${matchHtml}</dd>
               </dl>
             </div>
           `;
-        }).join("") : `<div class="pdf-cert"><p class="pdf-cert-title">証明書を読み取れませんでした</p><div class="pdf-hint">PDFに署名辞書はありますが、証明書情報の抽出はできませんでした。</div></div>`;
+        }).join("") : `<div class="pdf-cert"><p class="pdf-cert-title">証明書を読み取れませんでした</p><div class="pdf-hint">PDFに署名辞書はありますが、証明書情報の抽出はできませんでした。署名データ内の文字列から照合候補を探しています。</div></div>`;
+        const signatureMatchHtml = signatureMatches.length
+          ? `<div class="pdf-cert"><p class="pdf-cert-title">署名データ内の照合候補</p><ul class="pdf-match-list">${signatureMatches.slice(0, 8).map((item) => `<li>${escapeHtml(item.entry.name)} <span class="context-badge hit">${escapeHtml(item.entry.kind)}</span></li>`).join("")}</ul>${broadMatchHint}</div>`
+          : "";
 
         return `
           <article class="pdf-signature">
             <h3>署名 ${index + 1}</h3>
             <div class="pdf-verdict ${verdict.state}">${escapeHtml(verdict.text)}</div>
             <dl class="pdf-meta-grid">
-              <dt>署名者</dt><dd>${escapeHtml(signer)}</dd>
+              <dt>署名者名候補</dt><dd>${escapeHtml(signer)}</dd>
+              <dt>PDF署名名</dt><dd>${escapeHtml(pdfNameInfo)}</dd>
+              <dt>証明書主体</dt><dd>${escapeHtml(certificateSubjectSummary(certs))}</dd>
               <dt>署名日時</dt><dd>${escapeHtml(sig.signingDate ? formatDateTime(sig.signingDate) : (sig.signingDateRaw || "不明"))}</dd>
               <dt>形式</dt><dd>${escapeHtml([sig.filter, sig.subFilter].filter(Boolean).join(" / ") || "不明")}</dd>
               <dt>署名データ</dt><dd>${escapeHtml(sig.hasContents ? `${sig.contentsBytes.length.toLocaleString()} bytes` : "未検出")}</dd>
-              <dt>確認範囲</dt><dd>署名の存在、署名者候補、証明書発行者、有効期間、法務省掲載一覧との照合</dd>
+              <dt>確認範囲</dt><dd>署名の存在、署名者名候補、証明書発行者、有効期間、法務省掲載一覧との照合</dd>
+              ${caution ? `<dt>注意</dt><dd>${escapeHtml(caution)}</dd>` : ""}
             </dl>
-            <div class="pdf-cert-list">${certHtml}</div>
+            <div class="pdf-cert-list">${signatureMatchHtml}${certHtml}</div>
           </article>
         `;
       }).join("");
@@ -1977,6 +2093,11 @@
   </script>
 </body>
 </html>
+
+
+
+
+
 
 
 
