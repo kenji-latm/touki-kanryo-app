@@ -534,6 +534,30 @@
       padding: 18px;
     }
 
+    .pdf-signature.excluded {
+      border-color: #b7c9d5;
+      background: #f7fafc;
+    }
+
+    .pdf-excluded-banner {
+      display: grid;
+      gap: 3px;
+      border: 1px solid #b7c9d5;
+      border-radius: 8px;
+      background: #eaf1f5;
+      color: #31566d;
+      padding: 12px 14px;
+    }
+
+    .pdf-excluded-banner strong {
+      font-size: 16px;
+    }
+
+    .pdf-excluded-banner span {
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
     .pdf-signature h3 {
       margin: 0 0 12px;
       font-size: 21px;
@@ -567,6 +591,11 @@
     .pdf-verdict.no {
       background: #fff1f0;
       color: var(--red);
+    }
+
+    .pdf-verdict.excluded {
+      background: #eaf1f5;
+      color: #31566d;
     }
 
     .pdf-meta-grid {
@@ -646,6 +675,11 @@
       background: #fff7f6;
     }
 
+    .pdf-check.excluded {
+      border-color: #b7c9d5;
+      background: #eef4f7;
+    }
+
     .pdf-check-label {
       display: inline-flex;
       align-items: center;
@@ -671,6 +705,11 @@
     .pdf-check.no .pdf-check-label {
       color: var(--red);
       background: #ffe7e5;
+    }
+
+    .pdf-check.excluded .pdf-check-label {
+      color: #31566d;
+      background: #dce8ee;
     }
 
     .pdf-check-title {
@@ -2279,9 +2318,9 @@
         const names = matches.slice(0, 3).map((item) => item.entry.name).join("、");
         const matchText = names ? `読み取れた一致候補: ${names}。` : "";
         return {
-          state: "warn",
-          label: "参考",
-          title: "タイムスタンプ署名（判定対象外）",
+          state: "excluded",
+          label: "対象外",
+          title: "タイムスタンプ署名",
           text: `${matchText}時刻証明・検証用署名の可能性が高いため、法務省掲載一覧との主たる照合対象から外しています。主たる電子署名の結果を確認してください。`
         };
       }
@@ -2307,7 +2346,7 @@
     function authorityCheckForSignature(sig, certs, kind) {
       if (kind.type === "timestamp") {
         return {
-          state: "warn",
+          state: "excluded",
           label: "対象外",
           title: "権限者署名ではなく時刻証明",
           text: "タイムスタンプ機関等による技術署名の可能性が高く、申請人・代表者・代理人・委任者の権限確認対象ではありません。"
@@ -2366,7 +2405,7 @@
         const referenceDate = sig.signingDate || new Date();
         const kind = signatureKind(sig, certs);
         const verdict = kind.type === "timestamp"
-          ? { state: "warn", text: "タイムスタンプ/技術署名のため、登記利用可否の主判定対象外です。" }
+          ? { state: "excluded", text: "タイムスタンプ/技術署名のため、登記利用可否の判定対象外です。" }
           : pdfVerdict(uniqueMatches);
         const signerInfo = signerIdentity(sig, certs);
         const signer = signerInfo.name;
@@ -2381,6 +2420,12 @@
           title: "文書の整合性を未確認",
           text: "署名対象部分の整合性を確認できませんでした。"
         };
+        const displayValidity = kind.type === "timestamp"
+          ? "判定対象外（タイムスタンプ）"
+          : signatureValiditySummary(integrity, certificateValidity);
+        const excludedBanner = kind.type === "timestamp"
+          ? '<div class="pdf-excluded-banner"><strong>登記利用可否の判定対象外</strong><span>これは本人の電子署名ではなく、時刻を証明するためのタイムスタンプ／技術署名です。</span></div>'
+          : "";
         const checks = [
           issuerCheckForMatches(uniqueMatches, kind),
           integrity,
@@ -2414,13 +2459,14 @@
           : "";
 
         return `
-          <article class="pdf-signature">
+          <article class="pdf-signature${kind.type === "timestamp" ? " excluded" : ""}">
             <h3>署名 ${index + 1}</h3>
+            ${excludedBanner}
             ${checksHtml}
             <div class="pdf-keyline">
               <div><b>署名の種類:</b> ${escapeHtml(kind.label)}</div>
               <div><b>署名者:</b> ${escapeHtml(signer)}</div>
-              <div><b>有効性:</b> ${escapeHtml(signatureValiditySummary(integrity, certificateValidity))}</div>
+              <div><b>有効性:</b> ${escapeHtml(displayValidity)}</div>
               <div><b>署名日時:</b> ${escapeHtml(sig.signingDate ? formatDateTime(sig.signingDate) : (sig.signingDateRaw || "不明"))}</div>
             </div>
             ${caution ? `<div class="pdf-hint">${escapeHtml(caution)}</div>` : ""}
