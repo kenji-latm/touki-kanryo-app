@@ -618,7 +618,7 @@
     }
     .pdf-check-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin: 14px 0 16px;
     }
@@ -821,7 +821,7 @@
       <div class="pdf-head">
         <div>
           <h2>署名付きPDFチェック β</h2>
-          <p>PDF内の署名情報から、署名者・証明書の発行者・有効期間を読み取り、法務省掲載一覧と照合します。</p>
+          <p>PDF内の署名情報から、署名者・証明書の発行者・有効期間・文書の整合性を確認し、法務省掲載一覧と照合します。</p>
         </div>
         <span class="beta-pill">事前確認</span>
       </div>
@@ -832,7 +832,7 @@
           <span>ファイルはブラウザ内で処理します</span>
         </span>
       </label>
-      <div id="pdfStatus" class="pdf-hint">署名検証・失効確認の最終判定は、登記・供託オンライン申請システム側で行われます。</div>
+      <div id="pdfStatus" class="pdf-hint">「有効候補」は文書の整合性と証明書の有効期間による事前確認です。失効・信頼チェーンを含む最終判定は、Adobe Acrobat等でも確認してください。</div>
       <div id="pdfResults" class="pdf-results" aria-live="polite"></div>
     </section>
     <section id="summary" class="summary idle" aria-live="polite" hidden></section>
@@ -1918,6 +1918,98 @@
       return uniqueCertificates(certs);
     }
 
+    function findDescendantOctetString(bytes, node) {
+      if (node.cls === 0 && node.tag === 4) return bytes.slice(node.valueStart, node.valueEnd);
+      for (const child of node.children || []) {
+        const found = findDescendantOctetString(bytes, child);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function findCmsMessageDigest(bytes, node) {
+      if (node.cls === 0 && node.tag === 16 && node.children?.length >= 2) {
+        const oidNode = node.children[0];
+        if (oidNode.cls === 0 && oidNode.tag === 6 && decodeOid(bytes, oidNode) === "1.2.840.113549.1.9.4") {
+          return findDescendantOctetString(bytes, node.children[1]);
+        }
+      }
+      for (const child of node.children || []) {
+        const found = findCmsMessageDigest(bytes, child);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function digestAlgorithmForLength(length) {
+      return { 20: "SHA-1", 32: "SHA-256", 48: "SHA-384", 64: "SHA-512" }[length] || "";
+    }
+
+    function signedPdfBytes(bytes, byteRange) {
+      if (!Array.isArray(byteRange) || byteRange.length < 4 || byteRange.length % 2 !== 0) return null;
+      const ranges = [];
+      let total = 0;
+      let previousEnd = 0;
+      for (let i = 0; i < byteRange.length; i += 2) {
+        const start = byteRange[i];
+        const length = byteRange[i + 1];
+        const end = start + length;
+        if (!Number.isInteger(start) || !Number.isInteger(length) || start < previousEnd || length < 0 || end > bytes.length) return null;
+        ranges.push(bytes.subarray(start, end));
+        total += length;
+        previousEnd = end;
+      }
+      const output = new Uint8Array(total);
+      let offset = 0;
+      for (const range of ranges) {
+        output.set(range, offset);
+        offset += range.length;
+      }
+      return { bytes: output, coversWholeRevision: previousEnd === bytes.length };
+    }
+
+    function equalBytes(a, b) {
+      if (!a || !b || a.length !== b.length) return false;
+      let difference = 0;
+      for (let i = 0; i < a.length; i += 1) difference |= a[i] ^ b[i];
+      return difference === 0;
+    }
+
+    async function integrityCheckForSignature(pdfBytes, sig) {
+      if (!sig.contentsBytes?.length) {
+        return { state: "warn", label: "要確認", title: "署名データを読めません", text: "PDF内の署名データを抽出できませんでした。" };
+      }
+      let expectedDigest;
+      try {
+        const root = parseAsn1(sig.contentsBytes);
+        expectedDigest = findCmsMessageDigest(sig.contentsBytes, root);
+      } catch {}
+      if (!expectedDigest) {
+        return { state: "warn", label: "要確認", title: "文書の整合性を判定できません", text: "この署名形式から文書ダイジェストを読み取れませんでした。Adobe Acrobat等でも確認してください。" };
+      }
+      const algorithm = digestAlgorithmForLength(expectedDigest.length);
+      const signed = signedPdfBytes(pdfBytes, sig.byteRange);
+      if (!algorithm || !signed || !globalThis.crypto?.subtle) {
+        return { state: "warn", label: "要確認", title: "文書の整合性を判定できません", text: "ブラウザでこの署名形式の整合性を確認できませんでした。Adobe Acrobat等でも確認してください。" };
+      }
+      try {
+        const actualDigest = new Uint8Array(await globalThis.crypto.subtle.digest(algorithm, signed.bytes));
+        if (!equalBytes(actualDigest, expectedDigest)) {
+          return { state: "no", label: "NG", title: "署名データと文書が一致しません", text: "署名対象部分のダイジェストが一致しません。署名後の変更または読取不良の可能性があります。" };
+        }
+        return {
+          state: "ok",
+          label: "OK候補",
+          title: "署名対象部分は変更なし",
+          text: signed.coversWholeRevision
+            ? "署名対象部分と署名データのダイジェストが一致しました。"
+            : "署名対象部分は一致しています。この署名の後に別の署名や追記が追加されています。"
+        };
+      } catch {
+        return { state: "warn", label: "要確認", title: "文書の整合性を判定できません", text: "ブラウザでのダイジェスト照合に失敗しました。Adobe Acrobat等でも確認してください。" };
+      }
+    }
+
     function formatDateTime(date) {
       if (!date || Number.isNaN(date.getTime())) return "不明";
       return new Intl.DateTimeFormat("ja-JP", {
@@ -2090,19 +2182,39 @@
       return value;
     }
 
+    function signerNameFromReason(reason) {
+      const text = String(reason || "").replace(/\s+/g, " ").trim();
+      if (!text) return "";
+      const byMatch = text.match(/^(.+?)\s*によって(?:署名|証明書入力|承認|合意|作成|送信|$)/);
+      const authenticatedMatch = text.match(/^(.+?)\s*[（(][^()（）]*@[^()（）]*[)）]\s*[（(](?:Eメール|メール|SMS|アクセスコード)[^()（）]*認証[^()（）]*[)）]/i);
+      let candidate = (byMatch?.[1] || authenticatedMatch?.[1] || "").trim();
+      if (!candidate) return "";
+      candidate = candidate
+        .replace(/\s*[（(](?:Eメール|メール|SMS|アクセスコード)[^()（）]*認証[^()（）]*[)）]\s*$/i, "")
+        .replace(/\s*[（(][^()（）]*@[^()（）]*[)）]\s*$/i, "")
+        .trim();
+      return humanReadableSigner(candidate);
+    }
+
+    function signerIdentity(sig, certs) {
+      const reasonName = signerNameFromReason(sig.reason);
+      if (reasonName) return { name: reasonName, source: "署名のプロパティ（理由欄）" };
+      const pdfName = humanReadableSigner(sig.signerNamePdf);
+      if (pdfName) return { name: pdfName, source: "PDF署名名" };
+      for (const cert of certs) {
+        const cn = humanReadableSigner(cert.subject?.cn);
+        if (cn) return { name: cn, source: "電子証明書の主体名" };
+      }
+      return { name: "PDF署名からは個人名を特定できません", source: "特定不可" };
+    }
+
     function certificateSubjectSummary(certs) {
       const subjects = certs.map((cert) => cert.subject?.text || cert.subject?.cn || cert.subject?.o).filter(Boolean);
       return subjects.length ? subjects.join(" / ") : "不明";
     }
 
     function signerCandidate(sig, certs) {
-      const pdfName = humanReadableSigner(sig.signerNamePdf);
-      if (pdfName) return pdfName;
-      for (const cert of certs) {
-        const cn = humanReadableSigner(cert.subject?.cn);
-        if (cn) return cn;
-      }
-      return "PDF署名からは個人名を特定できません";
+      return signerIdentity(sig, certs).name;
     }
 
     function signerCaution(sig, certs) {
@@ -2154,6 +2266,12 @@
         title: "有効期間を一部読めません",
         text: `${detail}。失効確認まではこの画面では行っていません。`
       };
+    }
+
+    function signatureValiditySummary(integrity, certificateValidity) {
+      if (integrity.state === "no" || certificateValidity.state === "no") return "要確認（不一致または有効期間外）";
+      if (integrity.state === "ok" && certificateValidity.state === "ok") return "有効候補（文書整合・証明書期間内）";
+      return "一部未確認";
     }
 
     function issuerCheckForMatches(matches, kind) {
@@ -2250,14 +2368,23 @@
         const verdict = kind.type === "timestamp"
           ? { state: "warn", text: "タイムスタンプ/技術署名のため、登記利用可否の主判定対象外です。" }
           : pdfVerdict(uniqueMatches);
-        const signer = signerCandidate(sig, certs);
+        const signerInfo = signerIdentity(sig, certs);
+        const signer = signerInfo.name;
         const caution = signerCaution(sig, certs);
         const pdfNameInfo = sig.signerNamePdf
           ? `${sig.signerNamePdf}${isTechnicalSignerName(sig.signerNamePdf) ? "（技術情報の可能性）" : ""}`
           : "不明";
+        const certificateValidity = validityCheckForCerts(certs, referenceDate);
+        const integrity = sig.integrityCheck || {
+          state: "warn",
+          label: "要確認",
+          title: "文書の整合性を未確認",
+          text: "署名対象部分の整合性を確認できませんでした。"
+        };
         const checks = [
           issuerCheckForMatches(uniqueMatches, kind),
-          validityCheckForCerts(certs, referenceDate),
+          integrity,
+          certificateValidity,
           authorityCheckForSignature(sig, certs, kind)
         ];
         const checksHtml = `<div class="pdf-check-grid">${checks.map(renderCheckCard).join("")}</div>`;
@@ -2292,7 +2419,8 @@
             ${checksHtml}
             <div class="pdf-keyline">
               <div><b>署名の種類:</b> ${escapeHtml(kind.label)}</div>
-              <div><b>署名者名候補:</b> ${escapeHtml(signer)}</div>
+              <div><b>署名者:</b> ${escapeHtml(signer)}</div>
+              <div><b>有効性:</b> ${escapeHtml(signatureValiditySummary(integrity, certificateValidity))}</div>
               <div><b>署名日時:</b> ${escapeHtml(sig.signingDate ? formatDateTime(sig.signingDate) : (sig.signingDateRaw || "不明"))}</div>
             </div>
             ${caution ? `<div class="pdf-hint">${escapeHtml(caution)}</div>` : ""}
@@ -2301,6 +2429,8 @@
               <div class="pdf-verdict ${verdict.state}">${escapeHtml(verdict.text)}</div>
               <dl class="pdf-meta-grid">
                 <dt>PDF署名名</dt><dd>${escapeHtml(pdfNameInfo)}</dd>
+                <dt>署名者の表示根拠</dt><dd>${escapeHtml(signerInfo.source)}</dd>
+                <dt>署名の理由</dt><dd>${escapeHtml(sig.reason || "不明")}</dd>
                 <dt>証明書主体</dt><dd>${escapeHtml(certificateSubjectSummary(certs))}</dd>
                 <dt>形式</dt><dd>${escapeHtml([sig.filter, sig.subFilter].filter(Boolean).join(" / ") || "不明")}</dd>
                 <dt>署名種別メモ</dt><dd>${escapeHtml(kind.description)}</dd>
@@ -2320,10 +2450,11 @@
       pdfStatus.textContent = `${file.name} を確認しています。`;
       try {
         const bytes = new Uint8Array(await file.arrayBuffer());
-        const signatures = extractPdfSignatures(bytes).map((signature) => ({
+        const signatures = await Promise.all(extractPdfSignatures(bytes).map(async (signature) => ({
           ...signature,
-          certificates: extractCertificatesFromCms(signature.contentsBytes)
-        }));
+          certificates: extractCertificatesFromCms(signature.contentsBytes),
+          integrityCheck: await integrityCheckForSignature(bytes, signature)
+        })));
         renderPdfResults(file, signatures);
       } catch (error) {
         pdfStatus.textContent = "PDFの読取中にエラーが発生しました。別のPDFで確認してください。";
