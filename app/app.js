@@ -4,6 +4,7 @@
   const STORAGE_MODE_KEY = "touki_storage_mode_v1";
   const SHARED_OFFICE_KEY = "touki_shared_office_v1";
   const TEAM_MODE_KEY = "touki_team_mode_v1";
+  const FAVORITES_KEY = "touki_favorites_v1";
   const SUPABASE_CDN = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
   const DEFAULT_JURISDICTION = "tokyo";
   const DEFAULT_TYPE = "realEstate";
@@ -119,6 +120,28 @@
   const officesFor = (jurisdictionId, typeId) =>
     META.officesByJurisdiction?.[jurisdictionId]?.[typeId] ||
     Object.keys(DB[jurisdictionId]?.[typeId] || {}).sort();
+
+  function normalizeFavorite(item) {
+    if (!item || typeof item !== "object") return null;
+    const jurisdiction = typeof item.jurisdiction === "string" ? item.jurisdiction : "";
+    const registrationType = typeof item.registrationType === "string" ? item.registrationType : "";
+    const office = typeof item.office === "string" ? item.office.trim() : "";
+    if (!jurisdiction || !registrationType || !office) return null;
+    return { jurisdiction, registrationType, office };
+  }
+
+  function loadFavorites() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(FAVORITES_KEY)) || [];
+      return Array.isArray(raw) ? raw.map(normalizeFavorite).filter(Boolean) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  const favoriteKey = (item) => [item.jurisdiction, item.registrationType, item.office].join("\u001f");
+  let favorites = loadFavorites();
+  const saveFavorites = () => localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
 
   const lookupDue = (jurisdictionId, typeId, office, applyISO) =>
     (DB[jurisdictionId] && DB[jurisdictionId][typeId] && DB[jurisdictionId][typeId][office] &&
@@ -387,7 +410,6 @@
         shared.error = "このログインユーザーは、まだ事務所に紐づいていません。管理者が office_members に追加してください。";
       } else {
         await loadSharedCases();
-        await refreshSavedDueDates();
       }
     } finally {
       shared.loading = false;
@@ -493,7 +515,6 @@
       shared.error = "";
       renderStoragePanel();
       await loadSharedCases();
-      await refreshSavedDueDates();
       shared.loading = false;
       renderStoragePanel();
       render();
@@ -534,26 +555,6 @@
     const client = await ensureSharedClient();
     const { error } = await client.from("office_cases").delete().eq("id", id).eq("office_id", shared.officeId);
     if (error) throw error;
-  }
-
-  async function refreshSavedDueDates() {
-    let changed = false;
-    const sharedUpdates = [];
-    for (const c of cases) {
-      const latest = lookupDue(c.jurisdiction || DEFAULT_JURISDICTION, c.registrationType || DEFAULT_TYPE, c.office, c.applyDate);
-      if (latest && latest !== c.dueDate) {
-        c.dueDate = latest;
-        c.updatedAt = new Date().toISOString();
-        changed = true;
-        if (isSharedReady()) sharedUpdates.push({ id: c.id, due_date: latest });
-      }
-    }
-    if (!changed) return;
-    if (isSharedReady()) {
-      await Promise.all(sharedUpdates.map((item) => updateSharedCase(item.id, { due_date: item.due_date })));
-    } else if (storageMode === "local") {
-      saveLocal(cases);
-    }
   }
 
   function renderStoragePanel() {
@@ -649,7 +650,7 @@
     if (!due) {
       box.className = "result result--warn";
       dateEl.textContent = "未掲載";
-      hintEl.textContent = `この申請日は現在の掲載表・過去取得済みデータのどちらにもありません（休日・対象期間外など）。保存すると後日データ更新で再判定できます。${saveSuffix}`;
+      hintEl.textContent = `この申請日は現在の掲載表・過去取得済みデータのどちらにもありません（休日・対象期間外など）。保存した場合は「未掲載」の状態を保持し、後日掲載された値とは区別して表示します。${saveSuffix}`;
       return;
     }
 
@@ -729,17 +730,30 @@
         </div>
         <div class="item__office"></div>
         <div class="item__row">申請日 <span class="apply"></span></div>
-        <div class="item__due">完了予定日 <b class="due"></b><span class="item__source"></span></div>
+        <div class="item__due">保存時の完了予定日 <b class="due"></b><span class="item__source"></span></div>
+        <div class="item__latest" hidden></div>
         <div class="item__actions"></div>`;
       el.querySelector(".item__label").textContent = c.label && c.label.trim() ? c.label : "（メモなし）";
       el.querySelector(".item__office").textContent = `${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)} ｜ ${typeLabel(c.registrationType || DEFAULT_TYPE)} ｜ ${c.office}`;
       el.querySelector(".apply").textContent = fmtJP(c.applyDate);
       el.querySelector(".due").textContent = c.dueDate ? fmtJP(c.dueDate) : "未掲載";
       const sourceEl = el.querySelector(".item__source");
-      const status = c.dueDate
-        ? lookupSourceStatus(c.jurisdiction || DEFAULT_JURISDICTION, c.registrationType || DEFAULT_TYPE, c.office, c.applyDate)
-        : "missing";
-      sourceEl.textContent = sourceText(status);
+      sourceEl.textContent = "保存時点";
+      const latestDue = lookupDue(c.jurisdiction || DEFAULT_JURISDICTION, c.registrationType || DEFAULT_TYPE, c.office, c.applyDate);
+      if (latestDue !== c.dueDate && (latestDue || c.dueDate)) {
+        const latestEl = el.querySelector(".item__latest");
+        latestEl.hidden = false;
+        latestEl.textContent = latestDue ? "現在の掲載 " : "現在の掲載では確認できません";
+        if (latestDue) {
+          const latestDate = document.createElement("b");
+          latestDate.textContent = fmtJP(latestDue);
+          latestEl.appendChild(latestDate);
+          const latestNote = document.createElement("span");
+          latestNote.className = "item__latest-note";
+          latestNote.textContent = "保存時から変更あり";
+          latestEl.appendChild(latestNote);
+        }
+      }
       const actions = el.querySelector(".item__actions");
       actions.appendChild(c.status === "done"
         ? mkBtn("未完了に戻す", "mini mini--undo", () => toggleDone(c.id, false))
@@ -852,7 +866,64 @@
     $("f-label").placeholder = selectedType() === "commercial"
       ? "メモ（任意）例：○○株式会社・役員変更"
       : "メモ（任意）例：渋谷・所有権移転";
+    renderFavorites();
     updateResult();
+  }
+
+  function currentFavorite() {
+    const office = $("f-office")?.value || "";
+    if (!office) return null;
+    return {
+      jurisdiction: selectedJurisdiction(),
+      registrationType: selectedType(),
+      office,
+    };
+  }
+
+  function renderFavorites() {
+    const panel = $("favorites-panel");
+    const shortcuts = $("favorite-shortcuts");
+    const toggle = $("favorite-toggle");
+    if (!panel || !shortcuts || !toggle) return;
+
+    shortcuts.replaceChildren();
+    panel.hidden = favorites.length === 0;
+    for (const favorite of favorites) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "favorite-chip";
+      button.textContent = `★ ${jurisdictionLabel(favorite.jurisdiction)}｜${typeLabel(favorite.registrationType)}｜${favorite.office}`;
+      button.title = button.textContent;
+      button.addEventListener("click", () => applyFavorite(favorite));
+      shortcuts.appendChild(button);
+    }
+
+    const current = currentFavorite();
+    const active = Boolean(current && favorites.some((item) => favoriteKey(item) === favoriteKey(current)));
+    toggle.disabled = !current;
+    toggle.classList.toggle("is-active", active);
+    toggle.setAttribute("aria-pressed", active ? "true" : "false");
+    toggle.textContent = active ? "★ お気に入り済み（押すと解除）" : "☆ この組み合わせをお気に入り";
+  }
+
+  function applyFavorite(favorite) {
+    populateJurisdictions(favorite.jurisdiction);
+    const typeInput = [...document.querySelectorAll('input[name="registration-type"]')]
+      .find((input) => input.value === favorite.registrationType);
+    if (typeInput) typeInput.checked = true;
+    populateOffices(favorite.office);
+    updateControls();
+  }
+
+  function toggleFavorite() {
+    const current = currentFavorite();
+    if (!current) return;
+    const key = favoriteKey(current);
+    const index = favorites.findIndex((item) => favoriteKey(item) === key);
+    if (index >= 0) favorites.splice(index, 1);
+    else favorites.push(current);
+    saveFavorites();
+    renderFavorites();
   }
 
   function updateDataMeta() {
@@ -868,6 +939,7 @@
 
   async function init() {
     activateSharedFeatureFromUrl();
+    $("f-apply").value = todayISO();
     populateJurisdictions();
     updateControls();
     updateDataMeta();
@@ -875,8 +947,12 @@
 
     $("f-jurisdiction").addEventListener("change", updateControls);
     document.querySelectorAll('input[name="registration-type"]').forEach((input) => input.addEventListener("change", updateControls));
-    $("f-office").addEventListener("change", updateResult);
+    $("f-office").addEventListener("change", () => {
+      renderFavorites();
+      updateResult();
+    });
     $("f-apply").addEventListener("change", updateResult);
+    $("favorite-toggle").addEventListener("click", toggleFavorite);
     $("f-add").addEventListener("click", addCase);
     $("show-done").addEventListener("change", render);
     $("alert-banner").addEventListener("click", () => {
@@ -901,7 +977,6 @@
       populateOffices(selectedOffice);
       updateControls();
       updateDataMeta();
-      await refreshSavedDueDates();
       render();
     }
   }
@@ -915,7 +990,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260625-office1", { updateViaCache: "none" })
+        .register("./sw.js?v=20260629-favorites1", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });
