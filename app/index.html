@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="登記完了予定" />
   <title>登記完了予定日</title>
-  <link rel="manifest" href="manifest.webmanifest?v=20260629-favorites1" />
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260629-favorites1" />
-  <link rel="icon" href="icon.svg?v=20260629-favorites1" />
-  <link rel="stylesheet" href="styles.css?v=20260629-favorites1" />
+  <link rel="manifest" href="manifest.webmanifest?v=20260629-favorites2" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260629-favorites2" />
+  <link rel="icon" href="icon.svg?v=20260629-favorites2" />
+  <link rel="stylesheet" href="styles.css?v=20260629-favorites2" />
   <!-- file:// でも動くようデータはJSで読み込む -->
   <script src="data/kanryo.js"></script>
 </head>
@@ -30,7 +30,7 @@
     <!-- 完了予定日チェッカー（主役） -->
     <section class="checker" aria-label="完了予定日を調べる">
       <div id="favorites-panel" class="favorites-panel" hidden>
-        <div class="favorites-panel__label">お気に入り</div>
+        <div class="favorites-panel__label">よく使う組み合わせ</div>
         <div id="favorite-shortcuts" class="favorite-shortcuts"></div>
       </div>
 
@@ -57,7 +57,7 @@
         <div class="field">
           <label for="f-office" class="field__label"><span class="step">3</span>管轄（本局・支局・出張所）</label>
           <select id="f-office"></select>
-          <button id="favorite-toggle" class="favorite-toggle" type="button" aria-pressed="false" disabled>☆ この組み合わせをお気に入り</button>
+          <button id="favorite-toggle" class="favorite-toggle" type="button" aria-pressed="false" disabled>☆ よく使う組み合わせに追加</button>
         </div>
 
         <label class="field">
@@ -129,7 +129,7 @@
     <p class="footer__note">対象：掲載データのある法務局・不動産（権利）登記／商業・法人登記。保存案件は、保存時点の完了予定日を保持します。完了予定日は目安で、不備・実地調査・事前通知等により翌日以降になる場合があります（出典：各法務局）。</p>
   </footer>
 
-  <script src="shared-config.js?v=20260629-favorites1"></script>
-  <script src="app.js?v=20260629-favorites1"></script>
+  <script src="shared-config.js?v=20260629-favorites2"></script>
+  <script src="app.js?v=20260629-favorites2"></script>
 </body>
 </html>

@@ -848,16 +848,20 @@
     const offices = officesFor(jurisdictionId, typeId);
     const select = $("f-office");
     select.innerHTML = "";
-    const def = document.createElement("option");
-    def.value = "";
-    def.textContent = offices.length ? "選択してください" : "掲載データなし";
-    select.appendChild(def);
+    if (offices.length !== 1) {
+      const def = document.createElement("option");
+      def.value = "";
+      def.textContent = offices.length ? "選択してください" : "掲載データなし";
+      select.appendChild(def);
+    }
     for (const office of offices) {
       const option = document.createElement("option");
       option.value = office; option.textContent = office;
       select.appendChild(option);
     }
-    if (offices.includes(selected)) select.value = selected;
+    select.value = offices.includes(selected)
+      ? selected
+      : offices.length === 1 ? offices[0] : "";
   }
 
   function updateControls() {
@@ -892,8 +896,20 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "favorite-chip";
-      button.textContent = `★ ${jurisdictionLabel(favorite.jurisdiction)}｜${typeLabel(favorite.registrationType)}｜${favorite.office}`;
-      button.title = button.textContent;
+      button.title = `${jurisdictionLabel(favorite.jurisdiction)}｜${typeLabel(favorite.registrationType)}｜${favorite.office}`;
+      const star = document.createElement("span");
+      star.className = "favorite-chip__star";
+      star.textContent = "★";
+      const text = document.createElement("span");
+      text.className = "favorite-chip__text";
+      const office = document.createElement("span");
+      office.className = "favorite-chip__office";
+      office.textContent = favorite.office;
+      const meta = document.createElement("span");
+      meta.className = "favorite-chip__meta";
+      meta.textContent = `${jurisdictionLabel(favorite.jurisdiction)}・${typeLabel(favorite.registrationType)}`;
+      text.append(office, meta);
+      button.append(star, text);
       button.addEventListener("click", () => applyFavorite(favorite));
       shortcuts.appendChild(button);
     }
@@ -903,7 +919,7 @@
     toggle.disabled = !current;
     toggle.classList.toggle("is-active", active);
     toggle.setAttribute("aria-pressed", active ? "true" : "false");
-    toggle.textContent = active ? "★ お気に入り済み（押すと解除）" : "☆ この組み合わせをお気に入り";
+    toggle.textContent = active ? "★ お気に入り登録済み（押すと解除）" : "☆ よく使う組み合わせに追加";
   }
 
   function applyFavorite(favorite) {
@@ -990,7 +1006,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260629-favorites1", { updateViaCache: "none" })
+        .register("./sw.js?v=20260629-favorites2", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });
