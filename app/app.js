@@ -5,6 +5,10 @@
   const SHARED_OFFICE_KEY = "touki_shared_office_v1";
   const TEAM_MODE_KEY = "touki_team_mode_v1";
   const FAVORITES_KEY = "touki_favorites_v1";
+  const APP_CONFIG = window.TOUKI_APP_CONFIG && typeof window.TOUKI_APP_CONFIG === "object"
+    ? window.TOUKI_APP_CONFIG
+    : {};
+  const FORCE_LOCAL_ONLY = APP_CONFIG.forceLocalOnly === true;
   const SUPABASE_CDN = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
   const DEFAULT_JURISDICTION = "tokyo";
   const DEFAULT_TYPE = "realEstate";
@@ -173,9 +177,12 @@
   }
 
   async function fetchLatestData() {
-    if (!location.protocol.startsWith("http")) return null;
+    const dataJsonUrl = typeof APP_CONFIG.dataJsonUrl === "string" && APP_CONFIG.dataJsonUrl.trim()
+      ? APP_CONFIG.dataJsonUrl.trim()
+      : "";
+    if (!dataJsonUrl && !location.protocol.startsWith("http")) return null;
     try {
-      const url = new URL("data/kanryo.json", location.href);
+      const url = dataJsonUrl ? new URL(dataJsonUrl, location.href) : new URL("data/kanryo.json", location.href);
       const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const meta = await res.json();
@@ -220,7 +227,10 @@
   };
   const saveLocal = (list) => localStorage.setItem(STORE_KEY, JSON.stringify(list));
 
-  let storageMode = localStorage.getItem(STORAGE_MODE_KEY) === "shared" ? "shared" : "local";
+  if (FORCE_LOCAL_ONLY && localStorage.getItem(STORAGE_MODE_KEY) === "shared") {
+    localStorage.setItem(STORAGE_MODE_KEY, "local");
+  }
+  let storageMode = !FORCE_LOCAL_ONLY && localStorage.getItem(STORAGE_MODE_KEY) === "shared" ? "shared" : "local";
   let cases = loadLocal();
   const shared = {
     client: null,
@@ -258,6 +268,7 @@
   }
 
   function isSharedFeatureVisible() {
+    if (FORCE_LOCAL_ONLY) return false;
     const cfg = getSharedConfig();
     if (!cfg.enabled) return false;
     return cfg.alwaysShow || localStorage.getItem(TEAM_MODE_KEY) === "1" || storageMode === "shared";

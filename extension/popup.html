@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>登記完了予定日</title>
+  <link rel="icon" href="icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="extension.css" />
+  <script src="data/kanryo.js"></script>
+  <script src="extension-config.js"></script>
+</head>
+<body class="extension-popup">
+  <header class="appbar">
+    <div class="appbar__inner">
+      <span class="appbar__logo" aria-hidden="true">✓</span>
+      <h1 class="appbar__title">登記完了予定日</h1>
+    </div>
+  </header>
+
+  <main class="container">
+    <button id="alert-banner" class="alert-banner" type="button" hidden></button>
+
+    <section class="extension-privacy" aria-label="保存先について">
+      <strong class="extension-privacy__title">このChrome内だけに保存します</strong>
+      <p class="extension-privacy__text">案件メモは外部サーバーや事務所共有DBへ送信されません。守秘のため、依頼者名・物件名などの特定情報は入れない運用がおすすめです。</p>
+    </section>
+
+    <div class="extension-quick-actions" aria-label="表示モード">
+      <button id="open-full-page" class="extension-open-full" type="button">大きく開く</button>
+      <span class="extension-open-full__hint">保存した案件一覧を広いタブで確認できます。</span>
+    </div>
+
+    <section class="checker" aria-label="完了予定日を調べる">
+      <div id="favorites-panel" class="favorites-panel" hidden>
+        <div class="favorites-panel__label">よく使う組み合わせ</div>
+        <div id="favorite-shortcuts" class="favorite-shortcuts"></div>
+      </div>
+
+      <div class="checker__inputs">
+        <label class="field">
+          <span class="field__label"><span class="step">1</span>法務局</span>
+          <select id="f-jurisdiction"></select>
+        </label>
+
+        <fieldset class="field type-field">
+          <legend class="field__label"><span class="step">2</span>登記種別</legend>
+          <div class="type-switch">
+            <label>
+              <input type="radio" name="registration-type" value="realEstate" checked />
+              <span>不動産（権利）</span>
+            </label>
+            <label>
+              <input type="radio" name="registration-type" value="commercial" />
+              <span>商業・法人</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="f-office" class="field__label"><span class="step">3</span>管轄（本局・支局・出張所）</label>
+          <select id="f-office"></select>
+          <button id="favorite-toggle" class="favorite-toggle" type="button" aria-pressed="false" disabled>☆ よく使う組み合わせに追加</button>
+        </div>
+
+        <label class="field">
+          <span class="field__label"><span class="step">4</span>申請日</span>
+          <input id="f-apply" type="date" />
+        </label>
+      </div>
+
+      <div id="result" class="result result--empty" aria-live="polite">
+        <div class="result__caption">完了予定日</div>
+        <div class="result__date" id="result-date">— — —</div>
+        <div class="result__hint" id="result-hint">↑ 法務局・登記種別・管轄・申請日を選ぶと、ここに自動表示されます</div>
+      </div>
+
+      <div class="save-row">
+        <input id="f-label" type="text" placeholder="メモ（任意）例：A案件・所有権移転" autocomplete="off" />
+        <button id="f-add" class="btn btn--primary" type="button" disabled>一覧に保存</button>
+      </div>
+    </section>
+
+    <section aria-label="保存した案件">
+      <div class="list-head">
+        <h2 id="list-title" class="list-head__title">保存した案件</h2>
+        <label class="toggle">
+          <input id="show-done" type="checkbox" />
+          <span>完了も表示</span>
+        </label>
+      </div>
+      <div id="list" class="list"></div>
+      <p id="empty" class="empty">保存した案件はここに並びます。予定日を過ぎた案件だけ、静かにお知らせします。</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p id="data-meta"></p>
+    <p class="footer__note">対象：掲載データのある法務局・不動産（権利）登記／商業・法人登記。保存案件は、保存時点の完了予定日を保持します。完了予定日は目安で、不備・実地調査・事前通知等により翌日以降になる場合があります（出典：各法務局）。</p>
+  </footer>
+
+  <script src="app.js"></script>
+  <script src="extension-popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "登記完了予定日",
+  "description": "登記完了予定日を確認し、案件メモをこのChrome内だけに保存します。事務所共有機能はありません。",
+  "version": "0.2.0",
+  "action": {
+    "default_title": "登記完了予定日",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "host_permissions": [
+    "https://tools.ishimoto-legal.com/*"
+  ]
+}

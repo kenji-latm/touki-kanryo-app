@@ -1,0 +1,152 @@
+body.extension-popup {
+  width: 420px;
+  min-height: 580px;
+  max-height: 720px;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--background);
+  min-width: 0;
+}
+
+.appbar {
+  position: sticky;
+}
+
+.appbar__inner {
+  max-width: none;
+  padding: 12px 14px 11px;
+}
+
+.container {
+  max-width: none;
+  padding: 12px 12px 8px;
+}
+
+.extension-privacy {
+  margin: 0 0 12px;
+  padding: 12px 13px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(60, 60, 67, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.extension-privacy__title {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.extension-privacy__text {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.extension-quick-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  margin: 0 0 12px;
+}
+
+.extension-open-full {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 14px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(60, 60, 67, 0.14);
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.extension-open-full:hover {
+  background: #fff;
+}
+
+.extension-open-full:active {
+  transform: scale(0.99);
+}
+
+.extension-open-full__hint {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.checker {
+  margin-bottom: 16px;
+  padding: 14px;
+  border-radius: 18px;
+}
+
+.checker__inputs {
+  gap: 12px;
+}
+
+.field__label {
+  margin-bottom: 5px;
+}
+
+.type-switch {
+  grid-template-columns: 1fr 1fr;
+}
+
+.result {
+  margin-top: 14px;
+  padding: 14px 12px 13px;
+  border-radius: 17px;
+}
+
+.result__date {
+  font-size: 32px;
+}
+
+.save-row {
+  flex-direction: column;
+}
+
+.save-row input,
+.btn {
+  width: 100%;
+}
+
+.list-head {
+  margin-top: 0;
+}
+
+.item {
+  padding: 13px;
+  border-radius: 16px;
+}
+
+.item__actions {
+  gap: 7px;
+}
+
+.footer {
+  max-width: none;
+  padding: 0 12px 12px;
+  font-size: 10.5px;
+}
+
+.footer__note {
+  line-height: 1.5;
+}
+
+@media (max-width: 390px) {
+  body.extension-popup {
+    width: 360px;
+  }
+}

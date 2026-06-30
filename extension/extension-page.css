@@ -1,0 +1,80 @@
+.extension-fullpage {
+  width: auto;
+  min-width: 0;
+  min-height: 100vh;
+  max-height: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.extension-fullpage .appbar__inner,
+.extension-fullpage .container,
+.extension-fullpage .footer {
+  max-width: 1080px;
+}
+
+.extension-fullpage .appbar__inner {
+  padding: 14px 20px 13px;
+}
+
+.extension-appbar-note {
+  margin-left: auto;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.extension-fullpage .container {
+  padding: 24px 20px 10px;
+}
+
+.extension-fullpage .extension-privacy {
+  margin-bottom: 18px;
+}
+
+.extension-page-grid {
+  display: grid;
+  grid-template-columns: minmax(330px, 430px) minmax(420px, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.extension-fullpage .checker {
+  position: sticky;
+  top: 74px;
+}
+
+.extension-list-panel {
+  min-width: 0;
+  padding: 18px;
+  background: var(--surface);
+  border: 1px solid rgba(60, 60, 67, 0.08);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.extension-list-panel .list-head {
+  margin-top: 0;
+}
+
+.extension-list-panel .list {
+  gap: 12px;
+}
+
+.extension-list-panel .item {
+  padding: 15px;
+}
+
+.extension-fullpage .footer {
+  padding: 2px 20px 22px;
+}
+
+@media (max-width: 860px) {
+  .extension-page-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .extension-fullpage .checker {
+    position: static;
+  }
+}

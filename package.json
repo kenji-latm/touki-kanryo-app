@@ -4,6 +4,7 @@
     "scrape": "node --use-system-ca scraper/scrape.mjs",
     "build:single": "node scraper/build-single.mjs",
     "build:zip": "node scraper/build-zip.mjs",
+    "build:extension": "node scraper/build-extension.mjs",
     "scrape:signature": "node --use-system-ca scraper/update-electronic-signature-from-moj.js"
   },
   "dependencies": {
