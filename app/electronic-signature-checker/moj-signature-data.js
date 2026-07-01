@@ -1,6 +1,6 @@
 // Generated from https://www.moj.go.jp/MINJI/minji60.html
-// Updated at 2026-06-30 14:17
-window.MOJ_SIGNATURE_DATA_UPDATED_AT = "2026-06-30 14:17";
+// Updated at 2026-07-01 14:54
+window.MOJ_SIGNATURE_DATA_UPDATED_AT = "2026-07-01 14:54";
 window.MOJ_SIGNATURE_OTHER_SERVICES = [
   {
     "name": "Adobe Acrobat Sign",
@@ -497,7 +497,7 @@ window.MOJ_SIGNATURE_OTHER_SERVICES = [
   },
   {
     "name": "ベクターサイン",
-    "provider": "株式会社ベクター",
+    "provider": "株式会社ベクターホールディングス",
     "certificates": [
       "GlobalSign GCC R6 AATL CA 2020",
       "GlobalSign GCC R45 AATL CA 2020",
@@ -516,29 +516,6 @@ window.MOJ_SIGNATURE_OTHER_SERVICES = [
     ],
     "published": "R3.9.6",
     "link": "https://biz.moneyforward.com/contract/",
-    "aliases": []
-  },
-  {
-    "name": "みんなの電子署名",
-    "provider": "株式会社ベクター",
-    "certificates": [
-      "GlobalSign GCC R6 AATL CA 2020",
-      "GlobalSign GCC R45 AATL CA 2020",
-      "（GMOグローバルサイン株式会社）"
-    ],
-    "published": "R5.10.18",
-    "link": "https://es.vector.co.jp/",
-    "aliases": []
-  },
-  {
-    "name": "リーテックスデジタル契約",
-    "provider": "リーテックス株式会社",
-    "certificates": [
-      "DIACERT Service",
-      "（三菱電機インフォメーションネットワーク株式会社）"
-    ],
-    "published": "R5.3.2",
-    "link": "https://le-techs.com/service/",
     "aliases": []
   },
   {
