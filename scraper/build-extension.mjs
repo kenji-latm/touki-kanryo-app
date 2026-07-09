@@ -159,6 +159,7 @@ for (const size of [16, 32, 48, 128]) {
 
 copyFromApp("app.js");
 copyFromApp("styles.css");
+copyFromApp("data/kanryo-integrity.js");
 copyFromApp("data/kanryo.js");
 copyFromApp("data/kanryo.json");
 

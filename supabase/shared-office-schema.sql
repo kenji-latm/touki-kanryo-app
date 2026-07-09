@@ -28,6 +28,9 @@ create table if not exists public.office_cases (
   registry_office text not null,
   apply_date date not null,
   due_date date,
+  data_generated_at timestamptz,
+  data_hash text,
+  data_source text not null default '',
   status text not null default 'active' check (status in ('active', 'done')),
   created_by uuid not null references auth.users(id),
   updated_by uuid references auth.users(id),
@@ -35,6 +38,11 @@ create table if not exists public.office_cases (
   updated_at timestamptz not null default now()
 );
 
+
+-- 既存DBへ後から反映する場合に備えた追加列
+alter table public.office_cases add column if not exists data_generated_at timestamptz;
+alter table public.office_cases add column if not exists data_hash text;
+alter table public.office_cases add column if not exists data_source text not null default '';
 create index if not exists office_cases_office_due_idx on public.office_cases (office_id, due_date, created_at desc);
 create index if not exists office_members_user_idx on public.office_members (user_id);
 

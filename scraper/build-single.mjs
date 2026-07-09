@@ -13,6 +13,7 @@ const read = (p) => fs.readFileSync(path.join(APP, p), "utf8");
 
 let html = read("index.html");
 const css = read("styles.css");
+const integrity = read("data/kanryo-integrity.js");
 const data = read("data/kanryo.js");
 const sharedConfig = read("shared-config.js");
 const app = read("app.js");
@@ -27,6 +28,12 @@ html = html
 html = html.replace(
   /<link rel="stylesheet" href="styles\.css(?:\?[^\"]+)?" \/>/i,
   `<style>\n${css}\n</style>`
+);
+
+// データ整合性 JS を埋め込み
+html = html.replace(
+  /<script src="data\/kanryo-integrity\.js"><\/script>/i,
+  `<script>\n${integrity}\n</script>`
 );
 
 // データ JS を埋め込み
@@ -54,6 +61,6 @@ const kb = Math.round(Buffer.byteLength(html, "utf8") / 1024);
 console.log(`出力: ${OUT}`);
 console.log(`サイズ: ${kb} KB（単一ファイル・file://でそのまま動作）`);
 // 取りこぼし確認
-for (const frag of ['href="styles.css', 'src="app.js', 'src="shared-config.js', 'src="data/kanryo.js']) {
+for (const frag of ['href="styles.css', 'src="app.js', 'src="shared-config.js', 'src="data/kanryo-integrity.js', 'src="data/kanryo.js']) {
   if (html.includes(frag)) console.warn("⚠ 未置換:", frag);
 }

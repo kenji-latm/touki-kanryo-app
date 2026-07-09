@@ -1,19 +1,20 @@
 // オフライン用キャッシュ（http(s)配信時のみ有効）。Phase 2bで通知(push)処理を追加予定。
 const CACHE_PREFIX = "touki-kanryo-";
-const CACHE = "touki-kanryo-v11-favorites2";
+const CACHE = "touki-kanryo-v13-disclaimer-integrity";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260629-favorites2",
-  "./app.js?v=20260629-favorites2",
-  "./shared-config.js?v=20260629-favorites2",
+  "./styles.css?v=20260709-disclaimer-integrity",
+  "./app.js?v=20260709-disclaimer-integrity",
+  "./shared-config.js?v=20260709-disclaimer-integrity",
+  "./data/kanryo-integrity.js",
   "./data/kanryo.js",
   "./data/kanryo.json",
-  "./manifest.webmanifest?v=20260629-favorites2",
-  "./apple-touch-icon.png?v=20260629-favorites2",
-  "./icon-192.png?v=20260629-favorites2",
-  "./icon-512.png?v=20260629-favorites2",
-  "./icon.svg?v=20260629-favorites2",
+  "./manifest.webmanifest?v=20260709-disclaimer-integrity",
+  "./apple-touch-icon.png?v=20260709-disclaimer-integrity",
+  "./icon-192.png?v=20260709-disclaimer-integrity",
+  "./icon-512.png?v=20260709-disclaimer-integrity",
+  "./icon.svg?v=20260709-disclaimer-integrity",
 ];
 
 self.addEventListener("install", (e) => {
@@ -35,7 +36,7 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
   const url = new URL(e.request.url);
-  const isData = /\/data\/kanryo\.(json|js)$/.test(url.pathname);
+  const isData = /\/data\/kanryo(?:-integrity)?\.(json|js)$/.test(url.pathname);
   const isPage = e.request.mode === "navigate";
 
   // 最新データはネットワーク優先。失敗時は最後にキャッシュできたデータへ戻る。

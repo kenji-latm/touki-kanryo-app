@@ -1,6 +1,7 @@
 // 登記完了予定日スクレイパ
 // 出力: ../app/data/kanryo.json / ../app/data/kanryo.js
 // 仕様: 申請日 -> 完了予定日。AM/PMは無視し、同一申請日の遅い方を採用。
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -8,6 +9,7 @@ import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUT = path.join(__dirname, "..", "app", "data", "kanryo.json");
+const INTEGRITY_OUT = path.join(__dirname, "..", "app", "data", "kanryo-integrity.js");
 
 const TYPES = [
   { id: "realEstate", label: "不動産（権利）" },
@@ -337,7 +339,8 @@ const JURISDICTIONS = [
     kind: "htmlSequentialOfficeTables",
     pageUrl: "https://houmukyoku.moj.go.jp/fukuoka/static/kanryoubi.htm",
     officeSequence: ["本局", "筑紫支局", "朝倉支局", "飯塚支局", "直方支局", "久留米支局", "柳川支局", "八女支局", "北九州支局", "行橋支局", "田川支局", "西新出張所", "粕屋出張所", "福間出張所", "八幡出張所"],
-    minimums: minimum(15, 100, 1, 20),
+    commercialOffices: ["本局", "北九州支局"],
+    minimums: minimum(15, 100, 2, 20),
   },
   {
     id: "nagasaki",
@@ -391,12 +394,30 @@ function dec(buf) {
   return new TextDecoder(encoding).decode(buf);
 }
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const REQUEST_DELAY_MS = (() => {
+  const value = Number.parseInt(process.env.TOUKI_SCRAPE_DELAY_MS || "1500", 10);
+  return Number.isFinite(value) && value >= 0 ? value : 1500;
+})();
+let lastRequestAt = 0;
+
+async function waitForPoliteInterval() {
+  const elapsed = Date.now() - lastRequestAt;
+  if (lastRequestAt && elapsed < REQUEST_DELAY_MS) {
+    await sleep(REQUEST_DELAY_MS - elapsed);
+  }
+  lastRequestAt = Date.now();
+}
 
 async function getBuf(url) {
   let lastError;
   for (let i = 1; i <= 3; i++) {
     try {
-      const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 touki-kanryo-app" } });
+      await waitForPoliteInterval();
+      const res = await fetch(url, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 touki-kanryo-app (+https://tools.ishimoto-legal.com/)",
+        },
+      });
       if (!res.ok) throw new Error(`${res.status} ${url}`);
       return Buffer.from(await res.arrayBuffer());
     } catch (e) {
@@ -1432,6 +1453,23 @@ function mergeWithHistory(currentData, previousOutput) {
   return { data: mergedData, stats };
 }
 
+function hashData(data) {
+  return crypto.createHash("sha256").update(JSON.stringify(data), "utf8").digest("hex");
+}
+
+function writeOutputFiles(out) {
+  fs.mkdirSync(path.dirname(OUT), { recursive: true });
+  fs.writeFileSync(OUT, JSON.stringify(out, null, 2), "utf8");
+  const JSOUT = OUT.replace(/\.json$/, ".js");
+  fs.writeFileSync(JSOUT, "window.KANRYO_DATA = " + JSON.stringify(out) + ";\n", "utf8");
+  const integrity = {
+    algorithm: "SHA-256",
+    sha256: hashData(out),
+    dataGeneratedAt: out.generatedAt || null,
+    generatedAt: new Date().toISOString(),
+  };
+  fs.writeFileSync(INTEGRITY_OUT, "window.KANRYO_DATA_INTEGRITY = " + JSON.stringify(integrity) + ";\n", "utf8");
+}
 function buildOutput(stores, sourcePages, previousOutput, fetchErrors = {}) {
   const current = prepareDataForOutput(stores);
   const { data: mergedRaw, stats } = mergeWithHistory(current.data, previousOutput);
@@ -1442,6 +1480,12 @@ function buildOutput(stores, sourcePages, previousOutput, fetchErrors = {}) {
     schemaVersion: 3,
     generatedAt,
     source: `登記完了予定日（${JURISDICTIONS.length}法務局対応・履歴蓄積）`,
+    fetchPolicy: {
+      mode: "scheduledSnapshot",
+      userLookup: "localDataOnly",
+      sourceFetch: "GitHub Actionsまたは手動更新時のみ、登録済みURLを順番に取得",
+      minRequestIntervalMs: REQUEST_DELAY_MS,
+    },
     sources: JURISDICTIONS.map((j) => ({
       id: j.id,
       label: j.label,
@@ -1493,12 +1537,10 @@ async function main() {
   }
 
   const out = buildOutput(stores, sourcePages, previousOutput, fetchErrors);
-  fs.mkdirSync(path.dirname(OUT), { recursive: true });
-  fs.writeFileSync(OUT, JSON.stringify(out, null, 2), "utf8");
-  const JSOUT = OUT.replace(/\.json$/, ".js");
-  fs.writeFileSync(JSOUT, "window.KANRYO_DATA = " + JSON.stringify(out) + ";\n", "utf8");
+  writeOutputFiles(out);
 
   console.log(`\n出力: ${OUT}`);
+  console.log(`整合性: ${INTEGRITY_OUT}`);
   for (const jurisdiction of JURISDICTIONS) {
     for (const type of TYPES) {
       const offices = out.officesByJurisdiction[jurisdiction.id][type.id].length;
@@ -1511,5 +1553,3 @@ async function main() {
 }
 
 main();
-
-

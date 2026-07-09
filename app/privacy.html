@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f5f5f7" />
   <title>プライバシーについて | ISHIMOTO Legal Tools</title>
-  <link rel="icon" href="icon.svg?v=20260629-favorites2" />
-  <link rel="stylesheet" href="styles.css?v=20260629-favorites2" />
+  <link rel="icon" href="icon.svg?v=20260709-disclaimer-integrity" />
+  <link rel="stylesheet" href="styles.css?v=20260709-disclaimer-integrity" />
 </head>
 <body>
   <header class="appbar">
@@ -21,7 +21,7 @@
       <p class="privacy-page__eyebrow">ISHIMOTO Legal Tools</p>
       <h2 id="privacy-title" class="privacy-page__title">ツール利用時のデータの扱い</h2>
       <p class="privacy-page__lead">このページでは、ISHIMOTO Legal が提供する業務支援ツールにおける保存データと外部通信について説明します。</p>
-      <p class="privacy-page__updated">最終更新日：2026年6月30日</p>
+      <p class="privacy-page__updated">最終更新日：2026年7月9日</p>
     </section>
 
     <section class="privacy-section" aria-labelledby="tool-scope">
@@ -39,6 +39,7 @@
         <li>管轄</li>
         <li>申請日</li>
         <li>保存時点の登記完了予定日</li>
+        <li>保存時点のデータ基準日・データ識別情報</li>
         <li>完了／未完了の状態</li>
         <li>よく使う組み合わせ</li>
       </ul>
@@ -55,6 +56,7 @@
       <h2 id="network">外部通信について</h2>
       <p>登記完了予定日の最新データを表示するため、ツールは tools.ishimoto-legal.com 配下のデータファイルを取得します。この通信において、利用者が保存した案件メモ、依頼者名、物件名、申請内容等は送信されません。</p>
       <p>通信できない場合は、端末内または拡張機能に同梱されたデータを使用します。</p>
+      <p>公開データファイルはSHA-256ハッシュで整合性確認を行います。整合性を確認できない場合、画面上に警告を表示します。</p>
     </section>
 
     <section class="privacy-section" aria-labelledby="shared-mode">

@@ -8,11 +8,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="登記完了予定" />
   <title>登記完了予定日</title>
-  <link rel="manifest" href="manifest.webmanifest?v=20260629-favorites2" />
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260629-favorites2" />
-  <link rel="icon" href="icon.svg?v=20260629-favorites2" />
-  <link rel="stylesheet" href="styles.css?v=20260629-favorites2" />
+  <link rel="manifest" href="manifest.webmanifest?v=20260709-disclaimer-integrity" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260709-disclaimer-integrity" />
+  <link rel="icon" href="icon.svg?v=20260709-disclaimer-integrity" />
+  <link rel="stylesheet" href="styles.css?v=20260709-disclaimer-integrity" />
   <!-- file:// でも動くようデータはJSで読み込む -->
+  <script src="data/kanryo-integrity.js"></script>
   <script src="data/kanryo.js"></script>
 </head>
 <body>
@@ -72,10 +73,14 @@
         <div class="result__date" id="result-date">— — —</div>
         <div class="result__hint" id="result-hint">↑ 法務局・登記種別・管轄・申請日を選ぶと、ここに自動表示されます</div>
       </div>
+      <div class="notice" role="note">
+        表示される完了予定日は、各法務局が公表するデータに基づく目安です。最新性・正確性を保証するものではありません。正式な判断には、各法務局の公式情報をご確認ください。
+      </div>
+      <div id="data-integrity-status" class="integrity-status" role="status">データ整合性：確認中</div>
 
       <!-- 保存（補助動作） -->
       <div class="save-row">
-        <input id="f-label" type="text" placeholder="メモ（任意）例：渋谷・所有権移転" autocomplete="off" />
+        <input id="f-label" type="text" placeholder="依頼者名・物件・件名・メモ（任意）" autocomplete="off" />
         <button id="f-add" class="btn btn--primary" type="button" disabled>一覧に保存</button>
       </div>
     </section>
@@ -119,6 +124,27 @@
           <span>完了も表示</span>
         </label>
       </div>
+      <div class="list-tools" aria-label="保存案件の検索と絞り込み">
+        <input id="case-search" class="case-search" type="search" placeholder="検索（依頼者名・物件・件名・メモ）" autocomplete="off" />
+        <div class="list-filter-grid">
+          <select id="case-jurisdiction-filter" aria-label="法務局で絞り込み">
+            <option value="">すべての法務局</option>
+          </select>
+          <select id="case-type-filter" aria-label="種別で絞り込み">
+            <option value="">すべての種別</option>
+          </select>
+          <select id="case-week-filter" aria-label="時期で絞り込み">
+            <option value="">すべての時期</option>
+            <option value="overdue">期限超過</option>
+            <option value="today">今日</option>
+            <option value="thisWeek">今週</option>
+            <option value="nextWeek">来週</option>
+            <option value="later">それ以降</option>
+            <option value="unknown">予定日未掲載</option>
+          </select>
+          <button id="download-visible-ics" class="mini mini--calendar" type="button">表示中を.ics</button>
+        </div>
+      </div>
       <div id="list" class="list"></div>
       <p id="empty" class="empty">保存した案件はここに並びます。予定日を過ぎた案件だけ、静かにお知らせします。</p>
     </section>
@@ -126,11 +152,11 @@
 
   <footer class="footer">
     <p id="data-meta"></p>
-    <p class="footer__note">対象：掲載データのある法務局・不動産（権利）登記／商業・法人登記。保存案件は、保存時点の完了予定日を保持します。完了予定日は目安で、不備・実地調査・事前通知等により翌日以降になる場合があります（出典：各法務局）。</p>
+    <p class="footer__note">負荷対策：ユーザーの検索操作では法務局サイトへアクセスせず、定期取得した保存済みデータだけを照会します。データ更新時も登録済みURLを順番に取得し、連続アクセスを避けます。対象：掲載データのある法務局・地方法務局の不動産（権利）登記／商業・法人登記。保存案件は、保存時点の完了予定日を保持します。完了予定日は目安で、不備・実地調査・事前通知等により翌日以降になる場合があります（出典：各法務局）。</p>
     <p class="footer__links"><a href="privacy.html">プライバシーについて</a></p>
   </footer>
 
-  <script src="shared-config.js?v=20260629-favorites2"></script>
-  <script src="app.js?v=20260629-favorites2"></script>
+  <script src="shared-config.js?v=20260709-disclaimer-integrity"></script>
+  <script src="app.js?v=20260709-disclaimer-integrity"></script>
 </body>
 </html>

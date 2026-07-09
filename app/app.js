@@ -88,6 +88,8 @@
   let DB = META.data || {};
   let TYPES = META.types || [];
   let JURISDICTIONS = META.jurisdictions || [];
+  let dataIntegrityOk = true;
+  let dataIntegrityState = { status: "unchecked", message: "データ整合性：確認中" };
 
   const $ = (id) => document.getElementById(id);
   const pad = (n) => String(n).padStart(2, "0");
@@ -108,6 +110,25 @@
     const a = new Date(fromISO + "T00:00:00");
     const b = new Date(toISO + "T00:00:00");
     return Math.round((b - a) / 86400000);
+  }
+  function isoDate(iso) {
+    if (!isISODate(iso)) return null;
+    const [y, m, d] = iso.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  }
+  function addDaysISO(iso, days) {
+    const d = isoDate(iso);
+    if (!d) return "";
+    d.setDate(d.getDate() + days);
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  }
+  function nextMondayISO(fromISO = todayISO()) {
+    const d = isoDate(fromISO);
+    if (!d) return "";
+    const day = d.getDay();
+    const daysUntilMonday = day === 0 ? 1 : 8 - day;
+    d.setDate(d.getDate() + daysUntilMonday);
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   }
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   const jurisdictionLabel = (jurisdictionId) =>
@@ -165,6 +186,69 @@
     return "";
   }
 
+  function fmtJPDateTime(iso) {
+    if (!iso) return "不明";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "不明";
+    return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  function expectedDataHash() {
+    const value = window.KANRYO_DATA_INTEGRITY?.sha256;
+    return typeof value === "string" && /^[a-f0-9]{64}$/i.test(value) ? value.toLowerCase() : "";
+  }
+
+  function dataSnapshotText(c) {
+    const generatedAt = c === undefined ? (META.generatedAt || "") : (c?.dataGeneratedAt || "");
+    return generatedAt ? `${fmtJPDateTime(generatedAt)} 時点` : "不明";
+  }
+
+  function currentDataSnapshot() {
+    return {
+      dataGeneratedAt: typeof META.generatedAt === "string" ? META.generatedAt : null,
+      dataHash: expectedDataHash() || null,
+      dataSource: typeof META.source === "string" ? META.source : "",
+    };
+  }
+
+  function setDataIntegrityState(status, message) {
+    dataIntegrityState = { status, message };
+    dataIntegrityOk = status !== "error";
+    renderDataIntegrityStatus();
+  }
+
+  function renderDataIntegrityStatus() {
+    const el = $("data-integrity-status");
+    if (!el) return;
+    el.className = `integrity-status integrity-status--${dataIntegrityState.status}`;
+    el.textContent = dataIntegrityState.message;
+  }
+
+  async function sha256Json(value) {
+    if (!window.crypto?.subtle || typeof TextEncoder === "undefined") return "";
+    const bytes = new TextEncoder().encode(JSON.stringify(value));
+    const digest = await window.crypto.subtle.digest("SHA-256", bytes);
+    return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  async function verifyDataIntegrity(meta, label = "データ") {
+    const expected = expectedDataHash();
+    if (!expected) {
+      setDataIntegrityState("warn", "データ整合性：検証用ハッシュが見つかりません。表示内容は公式情報で確認してください。");
+      return true;
+    }
+    const actual = await sha256Json(meta);
+    if (!actual) {
+      setDataIntegrityState("warn", "データ整合性：この環境では自動検証できません。表示内容は公式情報で確認してください。");
+      return true;
+    }
+    if (actual !== expected) {
+      setDataIntegrityState("error", `${label}の整合性を確認できません。データファイルが更新中または改ざんされた可能性があります。公式情報をご確認ください。`);
+      return false;
+    }
+    setDataIntegrityState("ok", `データ整合性：確認済み（SHA-256 ${expected.slice(0, 8)}…）`);
+    return true;
+  }
   function useData(meta) {
     const normalized = normalizeMeta(meta);
     if (!normalized.data || !Array.isArray(normalized.types) || normalized.types.length === 0) return false;
@@ -186,7 +270,9 @@
       const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const meta = await res.json();
-      return meta && meta.data ? meta : null;
+      if (!meta || !meta.data) return null;
+      const verified = await verifyDataIntegrity(meta, "最新データ");
+      return verified ? meta : null;
     } catch (e) {
       console.warn("最新データを取得できないため、端末内データを使います。", e);
       return null;
@@ -206,6 +292,9 @@
       office,
       applyDate,
       dueDate: isISODate(item.dueDate) ? item.dueDate : null,
+      dataGeneratedAt: typeof item.dataGeneratedAt === "string" && item.dataGeneratedAt ? item.dataGeneratedAt : null,
+      dataHash: typeof item.dataHash === "string" && item.dataHash ? item.dataHash : null,
+      dataSource: typeof item.dataSource === "string" ? item.dataSource : "",
       status: item.status === "done" ? "done" : "active",
       createdAt: typeof item.createdAt === "string" && item.createdAt ? item.createdAt : new Date().toISOString(),
       updatedAt: typeof item.updatedAt === "string" && item.updatedAt ? item.updatedAt : null,
@@ -242,6 +331,7 @@
     loading: false,
     error: "",
     configured: false,
+    snapshotColumnsReady: true,
   };
 
   function getSharedConfig() {
@@ -362,15 +452,18 @@
       office: row.registry_office || "",
       applyDate: row.apply_date || "",
       dueDate: row.due_date || null,
+      dataGeneratedAt: row.data_generated_at || null,
+      dataHash: row.data_hash || null,
+      dataSource: row.data_source || "",
       status: row.status || "active",
       createdAt: row.created_at || new Date().toISOString(),
       updatedAt: row.updated_at || null,
     });
   }
 
-  function caseToRow(c) {
+  function caseToRow(c, includeSnapshot = true) {
     const now = new Date().toISOString();
-    return {
+    const row = {
       office_id: shared.officeId,
       label: c.label || "",
       jurisdiction_id: c.jurisdiction || DEFAULT_JURISDICTION,
@@ -383,8 +476,13 @@
       updated_by: shared.user?.id,
       updated_at: now,
     };
+    if (includeSnapshot) {
+      row.data_generated_at = c.dataGeneratedAt || null;
+      row.data_hash = c.dataHash || null;
+      row.data_source = c.dataSource || "";
+    }
+    return row;
   }
-
   async function loadSharedCases() {
     const client = await ensureSharedClient();
     if (!shared.session || !shared.officeId) {
@@ -543,18 +641,34 @@
     await refreshSharedFromButton();
   }
 
+  function isMissingSnapshotColumnError(error) {
+    return /data_generated_at|data_hash|data_source|schema cache|column .* does not exist/i.test(error?.message || "");
+  }
+
   async function createSharedCase(c) {
     const client = await ensureSharedClient();
-    const { data, error } = await client
+    let payload = caseToRow(c, shared.snapshotColumnsReady);
+    let { data, error } = await client
       .from("office_cases")
-      .insert(caseToRow(c))
+      .insert(payload)
       .select("*")
       .single();
+    if (error && shared.snapshotColumnsReady && isMissingSnapshotColumnError(error)) {
+      shared.snapshotColumnsReady = false;
+      shared.error = "共有DBに保存時データ基準日の列が未追加です。supabase/shared-office-schema.sql の追加SQLを反映すると共有案件にも記録できます。";
+      payload = caseToRow(c, false);
+      const retry = await client
+        .from("office_cases")
+        .insert(payload)
+        .select("*")
+        .single();
+      data = retry.data;
+      error = retry.error;
+    }
     if (error) throw error;
     const saved = rowToCase(data);
     if (saved) cases.push(saved);
   }
-
   async function updateSharedCase(id, patch) {
     const client = await ensureSharedClient();
     const payload = { ...patch, updated_by: shared.user?.id, updated_at: new Date().toISOString() };
@@ -637,6 +751,14 @@
     const hintEl = $("result-hint");
     const addBtn = $("f-add");
 
+    if (!dataIntegrityOk) {
+      box.className = "result result--warn";
+      dateEl.textContent = "データ確認エラー";
+      hintEl.textContent = "完了予定日データの整合性を確認できません。公式情報をご確認ください。";
+      addBtn.disabled = true;
+      return;
+    }
+
     if (officesFor(jurisdictionId, typeId).length === 0) {
       box.className = "result result--warn";
       dateEl.textContent = "データ未収録";
@@ -669,15 +791,16 @@
     const context = `${jurisdictionLabel(jurisdictionId)}・${typeLabel(typeId)}・${office}`;
     const sourceNote = sourceText(lookupSourceStatus(jurisdictionId, typeId, office, apply));
     const sourceSuffix = sourceNote ? ` ／ ${sourceNote}` : "";
+    const dataBasisSuffix = ` ／ データ基準：${dataSnapshotText()}`;
     if (n > 0) {
       box.className = "result result--ok";
-      hintEl.textContent = `あと ${n} 日（${context}）${sourceSuffix}${saveSuffix}`;
+      hintEl.textContent = `あと ${n} 日（${context}）${sourceSuffix}${dataBasisSuffix}${saveSuffix}`;
     } else if (n === 0) {
       box.className = "result result--due";
-      hintEl.textContent = `本日が予定日です（${context}）${sourceSuffix}${saveSuffix}`;
+      hintEl.textContent = `本日が予定日です（${context}）${sourceSuffix}${dataBasisSuffix}${saveSuffix}`;
     } else {
       box.className = "result result--over";
-      hintEl.textContent = `予定日を ${-n} 日過ぎています（${context}）${sourceSuffix}${saveSuffix}`;
+      hintEl.textContent = `予定日を ${-n} 日過ぎています（${context}）${sourceSuffix}${dataBasisSuffix}${saveSuffix}`;
     }
     dateEl.textContent = fmtJP(due);
   }
@@ -714,22 +837,282 @@
     banner.append(main, sub);
   }
 
-  function render() {
-    const showDone = $("show-done").checked;
-    const list = $("list");
-    list.innerHTML = "";
-    const visible = cases
+  function filterValue(id) {
+    return $(id)?.value || "";
+  }
+
+  function caseSearchText(c) {
+    return [
+      c.label,
+      jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION),
+      typeLabel(c.registrationType || DEFAULT_TYPE),
+      c.office,
+      c.applyDate,
+      c.dueDate,
+      fmtJP(c.applyDate),
+      fmtJP(c.dueDate),
+      dataSnapshotText(c),
+    ].filter(Boolean).join(" ").toLowerCase();
+  }
+
+  function dueBucket(c) {
+    if (c.status === "done") return "done";
+    if (!c.dueDate) return "unknown";
+    const today = todayISO();
+    if (c.dueDate < today) return "overdue";
+    if (c.dueDate === today) return "today";
+    const nextMonday = nextMondayISO(today);
+    const afterNextMonday = addDaysISO(nextMonday, 7);
+    if (c.dueDate < nextMonday) return "thisWeek";
+    if (c.dueDate < afterNextMonday) return "nextWeek";
+    return "later";
+  }
+
+  function bucketLabel(bucket) {
+    return {
+      overdue: "期限超過",
+      today: "今日",
+      thisWeek: "今週",
+      nextWeek: "来週",
+      later: "それ以降",
+      unknown: "予定日未掲載",
+      done: "完了",
+    }[bucket] || "その他";
+  }
+
+  function bucketOrder(bucket) {
+    return { overdue: 0, today: 1, thisWeek: 2, nextWeek: 3, later: 4, unknown: 5, done: 6 }[bucket] ?? 9;
+  }
+
+  function getVisibleCases() {
+    const showDone = $("show-done")?.checked;
+    const query = (filterValue("case-search").trim().toLowerCase());
+    const jurisdiction = filterValue("case-jurisdiction-filter");
+    const registrationType = filterValue("case-type-filter");
+    const week = filterValue("case-week-filter");
+    return cases
       .filter((c) => showDone || c.status !== "done")
-      .sort((a, b) => (a.dueDate || "9999").localeCompare(b.dueDate || "9999"));
+      .filter((c) => !jurisdiction || (c.jurisdiction || DEFAULT_JURISDICTION) === jurisdiction)
+      .filter((c) => !registrationType || (c.registrationType || DEFAULT_TYPE) === registrationType)
+      .filter((c) => !week || dueBucket(c) === week)
+      .filter((c) => !query || caseSearchText(c).includes(query))
+      .sort((a, b) => {
+        const bucketDiff = bucketOrder(dueBucket(a)) - bucketOrder(dueBucket(b));
+        if (bucketDiff) return bucketDiff;
+        return (a.dueDate || "9999-12-31").localeCompare(b.dueDate || "9999-12-31") ||
+          (a.createdAt || "").localeCompare(b.createdAt || "");
+      });
+  }
+
+  function populateListFilters() {
+    const jurisdictionSelect = $("case-jurisdiction-filter");
+    const typeSelect = $("case-type-filter");
+    if (jurisdictionSelect) {
+      const current = jurisdictionSelect.value;
+      jurisdictionSelect.innerHTML = '<option value="">すべての法務局</option>';
+      for (const jurisdiction of (JURISDICTIONS.length ? JURISDICTIONS : FALLBACK_JURISDICTIONS)) {
+        const option = document.createElement("option");
+        option.value = jurisdiction.id;
+        option.textContent = jurisdiction.label;
+        jurisdictionSelect.appendChild(option);
+      }
+      jurisdictionSelect.value = [...jurisdictionSelect.options].some((option) => option.value === current) ? current : "";
+    }
+    if (typeSelect) {
+      const current = typeSelect.value;
+      typeSelect.innerHTML = '<option value="">すべての種別</option>';
+      for (const type of (TYPES.length ? TYPES : FALLBACK_TYPES)) {
+        const option = document.createElement("option");
+        option.value = type.id;
+        option.textContent = type.label;
+        typeSelect.appendChild(option);
+      }
+      typeSelect.value = [...typeSelect.options].some((option) => option.value === current) ? current : "";
+    }
+  }
+
+  function escapeICS(value) {
+    return String(value || "")
+      .replace(/\\/g, "\\\\")
+      .replace(/\n/g, "\\n")
+      .replace(/,/g, "\\,")
+      .replace(/;/g, "\\;");
+  }
+
+  function icsDate(iso) {
+    return String(iso || "").replace(/-/g, "");
+  }
+
+  function icsTimestamp() {
+    return new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+  }
+
+  function caseTitle(c) {
+    return c.label && c.label.trim()
+      ? c.label.trim()
+      : `${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)} ${typeLabel(c.registrationType || DEFAULT_TYPE)} ${c.office}`;
+  }
+
+  function buildICS(list) {
+    const stamp = icsTimestamp();
+    const events = list.filter((c) => c.dueDate).map((c) => {
+      const title = `登記完了予定：${caseTitle(c)}`;
+      const description = [
+        `法務局：${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)}`,
+        `種別：${typeLabel(c.registrationType || DEFAULT_TYPE)}`,
+        `管轄：${c.office}`,
+        `申請日：${fmtJP(c.applyDate)}`,
+        `データ基準：${dataSnapshotText(c)}`,
+        "完了予定日は目安です。各法務局の公式情報をご確認ください。",
+      ].join("\n");
+      return [
+        "BEGIN:VEVENT",
+        `UID:${escapeICS(c.id || uid())}@tools.ishimoto-legal.com`,
+        `DTSTAMP:${stamp}`,
+        `DTSTART;VALUE=DATE:${icsDate(c.dueDate)}`,
+        `DTEND;VALUE=DATE:${icsDate(addDaysISO(c.dueDate, 1))}`,
+        `SUMMARY:${escapeICS(title)}`,
+        `DESCRIPTION:${escapeICS(description)}`,
+        "END:VEVENT",
+      ].join("\r\n");
+    });
+    return [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//ISHIMOTO Legal//Touki Kanryo//JA",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      ...events,
+      "END:VCALENDAR",
+      "",
+    ].join("\r\n");
+  }
+
+  function downloadText(filename, text, type) {
+    const blob = new Blob([text], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function googleCalendarUrl(c) {
+    if (!c.dueDate) return "";
+    const details = [
+      `法務局：${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)}`,
+      `種別：${typeLabel(c.registrationType || DEFAULT_TYPE)}`,
+      `管轄：${c.office}`,
+      `申請日：${fmtJP(c.applyDate)}`,
+      `データ基準：${dataSnapshotText(c)}`,
+      "完了予定日は目安です。各法務局の公式情報をご確認ください。",
+    ].join("\n");
+    const params = new URLSearchParams({
+      action: "TEMPLATE",
+      text: `登記完了予定：${caseTitle(c)}`,
+      dates: `${icsDate(c.dueDate)}/${icsDate(addDaysISO(c.dueDate, 1))}`,
+      details,
+      ctz: "Asia/Tokyo",
+    });
+    return `https://calendar.google.com/calendar/render?${params.toString()}`;
+  }
+
+  function openGoogleCalendar(c) {
+    const url = googleCalendarUrl(c);
+    if (!url) {
+      alert("完了予定日が未掲載の案件はGoogleカレンダーに追加できません。");
+      return;
+    }
+    window.open(url, "_blank", "noopener");
+  }
+  function downloadCaseICS(c) {
+    if (!c.dueDate) {
+      alert("完了予定日が未掲載の案件はカレンダーに追加できません。");
+      return;
+    }
+    downloadText(`登記完了予定_${caseTitle(c).replace(/[\\/:*?"<>|]/g, "_")}.ics`, buildICS([c]), "text/calendar;charset=utf-8");
+  }
+
+  function downloadVisibleICS() {
+    const targets = getVisibleCases().filter((c) => c.dueDate && c.status !== "done");
+    if (targets.length === 0) {
+      alert("カレンダーに追加できる表示中の未完了案件がありません。");
+      return;
+    }
+    downloadText("登記完了予定_表示中.ics", buildICS(targets), "text/calendar;charset=utf-8");
+  }
+
+  async function copyText(text) {
+    if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return;
+      } catch {}
+    }
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+  }
+
+  function clientMessage(c) {
+    if (!c.dueDate) {
+      return "登記完了予定日は、現在の掲載データでは確認できません。確認でき次第、改めてご連絡いたします。";
+    }
+    return `登記は${fmtJP(c.dueDate)}頃に完了予定です。完了予定日は目安のため、法務局の処理状況等により前後する場合があります。`;
+  }
+
+  async function copyClientMessage(c, button) {
+    await copyText(clientMessage(c));
+    flashButton(button, "コピーしました ✓");
+  }
+
+  function flashButton(button, text) {
+    if (!button) return;
+    const old = button.textContent;
+    button.textContent = text;
+    button.disabled = true;
+    setTimeout(() => {
+      button.textContent = old;
+      button.disabled = false;
+    }, 1200);
+  }
+  function render() {
+    const list = $("list");
+    const visible = getVisibleCases();
+    list.innerHTML = "";
     const empty = $("empty");
     empty.hidden = visible.length > 0;
-    empty.textContent = storageMode === "shared"
-      ? "この事務所の共有案件はここに並びます。予定日を過ぎた案件だけ、静かにお知らせします。"
-      : "保存した案件はここに並びます。予定日を過ぎた案件だけ、静かにお知らせします。";
+    const hasAnyCases = cases.some((c) => $("show-done")?.checked || c.status !== "done");
+    empty.textContent = hasAnyCases
+      ? "条件に合う案件はありません。検索や絞り込みを変更してください。"
+      : storageMode === "shared"
+        ? "この事務所の共有案件はここに並びます。予定日を過ぎた案件だけ、静かにお知らせします。"
+        : "保存した案件はここに並びます。予定日を過ぎた案件だけ、静かにお知らせします。";
+    const downloadBtn = $("download-visible-ics");
+    if (downloadBtn) downloadBtn.disabled = visible.filter((c) => c.dueDate && c.status !== "done").length === 0;
     updateBanner();
     renderStoragePanel();
 
+    let currentBucket = "";
     for (const c of visible) {
+      const bucket = dueBucket(c);
+      if (bucket !== currentBucket) {
+        currentBucket = bucket;
+        const group = document.createElement("h3");
+        group.className = "list-group";
+        group.textContent = bucketLabel(bucket);
+        list.appendChild(group);
+      }
+
       const st = caseState(c);
       const b = badge(st, c);
       const el = document.createElement("div");
@@ -743,6 +1126,7 @@
         <div class="item__row">申請日 <span class="apply"></span></div>
         <div class="item__due">保存時の完了予定日 <b class="due"></b><span class="item__source"></span></div>
         <div class="item__latest" hidden></div>
+        <div class="item__snapshot"></div>
         <div class="item__actions"></div>`;
       el.querySelector(".item__label").textContent = c.label && c.label.trim() ? c.label : "（メモなし）";
       el.querySelector(".item__office").textContent = `${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)} ｜ ${typeLabel(c.registrationType || DEFAULT_TYPE)} ｜ ${c.office}`;
@@ -750,6 +1134,8 @@
       el.querySelector(".due").textContent = c.dueDate ? fmtJP(c.dueDate) : "未掲載";
       const sourceEl = el.querySelector(".item__source");
       sourceEl.textContent = "保存時点";
+      const snapshotEl = el.querySelector(".item__snapshot");
+      if (snapshotEl) snapshotEl.textContent = `データ基準：${dataSnapshotText(c)}`;
       const latestDue = lookupDue(c.jurisdiction || DEFAULT_JURISDICTION, c.registrationType || DEFAULT_TYPE, c.office, c.applyDate);
       if (latestDue !== c.dueDate && (latestDue || c.dueDate)) {
         const latestEl = el.querySelector(".item__latest");
@@ -766,17 +1152,19 @@
         }
       }
       const actions = el.querySelector(".item__actions");
+      actions.appendChild(mkBtn("連絡文コピー", "mini mini--copy", (button) => copyClientMessage(c, button)));
+      actions.appendChild(mkBtn("Googleカレンダー", "mini mini--calendar", () => openGoogleCalendar(c)));
+      actions.appendChild(mkBtn("予定を.ics", "mini mini--calendar", () => downloadCaseICS(c)));
       actions.appendChild(c.status === "done"
         ? mkBtn("未完了に戻す", "mini mini--undo", () => toggleDone(c.id, false))
         : mkBtn("完了にする", "mini mini--done", () => toggleDone(c.id, true)));
       actions.appendChild(mkBtn("削除", "mini mini--del", () => removeCase(c.id)));
       list.appendChild(el);
     }
-  }
-  function mkBtn(text, cls, fn) {
+  }  function mkBtn(text, cls, fn) {
     const button = document.createElement("button");
     button.type = "button"; button.className = cls; button.textContent = text;
-    button.addEventListener("click", () => Promise.resolve(fn()).catch(handleSharedError));
+    button.addEventListener("click", () => Promise.resolve(fn(button)).catch(handleSharedError));
     return button;
   }  async function addCase() {
     const jurisdiction = selectedJurisdiction();
@@ -798,6 +1186,7 @@
       office,
       applyDate,
       dueDate: lookupDue(jurisdiction, registrationType, office, applyDate),
+      ...currentDataSnapshot(),
       status: "active",
       createdAt: new Date().toISOString(),
     };
@@ -879,8 +1268,8 @@
     const previousOffice = $("f-office").value;
     populateOffices(previousOffice);
     $("f-label").placeholder = selectedType() === "commercial"
-      ? "メモ（任意）例：○○株式会社・役員変更"
-      : "メモ（任意）例：渋谷・所有権移転";
+      ? "依頼者名・会社名・件名・メモ（任意）"
+      : "依頼者名・物件・件名・メモ（任意）";
     renderFavorites();
     updateResult();
   }
@@ -958,7 +1347,8 @@
       const d = new Date(META.generatedAt);
       const count = (JURISDICTIONS.length || FALLBACK_JURISDICTIONS.length);
       const history = META.history?.enabled ? " / 履歴蓄積：有効" : "";
-      $("data-meta").textContent = `データ取得：${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} 時点 / 対象：${count}法務局${history}`;
+      const policy = META.fetchPolicy?.mode === "scheduledSnapshot" ? " / 負荷対策：検索時は保存済みデータを照会" : "";
+      $("data-meta").textContent = `データ取得：${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} 時点 / 対象：${count}法務局・地方法務局${history}${policy}`;
     } else {
       $("data-meta").textContent = "";
     }
@@ -966,10 +1356,13 @@
 
   async function init() {
     activateSharedFeatureFromUrl();
+    renderDataIntegrityStatus();
+    await verifyDataIntegrity(META, "同梱データ");
     $("f-apply").value = todayISO();
     populateJurisdictions();
     updateControls();
     updateDataMeta();
+    populateListFilters();
     renderStoragePanel();
 
     $("f-jurisdiction").addEventListener("change", updateControls);
@@ -982,6 +1375,11 @@
     $("favorite-toggle").addEventListener("click", toggleFavorite);
     $("f-add").addEventListener("click", addCase);
     $("show-done").addEventListener("change", render);
+    $("case-search")?.addEventListener("input", render);
+    $("case-jurisdiction-filter")?.addEventListener("change", render);
+    $("case-type-filter")?.addEventListener("change", render);
+    $("case-week-filter")?.addEventListener("change", render);
+    $("download-visible-ics")?.addEventListener("click", downloadVisibleICS);
     $("alert-banner").addEventListener("click", () => {
       const head = document.querySelector(".list-head");
       if (head) head.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1004,6 +1402,7 @@
       populateOffices(selectedOffice);
       updateControls();
       updateDataMeta();
+      populateListFilters();
       render();
     }
   }
@@ -1017,7 +1416,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260629-favorites2", { updateViaCache: "none" })
+        .register("./sw.js?v=20260709-disclaimer-integrity", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });
