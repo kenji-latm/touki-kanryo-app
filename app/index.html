@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="登記完了予定" />
   <title>登記完了予定日</title>
-  <link rel="manifest" href="manifest.webmanifest?v=20260709-disclaimer-integrity" />
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260709-disclaimer-integrity" />
-  <link rel="icon" href="icon.svg?v=20260709-disclaimer-integrity" />
-  <link rel="stylesheet" href="styles.css?v=20260709-disclaimer-integrity" />
+  <link rel="manifest" href="manifest.webmanifest?v=20260710-ui-letterpack" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260710-ui-letterpack" />
+  <link rel="icon" href="icon.svg?v=20260710-ui-letterpack" />
+  <link rel="stylesheet" href="styles.css?v=20260710-ui-letterpack" />
   <!-- file:// でも動くようデータはJSで読み込む -->
   <script src="data/kanryo-integrity.js"></script>
   <script src="data/kanryo.js"></script>
@@ -55,14 +55,28 @@
           </div>
         </fieldset>
 
+        <fieldset class="field method-field">
+          <legend class="field__label"><span class="step">3</span>申請方法</legend>
+          <div class="method-switch">
+            <label>
+              <input type="radio" name="application-method" value="registryData" checked />
+              <span>法務局データ</span>
+            </label>
+            <label>
+              <input type="radio" name="application-method" value="letterPack" />
+              <span>レターパック申請</span>
+            </label>
+          </div>
+        </fieldset>
+
         <div class="field">
-          <label for="f-office" class="field__label"><span class="step">3</span>管轄（本局・支局・出張所）</label>
+          <label for="f-office" class="field__label"><span class="step">4</span>管轄（本局・支局・出張所）</label>
           <select id="f-office"></select>
           <button id="favorite-toggle" class="favorite-toggle" type="button" aria-pressed="false" disabled>☆ よく使う組み合わせに追加</button>
         </div>
 
         <label class="field">
-          <span class="field__label"><span class="step">4</span>申請日</span>
+          <span class="field__label"><span class="step">5</span>申請日</span>
           <input id="f-apply" type="date" />
         </label>
       </div>
@@ -76,7 +90,6 @@
       <div class="notice" role="note">
         表示される完了予定日は、各法務局が公表するデータに基づく目安です。最新性・正確性を保証するものではありません。正式な判断には、各法務局の公式情報をご確認ください。
       </div>
-      <div id="data-integrity-status" class="integrity-status" role="status">データ整合性：確認中</div>
 
       <!-- 保存（補助動作） -->
       <div class="save-row">
@@ -142,7 +155,6 @@
             <option value="later">それ以降</option>
             <option value="unknown">予定日未掲載</option>
           </select>
-          <button id="download-visible-ics" class="mini mini--calendar" type="button">表示中を.ics</button>
         </div>
       </div>
       <div id="list" class="list"></div>
@@ -156,7 +168,7 @@
     <p class="footer__links"><a href="privacy.html">プライバシーについて</a></p>
   </footer>
 
-  <script src="shared-config.js?v=20260709-disclaimer-integrity"></script>
-  <script src="app.js?v=20260709-disclaimer-integrity"></script>
+  <script src="shared-config.js?v=20260710-ui-letterpack"></script>
+  <script src="app.js?v=20260710-ui-letterpack"></script>
 </body>
 </html>

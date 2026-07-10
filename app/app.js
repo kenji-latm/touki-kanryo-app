@@ -12,6 +12,12 @@
   const SUPABASE_CDN = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
   const DEFAULT_JURISDICTION = "tokyo";
   const DEFAULT_TYPE = "realEstate";
+  const METHOD_REGISTRY = "registryData";
+  const METHOD_LETTERPACK = "letterPack";
+  const METHOD_LABELS = {
+    [METHOD_REGISTRY]: "法務局データ",
+    [METHOD_LETTERPACK]: "レターパック申請",
+  };
   const FALLBACK_JURISDICTIONS = [
     { id: "tokyo", label: "東京法務局" },
   ];
@@ -122,6 +128,17 @@
     d.setDate(d.getDate() + days);
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   }
+  function addBusinessDaysISO(iso, days) {
+    const d = isoDate(iso);
+    if (!d) return "";
+    let remaining = Math.max(0, Number(days) || 0);
+    while (remaining > 0) {
+      d.setDate(d.getDate() + 1);
+      const day = d.getDay();
+      if (day !== 0 && day !== 6) remaining -= 1;
+    }
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  }
   function nextMondayISO(fromISO = todayISO()) {
     const d = isoDate(fromISO);
     if (!d) return "";
@@ -139,9 +156,13 @@
     TYPES.find((type) => type.id === typeId)?.label ||
     FALLBACK_TYPES.find((type) => type.id === typeId)?.label ||
     typeId;
+  const normalizeApplicationMethod = (value) => value === METHOD_LETTERPACK ? METHOD_LETTERPACK : METHOD_REGISTRY;
+  const applicationMethodLabel = (value) => METHOD_LABELS[normalizeApplicationMethod(value)];
   const selectedJurisdiction = () => $("f-jurisdiction")?.value || DEFAULT_JURISDICTION;
   const selectedType = () =>
     document.querySelector('input[name="registration-type"]:checked')?.value || DEFAULT_TYPE;
+  const selectedMethod = () =>
+    normalizeApplicationMethod(document.querySelector('input[name="application-method"]:checked')?.value);
   const officesFor = (jurisdictionId, typeId) =>
     META.officesByJurisdiction?.[jurisdictionId]?.[typeId] ||
     Object.keys(DB[jurisdictionId]?.[typeId] || {}).sort();
@@ -186,6 +207,23 @@
     return "";
   }
 
+  function isLetterPackMethod(method) {
+    return normalizeApplicationMethod(method) === METHOD_LETTERPACK;
+  }
+
+  function dueDateFor(jurisdictionId, typeId, office, applyISO, method = METHOD_REGISTRY) {
+    if (!isISODate(applyISO)) return null;
+    if (isLetterPackMethod(method)) return addBusinessDaysISO(applyISO, 1);
+    return lookupDue(jurisdictionId, typeId, office, applyISO);
+  }
+
+  function caseBasisText(c) {
+    if (isLetterPackMethod(c?.applicationMethod)) {
+      return "申請方法：レターパック申請（申請日の1営業日先・土日を除く）";
+    }
+    return `データ基準：${dataSnapshotText(c)}`;
+  }
+
   function fmtJPDateTime(iso) {
     if (!iso) return "不明";
     const d = new Date(iso);
@@ -203,7 +241,14 @@
     return generatedAt ? `${fmtJPDateTime(generatedAt)} 時点` : "不明";
   }
 
-  function currentDataSnapshot() {
+  function currentDataSnapshot(method = METHOD_REGISTRY) {
+    if (isLetterPackMethod(method)) {
+      return {
+        dataGeneratedAt: null,
+        dataHash: null,
+        dataSource: "レターパック申請（申請日の1営業日先・土日を除く）",
+      };
+    }
     return {
       dataGeneratedAt: typeof META.generatedAt === "string" ? META.generatedAt : null,
       dataHash: expectedDataHash() || null,
@@ -289,6 +334,7 @@
       label: typeof item.label === "string" ? item.label : "",
       jurisdiction: typeof item.jurisdiction === "string" && item.jurisdiction ? item.jurisdiction : DEFAULT_JURISDICTION,
       registrationType: typeof item.registrationType === "string" && item.registrationType ? item.registrationType : DEFAULT_TYPE,
+      applicationMethod: normalizeApplicationMethod(item.applicationMethod || (/レターパック/.test(item.dataSource || "") ? METHOD_LETTERPACK : METHOD_REGISTRY)),
       office,
       applyDate,
       dueDate: isISODate(item.dueDate) ? item.dueDate : null,
@@ -332,6 +378,7 @@
     error: "",
     configured: false,
     snapshotColumnsReady: true,
+    applicationMethodColumnReady: true,
   };
 
   function getSharedConfig() {
@@ -449,6 +496,7 @@
       label: row.label || "",
       jurisdiction: row.jurisdiction_id || DEFAULT_JURISDICTION,
       registrationType: row.registration_type || DEFAULT_TYPE,
+      applicationMethod: row.application_method || (/レターパック/.test(row.data_source || "") ? METHOD_LETTERPACK : METHOD_REGISTRY),
       office: row.registry_office || "",
       applyDate: row.apply_date || "",
       dueDate: row.due_date || null,
@@ -461,7 +509,7 @@
     });
   }
 
-  function caseToRow(c, includeSnapshot = true) {
+  function caseToRow(c, includeSnapshot = true, includeApplicationMethod = true) {
     const now = new Date().toISOString();
     const row = {
       office_id: shared.officeId,
@@ -476,6 +524,9 @@
       updated_by: shared.user?.id,
       updated_at: now,
     };
+    if (includeApplicationMethod) {
+      row.application_method = normalizeApplicationMethod(c.applicationMethod);
+    }
     if (includeSnapshot) {
       row.data_generated_at = c.dataGeneratedAt || null;
       row.data_hash = c.dataHash || null;
@@ -645,25 +696,35 @@
     return /data_generated_at|data_hash|data_source|schema cache|column .* does not exist/i.test(error?.message || "");
   }
 
+  function isMissingApplicationMethodColumnError(error) {
+    return /application_method|schema cache|column .* does not exist/i.test(error?.message || "");
+  }
+
   async function createSharedCase(c) {
     const client = await ensureSharedClient();
-    let payload = caseToRow(c, shared.snapshotColumnsReady);
-    let { data, error } = await client
-      .from("office_cases")
-      .insert(payload)
-      .select("*")
-      .single();
-    if (error && shared.snapshotColumnsReady && isMissingSnapshotColumnError(error)) {
-      shared.snapshotColumnsReady = false;
-      shared.error = "共有DBに保存時データ基準日の列が未追加です。supabase/shared-office-schema.sql の追加SQLを反映すると共有案件にも記録できます。";
-      payload = caseToRow(c, false);
-      const retry = await client
+    let data = null;
+    let error = null;
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      const payload = caseToRow(c, shared.snapshotColumnsReady, shared.applicationMethodColumnReady);
+      const result = await client
         .from("office_cases")
         .insert(payload)
         .select("*")
         .single();
-      data = retry.data;
-      error = retry.error;
+      data = result.data;
+      error = result.error;
+      if (!error) break;
+      if (shared.applicationMethodColumnReady && isMissingApplicationMethodColumnError(error)) {
+        shared.applicationMethodColumnReady = false;
+        shared.error = "共有DBに申請方法の列が未追加です。supabase/shared-office-schema.sql の追加SQLを反映すると共有案件にも記録できます。";
+        continue;
+      }
+      if (shared.snapshotColumnsReady && isMissingSnapshotColumnError(error)) {
+        shared.snapshotColumnsReady = false;
+        shared.error = "共有DBに保存時データ基準日の列が未追加です。supabase/shared-office-schema.sql の追加SQLを反映すると共有案件にも記録できます。";
+        continue;
+      }
+      break;
     }
     if (error) throw error;
     const saved = rowToCase(data);
@@ -744,14 +805,16 @@
   }  function updateResult() {
     const jurisdictionId = selectedJurisdiction();
     const typeId = selectedType();
+    const method = selectedMethod();
     const office = $("f-office").value;
     const apply = $("f-apply").value;
     const box = $("result");
     const dateEl = $("result-date");
     const hintEl = $("result-hint");
     const addBtn = $("f-add");
+    const isLetterPack = isLetterPackMethod(method);
 
-    if (!dataIntegrityOk) {
+    if (!isLetterPack && !dataIntegrityOk) {
       box.className = "result result--warn";
       dateEl.textContent = "データ確認エラー";
       hintEl.textContent = "完了予定日データの整合性を確認できません。公式情報をご確認ください。";
@@ -759,7 +822,7 @@
       return;
     }
 
-    if (officesFor(jurisdictionId, typeId).length === 0) {
+    if (!isLetterPack && officesFor(jurisdictionId, typeId).length === 0) {
       box.className = "result result--warn";
       dateEl.textContent = "データ未収録";
       hintEl.textContent = `${jurisdictionLabel(jurisdictionId)}・${typeLabel(typeId)}のデータを読み込めませんでした。オンラインで開き直してください。`;
@@ -770,12 +833,12 @@
     if (!office || !apply) {
       box.className = "result result--empty";
       dateEl.textContent = "— — —";
-      hintEl.textContent = "↑ 法務局・登記種別・管轄・申請日を選ぶと、ここに自動表示されます";
+      hintEl.textContent = "↑ 法務局・登記種別・申請方法・管轄・申請日を選ぶと、ここに自動表示されます";
       addBtn.disabled = true;
       return;
     }
 
-    const due = lookupDue(jurisdictionId, typeId, office, apply);
+    const due = dueDateFor(jurisdictionId, typeId, office, apply, method);
     const canSave = canSaveToCurrentMode();
     addBtn.disabled = !canSave;
     const saveSuffix = canSave ? "" : " ／ 共有保存にはログインと事務所設定が必要です";
@@ -789,18 +852,20 @@
 
     const n = diffDays(todayISO(), due);
     const context = `${jurisdictionLabel(jurisdictionId)}・${typeLabel(typeId)}・${office}`;
-    const sourceNote = sourceText(lookupSourceStatus(jurisdictionId, typeId, office, apply));
+    const sourceNote = isLetterPack
+      ? "申請日の1営業日先（土日を除く）"
+      : sourceText(lookupSourceStatus(jurisdictionId, typeId, office, apply));
     const sourceSuffix = sourceNote ? ` ／ ${sourceNote}` : "";
-    const dataBasisSuffix = ` ／ データ基準：${dataSnapshotText()}`;
+    const dataBasisSuffix = isLetterPack ? "" : ` ／ データ基準：${dataSnapshotText()}`;
     if (n > 0) {
       box.className = "result result--ok";
-      hintEl.textContent = `あと ${n} 日（${context}）${sourceSuffix}${dataBasisSuffix}${saveSuffix}`;
+      hintEl.textContent = `あと ${n} 日（${context}・${applicationMethodLabel(method)}）${sourceSuffix}${dataBasisSuffix}${saveSuffix}`;
     } else if (n === 0) {
       box.className = "result result--due";
-      hintEl.textContent = `本日が予定日です（${context}）${sourceSuffix}${dataBasisSuffix}${saveSuffix}`;
+      hintEl.textContent = `本日が予定日です（${context}・${applicationMethodLabel(method)}）${sourceSuffix}${dataBasisSuffix}${saveSuffix}`;
     } else {
       box.className = "result result--over";
-      hintEl.textContent = `予定日を ${-n} 日過ぎています（${context}）${sourceSuffix}${dataBasisSuffix}${saveSuffix}`;
+      hintEl.textContent = `予定日を ${-n} 日過ぎています（${context}・${applicationMethodLabel(method)}）${sourceSuffix}${dataBasisSuffix}${saveSuffix}`;
     }
     dateEl.textContent = fmtJP(due);
   }
@@ -846,6 +911,7 @@
       c.label,
       jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION),
       typeLabel(c.registrationType || DEFAULT_TYPE),
+      applicationMethodLabel(c.applicationMethod),
       c.office,
       c.applyDate,
       c.dueDate,
@@ -931,73 +997,15 @@
     }
   }
 
-  function escapeICS(value) {
-    return String(value || "")
-      .replace(/\\/g, "\\\\")
-      .replace(/\n/g, "\\n")
-      .replace(/,/g, "\\,")
-      .replace(/;/g, "\\;");
-  }
-
   function icsDate(iso) {
     return String(iso || "").replace(/-/g, "");
   }
 
-  function icsTimestamp() {
-    return new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
-  }
-
-  function caseTitle(c) {
-    return c.label && c.label.trim()
+  function calendarTitle(c) {
+    const name = c.label && c.label.trim()
       ? c.label.trim()
-      : `${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)} ${typeLabel(c.registrationType || DEFAULT_TYPE)} ${c.office}`;
-  }
-
-  function buildICS(list) {
-    const stamp = icsTimestamp();
-    const events = list.filter((c) => c.dueDate).map((c) => {
-      const title = `登記完了予定：${caseTitle(c)}`;
-      const description = [
-        `法務局：${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)}`,
-        `種別：${typeLabel(c.registrationType || DEFAULT_TYPE)}`,
-        `管轄：${c.office}`,
-        `申請日：${fmtJP(c.applyDate)}`,
-        `データ基準：${dataSnapshotText(c)}`,
-        "完了予定日は目安です。各法務局の公式情報をご確認ください。",
-      ].join("\n");
-      return [
-        "BEGIN:VEVENT",
-        `UID:${escapeICS(c.id || uid())}@tools.ishimoto-legal.com`,
-        `DTSTAMP:${stamp}`,
-        `DTSTART;VALUE=DATE:${icsDate(c.dueDate)}`,
-        `DTEND;VALUE=DATE:${icsDate(addDaysISO(c.dueDate, 1))}`,
-        `SUMMARY:${escapeICS(title)}`,
-        `DESCRIPTION:${escapeICS(description)}`,
-        "END:VEVENT",
-      ].join("\r\n");
-    });
-    return [
-      "BEGIN:VCALENDAR",
-      "VERSION:2.0",
-      "PRODID:-//ISHIMOTO Legal//Touki Kanryo//JA",
-      "CALSCALE:GREGORIAN",
-      "METHOD:PUBLISH",
-      ...events,
-      "END:VCALENDAR",
-      "",
-    ].join("\r\n");
-  }
-
-  function downloadText(filename, text, type) {
-    const blob = new Blob([text], { type });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+      : jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION);
+    return `${name} ${typeLabel(c.registrationType || DEFAULT_TYPE)}`;
   }
 
   function googleCalendarUrl(c) {
@@ -1005,14 +1013,15 @@
     const details = [
       `法務局：${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)}`,
       `種別：${typeLabel(c.registrationType || DEFAULT_TYPE)}`,
+      `申請方法：${applicationMethodLabel(c.applicationMethod)}`,
       `管轄：${c.office}`,
       `申請日：${fmtJP(c.applyDate)}`,
-      `データ基準：${dataSnapshotText(c)}`,
+      caseBasisText(c),
       "完了予定日は目安です。各法務局の公式情報をご確認ください。",
     ].join("\n");
     const params = new URLSearchParams({
       action: "TEMPLATE",
-      text: `登記完了予定：${caseTitle(c)}`,
+      text: calendarTitle(c),
       dates: `${icsDate(c.dueDate)}/${icsDate(addDaysISO(c.dueDate, 1))}`,
       details,
       ctz: "Asia/Tokyo",
@@ -1028,63 +1037,6 @@
     }
     window.open(url, "_blank", "noopener");
   }
-  function downloadCaseICS(c) {
-    if (!c.dueDate) {
-      alert("完了予定日が未掲載の案件はカレンダーに追加できません。");
-      return;
-    }
-    downloadText(`登記完了予定_${caseTitle(c).replace(/[\\/:*?"<>|]/g, "_")}.ics`, buildICS([c]), "text/calendar;charset=utf-8");
-  }
-
-  function downloadVisibleICS() {
-    const targets = getVisibleCases().filter((c) => c.dueDate && c.status !== "done");
-    if (targets.length === 0) {
-      alert("カレンダーに追加できる表示中の未完了案件がありません。");
-      return;
-    }
-    downloadText("登記完了予定_表示中.ics", buildICS(targets), "text/calendar;charset=utf-8");
-  }
-
-  async function copyText(text) {
-    if (navigator.clipboard?.writeText) {
-      try {
-        await navigator.clipboard.writeText(text);
-        return;
-      } catch {}
-    }
-    const textarea = document.createElement("textarea");
-    textarea.value = text;
-    textarea.setAttribute("readonly", "");
-    textarea.style.position = "fixed";
-    textarea.style.left = "-9999px";
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    textarea.remove();
-  }
-
-  function clientMessage(c) {
-    if (!c.dueDate) {
-      return "登記完了予定日は、現在の掲載データでは確認できません。確認でき次第、改めてご連絡いたします。";
-    }
-    return `登記は${fmtJP(c.dueDate)}頃に完了予定です。完了予定日は目安のため、法務局の処理状況等により前後する場合があります。`;
-  }
-
-  async function copyClientMessage(c, button) {
-    await copyText(clientMessage(c));
-    flashButton(button, "コピーしました ✓");
-  }
-
-  function flashButton(button, text) {
-    if (!button) return;
-    const old = button.textContent;
-    button.textContent = text;
-    button.disabled = true;
-    setTimeout(() => {
-      button.textContent = old;
-      button.disabled = false;
-    }, 1200);
-  }
   function render() {
     const list = $("list");
     const visible = getVisibleCases();
@@ -1097,8 +1049,6 @@
       : storageMode === "shared"
         ? "この事務所の共有案件はここに並びます。予定日を過ぎた案件だけ、静かにお知らせします。"
         : "保存した案件はここに並びます。予定日を過ぎた案件だけ、静かにお知らせします。";
-    const downloadBtn = $("download-visible-ics");
-    if (downloadBtn) downloadBtn.disabled = visible.filter((c) => c.dueDate && c.status !== "done").length === 0;
     updateBanner();
     renderStoragePanel();
 
@@ -1129,14 +1079,15 @@
         <div class="item__snapshot"></div>
         <div class="item__actions"></div>`;
       el.querySelector(".item__label").textContent = c.label && c.label.trim() ? c.label : "（メモなし）";
-      el.querySelector(".item__office").textContent = `${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)} ｜ ${typeLabel(c.registrationType || DEFAULT_TYPE)} ｜ ${c.office}`;
+      const methodText = isLetterPackMethod(c.applicationMethod) ? ` ｜ ${applicationMethodLabel(c.applicationMethod)}` : "";
+      el.querySelector(".item__office").textContent = `${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)} ｜ ${typeLabel(c.registrationType || DEFAULT_TYPE)} ｜ ${c.office}${methodText}`;
       el.querySelector(".apply").textContent = fmtJP(c.applyDate);
       el.querySelector(".due").textContent = c.dueDate ? fmtJP(c.dueDate) : "未掲載";
       const sourceEl = el.querySelector(".item__source");
       sourceEl.textContent = "保存時点";
       const snapshotEl = el.querySelector(".item__snapshot");
-      if (snapshotEl) snapshotEl.textContent = `データ基準：${dataSnapshotText(c)}`;
-      const latestDue = lookupDue(c.jurisdiction || DEFAULT_JURISDICTION, c.registrationType || DEFAULT_TYPE, c.office, c.applyDate);
+      if (snapshotEl) snapshotEl.textContent = caseBasisText(c);
+      const latestDue = dueDateFor(c.jurisdiction || DEFAULT_JURISDICTION, c.registrationType || DEFAULT_TYPE, c.office, c.applyDate, c.applicationMethod);
       if (latestDue !== c.dueDate && (latestDue || c.dueDate)) {
         const latestEl = el.querySelector(".item__latest");
         latestEl.hidden = false;
@@ -1152,9 +1103,7 @@
         }
       }
       const actions = el.querySelector(".item__actions");
-      actions.appendChild(mkBtn("連絡文コピー", "mini mini--copy", (button) => copyClientMessage(c, button)));
       actions.appendChild(mkBtn("Googleカレンダー", "mini mini--calendar", () => openGoogleCalendar(c)));
-      actions.appendChild(mkBtn("予定を.ics", "mini mini--calendar", () => downloadCaseICS(c)));
       actions.appendChild(c.status === "done"
         ? mkBtn("未完了に戻す", "mini mini--undo", () => toggleDone(c.id, false))
         : mkBtn("完了にする", "mini mini--done", () => toggleDone(c.id, true)));
@@ -1169,6 +1118,7 @@
   }  async function addCase() {
     const jurisdiction = selectedJurisdiction();
     const registrationType = selectedType();
+    const applicationMethod = selectedMethod();
     const office = $("f-office").value;
     const applyDate = $("f-apply").value;
     if (!office || !applyDate) return;
@@ -1183,10 +1133,11 @@
       label: $("f-label").value.trim(),
       jurisdiction,
       registrationType,
+      applicationMethod,
       office,
       applyDate,
-      dueDate: lookupDue(jurisdiction, registrationType, office, applyDate),
-      ...currentDataSnapshot(),
+      dueDate: dueDateFor(jurisdiction, registrationType, office, applyDate, applicationMethod),
+      ...currentDataSnapshot(applicationMethod),
       status: "active",
       createdAt: new Date().toISOString(),
     };
@@ -1367,6 +1318,7 @@
 
     $("f-jurisdiction").addEventListener("change", updateControls);
     document.querySelectorAll('input[name="registration-type"]').forEach((input) => input.addEventListener("change", updateControls));
+    document.querySelectorAll('input[name="application-method"]').forEach((input) => input.addEventListener("change", updateResult));
     $("f-office").addEventListener("change", () => {
       renderFavorites();
       updateResult();
@@ -1379,7 +1331,6 @@
     $("case-jurisdiction-filter")?.addEventListener("change", render);
     $("case-type-filter")?.addEventListener("change", render);
     $("case-week-filter")?.addEventListener("change", render);
-    $("download-visible-ics")?.addEventListener("click", downloadVisibleICS);
     $("alert-banner").addEventListener("click", () => {
       const head = document.querySelector(".list-head");
       if (head) head.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1416,7 +1367,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260709-disclaimer-integrity", { updateViaCache: "none" })
+        .register("./sw.js?v=20260710-ui-letterpack", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });

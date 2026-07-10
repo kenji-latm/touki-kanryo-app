@@ -5,8 +5,10 @@ on:
     branches:
       - main
   schedule:
-    # 毎日 10:15（日本時間）
-    - cron: "15 1 * * *"
+    # 日本時間 8:00
+    - cron: "0 23 * * *"
+    # 日本時間 9:00〜16:00
+    - cron: "0 0-7 * * *"
   workflow_dispatch:
 
 env:
@@ -90,7 +92,3 @@ jobs:
       - name: GitHub Pagesへ公開
         id: deployment
         uses: actions/deploy-pages@v4
-
-
-
-

@@ -25,6 +25,7 @@ create table if not exists public.office_cases (
   label text not null default '',
   jurisdiction_id text not null,
   registration_type text not null check (registration_type in ('realEstate', 'commercial')),
+  application_method text not null default 'registryData' check (application_method in ('registryData', 'letterPack')),
   registry_office text not null,
   apply_date date not null,
   due_date date,
@@ -43,6 +44,14 @@ create table if not exists public.office_cases (
 alter table public.office_cases add column if not exists data_generated_at timestamptz;
 alter table public.office_cases add column if not exists data_hash text;
 alter table public.office_cases add column if not exists data_source text not null default '';
+alter table public.office_cases add column if not exists application_method text not null default 'registryData';
+DO $$
+begin
+  alter table public.office_cases
+    add constraint office_cases_application_method_check
+    check (application_method in ('registryData', 'letterPack'));
+exception when duplicate_object then null;
+end $$;
 create index if not exists office_cases_office_due_idx on public.office_cases (office_id, due_date, created_at desc);
 create index if not exists office_members_user_idx on public.office_members (user_id);
 
