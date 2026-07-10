@@ -1391,7 +1391,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260710-local-data-refresh", { updateViaCache: "none" })
+        .register("./sw.js?v=20260710-agetena-icon", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });

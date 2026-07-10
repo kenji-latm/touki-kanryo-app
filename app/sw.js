@@ -1,20 +1,20 @@
 // オフライン用キャッシュ（http(s)配信時のみ有効）。Phase 2bで通知(push)処理を追加予定。
 const CACHE_PREFIX = "touki-kanryo-";
-const CACHE = "touki-kanryo-v15-local-data-refresh";
+const CACHE = "touki-kanryo-v16-agetena-icon";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260710-local-data-refresh",
-  "./app.js?v=20260710-local-data-refresh",
-  "./shared-config.js?v=20260710-local-data-refresh",
+  "./styles.css?v=20260710-agetena-icon",
+  "./app.js?v=20260710-agetena-icon",
+  "./shared-config.js?v=20260710-agetena-icon",
   "./data/kanryo-integrity.js",
   "./data/kanryo.js",
   "./data/kanryo.json",
-  "./manifest.webmanifest?v=20260710-local-data-refresh",
-  "./apple-touch-icon.png?v=20260710-local-data-refresh",
-  "./icon-192.png?v=20260710-local-data-refresh",
-  "./icon-512.png?v=20260710-local-data-refresh",
-  "./icon.svg?v=20260710-local-data-refresh",
+  "./manifest.webmanifest?v=20260710-agetena-icon",
+  "./apple-touch-icon.png?v=20260710-agetena-icon",
+  "./icon-192.png?v=20260710-agetena-icon",
+  "./icon-512.png?v=20260710-agetena-icon",
+  "./icon.svg?v=20260710-agetena-icon",
 ];
 
 self.addEventListener("install", (e) => {
