@@ -305,6 +305,29 @@
     return true;
   }
 
+  function loadScriptFresh(src) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.async = false;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error(`${src} を読み込めませんでした。`));
+      document.head.appendChild(script);
+    });
+  }
+
+  async function refreshLocalDataScripts() {
+    if (location.protocol !== "file:") return;
+    const stamp = Date.now();
+    try {
+      await loadScriptFresh(`data/kanryo-integrity.js?v=${stamp}`);
+      await loadScriptFresh(`data/kanryo.js?v=${stamp}`);
+      useData(window.KANRYO_DATA || META);
+    } catch (e) {
+      console.warn("ローカルデータを再読み込みできないため、現在読み込み済みのデータを使います。", e);
+    }
+  }
+
   async function fetchLatestData() {
     const dataJsonUrl = typeof APP_CONFIG.dataJsonUrl === "string" && APP_CONFIG.dataJsonUrl.trim()
       ? APP_CONFIG.dataJsonUrl.trim()
@@ -1307,6 +1330,7 @@
 
   async function init() {
     activateSharedFeatureFromUrl();
+    await refreshLocalDataScripts();
     renderDataIntegrityStatus();
     await verifyDataIntegrity(META, "同梱データ");
     $("f-apply").value = todayISO();
@@ -1367,7 +1391,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260710-ui-letterpack", { updateViaCache: "none" })
+        .register("./sw.js?v=20260710-local-data-refresh", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });

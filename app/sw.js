@@ -1,20 +1,20 @@
 // オフライン用キャッシュ（http(s)配信時のみ有効）。Phase 2bで通知(push)処理を追加予定。
 const CACHE_PREFIX = "touki-kanryo-";
-const CACHE = "touki-kanryo-v14-ui-letterpack";
+const CACHE = "touki-kanryo-v15-local-data-refresh";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260710-ui-letterpack",
-  "./app.js?v=20260710-ui-letterpack",
-  "./shared-config.js?v=20260710-ui-letterpack",
+  "./styles.css?v=20260710-local-data-refresh",
+  "./app.js?v=20260710-local-data-refresh",
+  "./shared-config.js?v=20260710-local-data-refresh",
   "./data/kanryo-integrity.js",
   "./data/kanryo.js",
   "./data/kanryo.json",
-  "./manifest.webmanifest?v=20260710-ui-letterpack",
-  "./apple-touch-icon.png?v=20260710-ui-letterpack",
-  "./icon-192.png?v=20260710-ui-letterpack",
-  "./icon-512.png?v=20260710-ui-letterpack",
-  "./icon.svg?v=20260710-ui-letterpack",
+  "./manifest.webmanifest?v=20260710-local-data-refresh",
+  "./apple-touch-icon.png?v=20260710-local-data-refresh",
+  "./icon-192.png?v=20260710-local-data-refresh",
+  "./icon-512.png?v=20260710-local-data-refresh",
+  "./icon.svg?v=20260710-local-data-refresh",
 ];
 
 self.addEventListener("install", (e) => {
