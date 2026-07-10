@@ -1,20 +1,20 @@
 // オフライン用キャッシュ（http(s)配信時のみ有効）。Phase 2bで通知(push)処理を追加予定。
 const CACHE_PREFIX = "touki-kanryo-";
-const CACHE = "touki-kanryo-v16-agetena-icon";
+const CACHE = "touki-kanryo-v17-letterpack-after-due";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260710-agetena-icon",
-  "./app.js?v=20260710-agetena-icon",
-  "./shared-config.js?v=20260710-agetena-icon",
+  "./styles.css?v=20260710-letterpack-after-due",
+  "./app.js?v=20260710-letterpack-after-due",
+  "./shared-config.js?v=20260710-letterpack-after-due",
   "./data/kanryo-integrity.js",
   "./data/kanryo.js",
   "./data/kanryo.json",
-  "./manifest.webmanifest?v=20260710-agetena-icon",
-  "./apple-touch-icon.png?v=20260710-agetena-icon",
-  "./icon-192.png?v=20260710-agetena-icon",
-  "./icon-512.png?v=20260710-agetena-icon",
-  "./icon.svg?v=20260710-agetena-icon",
+  "./manifest.webmanifest?v=20260710-letterpack-after-due",
+  "./apple-touch-icon.png?v=20260710-letterpack-after-due",
+  "./icon-192.png?v=20260710-letterpack-after-due",
+  "./icon-512.png?v=20260710-letterpack-after-due",
+  "./icon.svg?v=20260710-letterpack-after-due",
 ];
 
 self.addEventListener("install", (e) => {

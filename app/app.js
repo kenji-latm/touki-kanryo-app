@@ -213,13 +213,16 @@
 
   function dueDateFor(jurisdictionId, typeId, office, applyISO, method = METHOD_REGISTRY) {
     if (!isISODate(applyISO)) return null;
-    if (isLetterPackMethod(method)) return addBusinessDaysISO(applyISO, 1);
+    if (isLetterPackMethod(method)) {
+      const baseDue = lookupDue(jurisdictionId, typeId, office, applyISO);
+      return baseDue ? addBusinessDaysISO(baseDue, 1) : null;
+    }
     return lookupDue(jurisdictionId, typeId, office, applyISO);
   }
 
   function caseBasisText(c) {
     if (isLetterPackMethod(c?.applicationMethod)) {
-      return "申請方法：レターパック申請（申請日の1営業日先・土日を除く）";
+      return "申請方法：レターパック申請（法務局データの完了予定日の翌営業日・土日を除く）";
     }
     return `データ基準：${dataSnapshotText(c)}`;
   }
@@ -246,7 +249,7 @@
       return {
         dataGeneratedAt: null,
         dataHash: null,
-        dataSource: "レターパック申請（申請日の1営業日先・土日を除く）",
+        dataSource: "レターパック申請（法務局データの完了予定日の翌営業日・土日を除く）",
       };
     }
     return {
@@ -876,7 +879,7 @@
     const n = diffDays(todayISO(), due);
     const context = `${jurisdictionLabel(jurisdictionId)}・${typeLabel(typeId)}・${office}`;
     const sourceNote = isLetterPack
-      ? "申請日の1営業日先（土日を除く）"
+      ? "法務局データの完了予定日の翌営業日（土日を除く）"
       : sourceText(lookupSourceStatus(jurisdictionId, typeId, office, apply));
     const sourceSuffix = sourceNote ? ` ／ ${sourceNote}` : "";
     const dataBasisSuffix = isLetterPack ? "" : ` ／ データ基準：${dataSnapshotText()}`;
@@ -1391,7 +1394,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260710-agetena-icon", { updateViaCache: "none" })
+        .register("./sw.js?v=20260710-letterpack-after-due", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });
