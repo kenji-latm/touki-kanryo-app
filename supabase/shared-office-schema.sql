@@ -1,4 +1,4 @@
--- 登記完了予定日アプリ：事務所共有モード用 Supabase schema
+-- アゲテナ：事務所共有モード用 Supabase schema
 -- Supabase SQL Editor で実行します。
 -- 重要：案件名を扱うため、RLS（行単位セキュリティ）を必ず有効にします。
 

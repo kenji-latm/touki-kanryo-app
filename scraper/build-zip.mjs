@@ -1,6 +1,6 @@
 // dist/ の配布物を1つのZIP(store)にまとめる
 // 同梱: はじめにお読みください.txt / touki-kanryo-standalone.html
-// 出力: dist/登記完了予定日アプリ.zip
+// 出力: dist/アゲテナ.zip
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.join(__dirname, "..", "dist");
-const OUT = path.join(DIST, "登記完了予定日アプリ.zip");
+const OUT = path.join(DIST, "アゲテナ.zip");
 const GUIDE = path.join(DIST, "はじめにお読みください.txt");
 const GUIDE_TEMPLATE = path.join(__dirname, "readme-template.txt");
 const DATA = path.join(__dirname, "..", "app", "data", "kanryo.json");

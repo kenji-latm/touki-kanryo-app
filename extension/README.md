@@ -1,4 +1,4 @@
-# 登記完了予定日 Chrome拡張版
+# アゲテナ Chrome拡張版
 
 案件保存あり・事務所共有なしのChrome拡張版です。
 
@@ -22,7 +22,7 @@ npm run build:extension
 
 - `dist/chrome-extension/`
   Chromeの「パッケージ化されていない拡張機能を読み込む」で指定するフォルダ
-- `dist/登記完了予定日Chrome拡張.zip`
+- `dist/アゲテナChrome拡張.zip`
   テスター配布用Zip
 
 ## ローカル確認手順
@@ -31,4 +31,4 @@ npm run build:extension
 2. 右上の「デベロッパー モード」をオン
 3. 「パッケージ化されていない拡張機能を読み込む」を押す
 4. `dist/chrome-extension/` を選ぶ
-5. Chrome右上の拡張機能アイコンから「登記完了予定日」を開く
+5. Chrome右上の拡張機能アイコンから「アゲテナ」を開く

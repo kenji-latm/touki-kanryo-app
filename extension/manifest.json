@@ -1,10 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "登記完了予定日",
+  "name": "アゲテナ",
   "description": "登記完了予定日を確認し、案件メモをこのChrome内だけに保存します。事務所共有機能はありません。",
   "version": "0.2.0",
   "action": {
-    "default_title": "登記完了予定日",
+    "default_title": "アゲテナ",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon-16.png",

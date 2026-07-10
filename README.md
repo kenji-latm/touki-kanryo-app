@@ -1,4 +1,4 @@
-# 登記完了予定日アプリ（PWA）
+# アゲテナ（登記完了予定日確認アプリ）
 
 申請日を入力すると、**掲載データのある法務局の不動産（権利）登記／商業・法人登記**の完了予定日を自動表示し、案件を一覧管理するPWA。
 完了予定日を過ぎた案件だけ、一覧と画面上部に控えめな超過表示が出る。
@@ -98,7 +98,7 @@ npm run build:extension
 
 - `dist/chrome-extension/`
   - Chromeの `chrome://extensions/` で「パッケージ化されていない拡張機能を読み込む」から指定するフォルダ
-- `dist/登記完了予定日Chrome拡張.zip`
+- `dist/アゲテナChrome拡張.zip`
   - テスター配布用Zip
 
 拡張版の案件保存は、そのChrome拡張の中だけです。事務所共有DBには送信しません。
@@ -143,5 +143,5 @@ npm run build:extension
 - 未対応の法務局・地方法務局へ順次拡大
 ## 公開中の関連ツール
 
-- 登記完了予定日アプリ: https://tools.ishimoto-legal.com/
+- アゲテナ: https://tools.ishimoto-legal.com/
 - 登記用電子署名チェッカー: https://tools.ishimoto-legal.com/electronic-signature-checker/

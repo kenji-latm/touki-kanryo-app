@@ -1,6 +1,6 @@
 // オフライン用キャッシュ（http(s)配信時のみ有効）。Phase 2bで通知(push)処理を追加予定。
 const CACHE_PREFIX = "touki-kanryo-";
-const CACHE = "touki-kanryo-v17-letterpack-after-due";
+const CACHE = "touki-kanryo-v18-agetena";
 const ASSETS = [
   "./",
   "./index.html",

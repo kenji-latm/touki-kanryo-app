@@ -1,7 +1,7 @@
 // Chrome拡張版の配布フォルダとZipを生成する。
 // 出力:
 // - dist/chrome-extension/
-// - dist/登記完了予定日Chrome拡張.zip
+// - dist/アゲテナChrome拡張.zip
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
@@ -13,7 +13,7 @@ const APP = path.join(ROOT, "app");
 const EXTENSION = path.join(ROOT, "extension");
 const DIST = path.join(ROOT, "dist");
 const OUT_DIR = path.join(DIST, "chrome-extension");
-const OUT_ZIP = path.join(DIST, "登記完了予定日Chrome拡張.zip");
+const OUT_ZIP = path.join(DIST, "アゲテナChrome拡張.zip");
 
 function ensureCleanDir(dir) {
   fs.rmSync(dir, { recursive: true, force: true });
