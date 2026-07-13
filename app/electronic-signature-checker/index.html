@@ -521,6 +521,21 @@
       line-height: 1.6;
     }
 
+    .pdf-scope-note {
+      margin-top: 12px;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: #fbfbfd;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+      padding: 12px 14px;
+    }
+
+    .pdf-scope-note b {
+      color: var(--ink);
+    }
+
     .pdf-results {
       display: grid;
       gap: 12px;
@@ -871,7 +886,8 @@
           <span>ファイルはブラウザ内で処理します</span>
         </span>
       </label>
-      <div id="pdfStatus" class="pdf-hint">「有効候補」は文書の整合性と証明書の有効期間による事前確認です。失効・信頼チェーンを含む最終判定は、Adobe Acrobat等でも確認してください。</div>
+      <div id="pdfStatus" class="pdf-hint">署名付きPDFを選ぶと、ここに確認結果を表示します。</div>
+      <div class="pdf-scope-note"><b>この画面は事前確認です。</b>確認するのは、署名の存在／署名者名の候補／証明書の有効期間／署名対象部分の変更有無（ダイジェスト照合）／法務省掲載一覧との照合までです。署名値そのものの暗号学的検証・証明書の失効確認・信頼チェーンの検証は行っていません。登記申請前の最終確認は、Adobe Acrobat等の署名パネルでも行ってください。</div>
       <div id="pdfResults" class="pdf-results" aria-live="polite"></div>
     </section>
     <section id="summary" class="summary idle" aria-live="polite" hidden></section>
@@ -1465,12 +1481,89 @@
       }
     ];
 
-    entries.push(...otherServices.map((service) => ({
-      kind: "添付書面その他",
-      contexts: ATTACHMENT_ONLY,
-      condition: service.condition || "添付書面情報に限る。代表取締役の選任を証する情報などでは、法務省注9の併用要件に注意。",
-      ...service
-    })));
+    // 自動取り込みデータ（moj-signature-data.js）は aliases が空のため、
+    // 表記ゆれ・略称はここで補完する（データを再生成しても消えない）。
+    const SERVICE_SUPPLEMENT_LIST = [
+      { name: "かんたん電子契約 for クラウド", aliases: ["かんたん電子契約", "セイコーソリューションズ"] },
+      { name: "官報", aliases: ["官報PDF", "国立印刷局"], condition: "該当の記事が掲載されている1ページごとの官報PDFのみ送信可。" },
+      { name: "クラウド契約管理Sign", aliases: ["クラウド契約管理サイン"] },
+      { name: "クラウドサイン", aliases: ["CloudSign", "弁護士ドットコム"] },
+      { name: "契約大臣", aliases: ["TeraDox", "テラドックス"] },
+      { name: "シムワーク", aliases: ["simwork"] },
+      { name: "ジンジャーサイン", aliases: ["jinjerサイン", "jinjer"] },
+      { name: "セコムあんしんエコ文書サービス", aliases: ["あんしんエコ文書"] },
+      { name: "セコム議事録電子化サービス", aliases: ["議事録電子化サービス"] },
+      { name: "デジロー", aliases: ["デジリオ", "デジロー電子契約"] },
+      { name: "電子印鑑GMOサイン", aliases: ["GMOサイン", "電子印鑑ＧＭＯサイン", "GMOグローバルサイン"] },
+      { name: "電子取引サービス＠Sign", aliases: ["電子取引サービス@Sign", "@Sign", "アットサイン"] },
+      { name: "ベクターサイン", aliases: ["Vector Sign", "V-Sign"] },
+      { name: "マネーフォワード クラウド契約", aliases: ["マネーフォワード契約", "Money Forward クラウド契約"] },
+      { name: "リーテックスデジタル契約", aliases: ["リーテックス", "Le-Techs"] },
+      { name: "Adobe Sign", aliases: ["アドビサイン"] },
+      { name: "Adobe Acrobat Sign", aliases: ["Acrobat Sign", "アクロバットサイン", "アドビアクロバットサイン"] },
+      { name: "BtoBプラットフォーム契約書", aliases: ["BtoBプラットフォーム", "インフォマート"] },
+      { name: "CMサイン", aliases: ["CM Sign", "CM.com"] },
+      { name: "COMPACT IN", aliases: ["コンパクトイン"] },
+      { name: "CONTRACTHUB@absonne", aliases: ["CONTRACTHUB", "コントラクトハブ", "absonne"] },
+      { name: "CONTRACT CROSS", aliases: ["コントラクトクロス"] },
+      { name: "CONTRACT CUBE", aliases: ["コントラクトキューブ"] },
+      { name: "ContractS CLM", aliases: ["ContractS", "コントラクツ"] },
+      { name: "Digital Sign", aliases: ["デジタルサイン"] },
+      { name: "DottedSign", aliases: ["ドットサイン"] },
+      { name: "DS Email", aliases: ["DocuSign Email", "ドキュサイン", "DocuSign"] },
+      { name: "DX-Sign", aliases: ["DX Sign", "ディーエックスサイン"] },
+      { name: "e-bookAC", aliases: ["ebookAC", "イーブックAC"] },
+      { name: "eformsign", aliases: ["eform sign", "イーフォームサイン"] },
+      { name: "EU Advanced", aliases: ["DocuSign EU Advanced", "ドキュサイン"] },
+      { name: "freeeサイン", aliases: ["freee sign", "フリーサイン"] },
+      { name: "Governance Cloud", aliases: ["ガバナンスクラウド"] },
+      { name: "Great Sign", aliases: ["グレートサイン", "TREASURY"] },
+      { name: "iTrust 電子署名用証明書", aliases: ["iTrust", "アイトラスト", "Cybertrust iTrust"] },
+      { name: "KING OF TIME 電子契約", aliases: ["キングオブタイム電子契約", "KING OF TIME"] },
+      { name: "LegalXross(リーガルクロス)LX Sign", aliases: ["LegalXross", "リーガルクロス", "LX Sign", "LXサイン", "SMBCリーガルX"] },
+      { name: "MJS e-ドキュメントCloud", aliases: ["MJS eドキュメントCloud", "ミロク情報サービス"] },
+      { name: "Nasdaq Boardvantage", aliases: ["Boardvantage", "ナスダック"] },
+      { name: "OneSpan Sign", aliases: ["ワンスパン"] },
+      { name: "OpenSign", aliases: ["オープンサイン"] },
+      { name: "paperlogic電子契約", aliases: ["paperlogic", "ペーパーロジック電子契約", "ペーパーロジック"] },
+      { name: "SATSIGN", aliases: ["サットサイン"] },
+      { name: "Shachihata Cloud", aliases: ["シヤチハタクラウド", "シャチハタクラウド"] },
+      { name: "SignTime", aliases: ["サインタイム"] },
+      { name: "SMBCクラウドサイン", aliases: ["SMBC CloudSign"] },
+      { name: "Venus Sign", aliases: ["ヴィーナスサイン", "ビーナスサイン"] },
+      { name: "WAN-Sign", aliases: ["WAN Sign", "ワンサイン", "NXワンビシアーカイブズ"] }
+    ];
+    const SERVICE_SUPPLEMENTS = new Map(SERVICE_SUPPLEMENT_LIST.map((item) => [normalize(item.name), item]));
+
+    // 自動取り込みで欠落したことのある掲載サービス。外部データに無い場合のみ補う。
+    const SERVICE_FALLBACK_ENTRIES = [
+      {
+        name: "リーテックスデジタル契約",
+        provider: "リーテックス株式会社",
+        certificates: ["DIACERT Service（三菱電機インフォメーションネットワーク株式会社）"],
+        published: "R5.3.2",
+        link: "https://le-techs.com",
+        aliases: []
+      }
+    ];
+
+    const mergedServices = [...otherServices];
+    for (const extra of SERVICE_FALLBACK_ENTRIES) {
+      if (!mergedServices.some((service) => normalize(service.name) === normalize(extra.name))) {
+        mergedServices.push(extra);
+      }
+    }
+
+    entries.push(...mergedServices.map((service) => {
+      const supplement = SERVICE_SUPPLEMENTS.get(normalize(service.name)) || {};
+      return {
+        kind: "添付書面その他",
+        contexts: ATTACHMENT_ONLY,
+        ...service,
+        condition: service.condition || supplement.condition || "添付書面情報に限る。代表取締役の選任を証する情報などでは、法務省注9の併用要件に注意。",
+        aliases: [...new Set([...(service.aliases || []), ...(supplement.aliases || [])])]
+      };
+    }));
 
     const queryInput = document.getElementById("query");
     const contextSelect = document.getElementById("context");
@@ -2235,16 +2328,24 @@
       return humanReadableSigner(candidate);
     }
 
+    const SIGNER_NOT_FOUND = "PDF署名からは個人名を特定できません";
+
     function signerIdentity(sig, certs) {
       const reasonName = signerNameFromReason(sig.reason);
-      if (reasonName) return { name: reasonName, source: "署名のプロパティ（理由欄）" };
+      if (reasonName) return { name: reasonName, source: "署名のプロパティ（理由欄）", selfDeclared: true };
       const pdfName = humanReadableSigner(sig.signerNamePdf);
-      if (pdfName) return { name: pdfName, source: "PDF署名名" };
+      if (pdfName) return { name: pdfName, source: "PDF署名名", selfDeclared: true };
       for (const cert of certs) {
         const cn = humanReadableSigner(cert.subject?.cn);
-        if (cn) return { name: cn, source: "電子証明書の主体名" };
+        if (cn) return { name: cn, source: "電子証明書の主体名", selfDeclared: false };
       }
-      return { name: "PDF署名からは個人名を特定できません", source: "特定不可" };
+      return { name: SIGNER_NOT_FOUND, source: "特定不可", selfDeclared: false };
+    }
+
+    function signerCertificate(certs) {
+      if (!certs.length) return null;
+      const issuerTexts = new Set(certs.map((cert) => cert.issuer?.text).filter(Boolean));
+      return certs.find((cert) => cert.subject?.text && !issuerTexts.has(cert.subject.text)) || certs[0];
     }
 
     function certificateSubjectSummary(certs) {
@@ -2260,8 +2361,11 @@
       if (signatureKind(sig, certs).type === "timestamp") {
         return "この署名はタイムスタンプ等の技術署名の可能性があります。PDF内の主たる電子署名の結果もあわせて確認してください。";
       }
-      const hasHuman = signerCandidate(sig, certs) !== "PDF署名からは個人名を特定できません";
-      if (hasHuman) return "";
+      const identity = signerIdentity(sig, certs);
+      if (identity.name !== SIGNER_NOT_FOUND && identity.selfDeclared) {
+        return "署名者名は署名時に入力された情報（理由欄・署名名）から表示しています。電子証明書で本人確認された氏名ではないため、当事者名はPDF本文・合意締結証明書・サービス画面でも確認してください。";
+      }
+      if (identity.name !== SIGNER_NOT_FOUND) return "";
       return "クラウドサイン等の立会人型では、電子証明書に契約当事者本人の氏名が入らないことがあります。契約者名はPDF本文、合意締結証明書、サービス画面で確認してください。";
     }
 
@@ -2326,10 +2430,10 @@
       }
       if (!matches.length) {
         return {
-          state: "no",
-          label: "NG/不明",
-          title: "掲載一覧との一致候補なし",
-          text: "読み取れた署名情報では、法務省掲載一覧にある電子証明書・発行者候補を特定できませんでした。"
+          state: "none",
+          label: "候補なし",
+          title: "掲載一覧との一致候補を特定できず",
+          text: "読み取れた署名情報からは、法務省掲載一覧の該当を特定できませんでした。掲載がない場合のほか、PDFから情報を読み取れなかった場合もあります。サービス名・証明書名を上の検索でも確認してください。"
         };
       }
       const best = matches[0].entry;
@@ -2353,7 +2457,7 @@
         };
       }
       const signer = signerCandidate(sig, certs);
-      const hasSigner = signer !== "PDF署名からは個人名を特定できません";
+      const hasSigner = signer !== SIGNER_NOT_FOUND;
       return {
         state: "warn",
         label: "要確認",
@@ -2374,7 +2478,7 @@
       `;
     }
     function pdfVerdict(matches) {
-      if (!matches.length) return { state: "no", text: "読み取れた署名情報では掲載候補を特定できません" };
+      if (!matches.length) return { state: "none", text: "掲載候補を特定できませんでした（読取限界の可能性あり）。手動でも確認してください" };
       const contexts = new Set(matches.flatMap((item) => item.entry.contexts || []));
       const hasApplication = contexts.has("applicationApplicant") || contexts.has("applicationProxy") || contexts.has("mandate");
       const hasAttachment = contexts.has("attachment");
@@ -2409,6 +2513,13 @@
           : pdfVerdict(uniqueMatches);
         const signerInfo = signerIdentity(sig, certs);
         const signer = signerInfo.name;
+        const signerNote = signerInfo.selfDeclared
+          ? "（署名時の入力情報・本人確認情報ではありません）"
+          : (signerInfo.source === "電子証明書の主体名" ? "（電子証明書の記載）" : "");
+        const leafCert = signerCertificate(certs);
+        const certOwner = leafCert
+          ? (leafCert.subject?.cn || leafCert.subject?.o || leafCert.subject?.text || "不明")
+          : "読取不可";
         const caution = signerCaution(sig, certs);
         const pdfNameInfo = sig.signerNamePdf
           ? `${sig.signerNamePdf}${isTechnicalSignerName(sig.signerNamePdf) ? "（技術情報の可能性）" : ""}`
@@ -2465,7 +2576,8 @@
             ${checksHtml}
             <div class="pdf-keyline">
               <div><b>署名の種類:</b> ${escapeHtml(kind.label)}</div>
-              <div><b>署名者:</b> ${escapeHtml(signer)}</div>
+              <div><b>署名者（候補）:</b> ${escapeHtml(signer)}${escapeHtml(signerNote)}</div>
+              <div><b>証明書の名義:</b> ${escapeHtml(certOwner)}</div>
               <div><b>有効性:</b> ${escapeHtml(displayValidity)}</div>
               <div><b>署名日時:</b> ${escapeHtml(sig.signingDate ? formatDateTime(sig.signingDate) : (sig.signingDateRaw || "不明"))}</div>
             </div>
