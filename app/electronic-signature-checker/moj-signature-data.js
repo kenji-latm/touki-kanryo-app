@@ -1,6 +1,6 @@
 // Generated from https://www.moj.go.jp/MINJI/minji60.html
-// Updated at 2026-07-08 13:31
-window.MOJ_SIGNATURE_DATA_UPDATED_AT = "2026-07-08 13:31";
+// Updated at 2026-07-16 14:47
+window.MOJ_SIGNATURE_DATA_UPDATED_AT = "2026-07-16 14:47";
 window.MOJ_SIGNATURE_OTHER_SERVICES = [
   {
     "name": "Adobe Acrobat Sign",
@@ -485,7 +485,7 @@ window.MOJ_SIGNATURE_OTHER_SERVICES = [
     "aliases": []
   },
   {
-    "name": "デジロー",
+    "name": "デジリオ",
     "provider": "株式会社RIT",
     "certificates": [
       "Cybertrust iTrust Signature Certification Authority G2",
