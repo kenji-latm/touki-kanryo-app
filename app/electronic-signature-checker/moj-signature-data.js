@@ -1,6 +1,6 @@
 // Generated from https://www.moj.go.jp/MINJI/minji60.html
-// Updated at 2026-07-17 13:56
-window.MOJ_SIGNATURE_DATA_UPDATED_AT = "2026-07-17 13:56";
+// Updated at 2026-07-17 16:12
+window.MOJ_SIGNATURE_DATA_UPDATED_AT = "2026-07-17 16:12";
 window.MOJ_SIGNATURE_OTHER_SERVICES = [
   {
     "name": "Adobe Acrobat Sign",
@@ -195,17 +195,6 @@ window.MOJ_SIGNATURE_OTHER_SERVICES = [
     ],
     "published": "R6.9.20",
     "link": "https://www.eformsign.com/jp/index.html",
-    "aliases": []
-  },
-  {
-    "name": "EU Advanced",
-    "provider": "ドキュサイン・ジャパン株式会社",
-    "certificates": [
-      "DocuSign Cloud Signing CA-SI1",
-      "（ドキュサイン・ジャパン株式会社）"
-    ],
-    "published": "R2.9.3",
-    "link": "https://www.docusign.jp/blog/public-digital-certificates-japan",
     "aliases": []
   },
   {
