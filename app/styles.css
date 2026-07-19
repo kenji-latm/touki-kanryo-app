@@ -255,6 +255,22 @@ button, input, select { font: inherit; }
   border-color: var(--focus);
   box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.14);
 }
+.date-input-wrap {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding-right: 14px;
+  background: var(--surface-soft);
+  border: 1px solid transparent;
+  border-radius: 14px;
+}
+.date-input-wrap #f-apply { flex: 1; min-width: 0; background: transparent; border: 0; box-shadow: none; }
+.date-input-weekday { flex: 0 0 auto; color: var(--text); font-size: 16px; font-weight: 500; }
+.date-input-wrap:focus-within {
+  background: var(--surface);
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.14);
+}
 .favorite-toggle {
   display: block;
   width: 100%;

@@ -148,6 +148,13 @@
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   }
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+
+  function updateApplyWeekday() {
+    const d = isoDate($("f-apply")?.value);
+    const weekday = $("f-apply-weekday");
+    if (weekday) weekday.textContent = d ? `（${WD[d.getDay()]}）` : "";
+  }
+
   const jurisdictionLabel = (jurisdictionId) =>
     JURISDICTIONS.find((j) => j.id === jurisdictionId)?.label ||
     FALLBACK_JURISDICTIONS.find((j) => j.id === jurisdictionId)?.label ||
@@ -1401,6 +1408,7 @@
     renderDataIntegrityStatus();
     await verifyDataIntegrity(META, "同梱データ");
     $("f-apply").value = todayISO();
+    updateApplyWeekday();
     populateJurisdictions();
     updateControls();
     updateDataMeta();
@@ -1414,7 +1422,10 @@
       renderFavorites();
       updateResult();
     });
-    $("f-apply").addEventListener("change", updateResult);
+    $("f-apply").addEventListener("change", () => {
+      updateApplyWeekday();
+      updateResult();
+    });
     $("favorite-toggle").addEventListener("click", toggleFavorite);
     $("f-add").addEventListener("click", addCase);
     $("show-done").addEventListener("change", render);
@@ -1463,7 +1474,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260719-v110", { updateViaCache: "none" })
+        .register("./sw.js?v=20260719-v111", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });
