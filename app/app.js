@@ -16,7 +16,7 @@
   const METHOD_LETTERPACK = "letterPack";
   const METHOD_LABELS = {
     [METHOD_REGISTRY]: "法務局データ",
-    [METHOD_LETTERPACK]: "レターパック申請",
+    [METHOD_LETTERPACK]: "1営業日先登録",
   };
   const FALLBACK_JURISDICTIONS = [
     { id: "tokyo", label: "東京法務局" },
@@ -211,18 +211,39 @@
     return normalizeApplicationMethod(method) === METHOD_LETTERPACK;
   }
 
+  function nextBusinessDayEstimate(jurisdictionId, typeId, office, applyISO) {
+    const entries = DB[jurisdictionId]?.[typeId]?.[office] || {};
+    const previousApplyDate = Object.keys(entries)
+      .filter((date) => isISODate(date) && date < applyISO && isISODate(entries[date]))
+      .sort()
+      .pop();
+    if (!previousApplyDate) return null;
+    return {
+      dueDate: addBusinessDaysISO(entries[previousApplyDate], 1),
+      previousApplyDate,
+      previousDueDate: entries[previousApplyDate],
+    };
+  }
+
   function dueDateFor(jurisdictionId, typeId, office, applyISO, method = METHOD_REGISTRY) {
     if (!isISODate(applyISO)) return null;
     if (isLetterPackMethod(method)) {
-      const baseDue = lookupDue(jurisdictionId, typeId, office, applyISO);
-      return baseDue ? addBusinessDaysISO(baseDue, 1) : null;
+      const publishedDue = lookupDue(jurisdictionId, typeId, office, applyISO);
+      if (publishedDue) return publishedDue;
+      return nextBusinessDayEstimate(jurisdictionId, typeId, office, applyISO)?.dueDate || null;
     }
     return lookupDue(jurisdictionId, typeId, office, applyISO);
   }
 
   function caseBasisText(c) {
     if (isLetterPackMethod(c?.applicationMethod)) {
-      return "申請方法：レターパック申請（法務局データの完了予定日の翌営業日・土日を除く）";
+      const jurisdiction = c?.jurisdiction || DEFAULT_JURISDICTION;
+      const type = c?.registrationType || DEFAULT_TYPE;
+      const estimate = nextBusinessDayEstimate(jurisdiction, type, c?.office, c?.applyDate);
+      if (estimate && !lookupDue(jurisdiction, type, c?.office, c?.applyDate)) {
+        return `算出根拠：${fmtJP(estimate.previousApplyDate)}申請分の予定日 ${fmtJP(estimate.previousDueDate)}から1営業日先（土日を除く）`;
+      }
+      return "算出根拠：選択した申請日の法務局データ";
     }
     return `データ基準：${dataSnapshotText(c)}`;
   }
@@ -249,7 +270,7 @@
       return {
         dataGeneratedAt: null,
         dataHash: null,
-        dataSource: "レターパック申請（法務局データの完了予定日の翌営業日・土日を除く）",
+        dataSource: "1営業日先登録（直前に取得できた完了予定日から算出）",
       };
     }
     return {
@@ -360,7 +381,7 @@
       label: typeof item.label === "string" ? item.label : "",
       jurisdiction: typeof item.jurisdiction === "string" && item.jurisdiction ? item.jurisdiction : DEFAULT_JURISDICTION,
       registrationType: typeof item.registrationType === "string" && item.registrationType ? item.registrationType : DEFAULT_TYPE,
-      applicationMethod: normalizeApplicationMethod(item.applicationMethod || (/レターパック/.test(item.dataSource || "") ? METHOD_LETTERPACK : METHOD_REGISTRY)),
+      applicationMethod: normalizeApplicationMethod(item.applicationMethod || (/(?:レターパック|1営業日先登録)/.test(item.dataSource || "") ? METHOD_LETTERPACK : METHOD_REGISTRY)),
       office,
       applyDate,
       dueDate: isISODate(item.dueDate) ? item.dueDate : null,
@@ -522,7 +543,7 @@
       label: row.label || "",
       jurisdiction: row.jurisdiction_id || DEFAULT_JURISDICTION,
       registrationType: row.registration_type || DEFAULT_TYPE,
-      applicationMethod: row.application_method || (/レターパック/.test(row.data_source || "") ? METHOD_LETTERPACK : METHOD_REGISTRY),
+      applicationMethod: row.application_method || (/(?:レターパック|1営業日先登録)/.test(row.data_source || "") ? METHOD_LETTERPACK : METHOD_REGISTRY),
       office: row.registry_office || "",
       applyDate: row.apply_date || "",
       dueDate: row.due_date || null,
@@ -872,14 +893,17 @@
     if (!due) {
       box.className = "result result--warn";
       dateEl.textContent = "未掲載";
-      hintEl.textContent = `この申請日は現在の掲載表・過去取得済みデータのどちらにもありません（休日・対象期間外など）。保存した場合は「未掲載」の状態を保持し、後日掲載された値とは区別して表示します。${saveSuffix}`;
+      hintEl.textContent = isLetterPack
+        ? `この申請日より前のデータがないため、1営業日先を算出できません。${saveSuffix}`
+        : `この申請日は現在の掲載表・過去取得済みデータのどちらにもありません。「1営業日先登録」を選ぶと、直前に取得できた予定日から仮登録できます。${saveSuffix}`;
       return;
     }
 
     const n = diffDays(todayISO(), due);
     const context = `${jurisdictionLabel(jurisdictionId)}・${typeLabel(typeId)}・${office}`;
-    const sourceNote = isLetterPack
-      ? "法務局データの完了予定日の翌営業日（土日を除く）"
+    const estimate = isLetterPack ? nextBusinessDayEstimate(jurisdictionId, typeId, office, apply) : null;
+    const sourceNote = isLetterPack && !lookupDue(jurisdictionId, typeId, office, apply) && estimate
+      ? `${fmtJP(estimate.previousApplyDate)}申請分の予定日から1営業日先（土日を除く）`
       : sourceText(lookupSourceStatus(jurisdictionId, typeId, office, apply));
     const sourceSuffix = sourceNote ? ` ／ ${sourceNote}` : "";
     const dataBasisSuffix = isLetterPack ? "" : ` ／ データ基準：${dataSnapshotText()}`;
@@ -1063,6 +1087,45 @@
     }
     window.open(url, "_blank", "noopener");
   }
+
+  function reportTemplate(c) {
+    const subject = c.label && c.label.trim() ? c.label.trim() : typeLabel(c.registrationType || DEFAULT_TYPE);
+    const registrationSubject = /登記$/.test(subject) ? subject : `${subject}の登記`;
+    const dueText = c.dueDate
+      ? (() => {
+          const [, month, day] = c.dueDate.split("-").map(Number);
+          return `登記完了は${month}月${day}日頃の予定です。`;
+        })()
+      : "登記完了予定日は、現在確認中です。";
+    return `お世話になっております。\n本日、${registrationSubject}を申請しました。\n${dueText}\n登記が完了しましたら、改めてご連絡いたします。`;
+  }
+
+  function openReportSheet(c) {
+    const sheet = $("report-sheet");
+    $("report-text").value = reportTemplate(c);
+    if (typeof sheet.showModal === "function") sheet.showModal();
+    else sheet.setAttribute("open", "");
+  }
+
+  function closeReportSheet() {
+    const sheet = $("report-sheet");
+    if (typeof sheet.close === "function") sheet.close();
+    else sheet.removeAttribute("open");
+  }
+
+  async function copyReportText(button) {
+    const text = $("report-text").value;
+    if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(text);
+    else {
+      $("report-text").select();
+      document.execCommand("copy");
+      window.getSelection()?.removeAllRanges();
+    }
+    const original = button.textContent;
+    button.textContent = "コピーしました ✓";
+    setTimeout(() => { button.textContent = original; }, 1200);
+  }
+
   function render() {
     const list = $("list");
     const visible = getVisibleCases();
@@ -1095,7 +1158,7 @@
       el.className = `item item--${st}`;
       el.innerHTML = `
         <div class="item__top">
-          <span class="item__label"></span>
+          <button class="item__label" type="button" title="申請報告文を表示"></button>
           <span class="badge ${b.cls}">${b.text}</span>
         </div>
         <div class="item__office"></div>
@@ -1105,6 +1168,7 @@
         <div class="item__snapshot"></div>
         <div class="item__actions"></div>`;
       el.querySelector(".item__label").textContent = c.label && c.label.trim() ? c.label : "（メモなし）";
+      el.querySelector(".item__label").addEventListener("click", () => openReportSheet(c));
       const methodText = isLetterPackMethod(c.applicationMethod) ? ` ｜ ${applicationMethodLabel(c.applicationMethod)}` : "";
       el.querySelector(".item__office").textContent = `${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)} ｜ ${typeLabel(c.registrationType || DEFAULT_TYPE)} ｜ ${c.office}${methodText}`;
       el.querySelector(".apply").textContent = fmtJP(c.applyDate);
@@ -1368,6 +1432,11 @@
     $("shared-logout")?.addEventListener("click", signOutShared);
     $("shared-refresh")?.addEventListener("click", refreshSharedFromButton);
     $("shared-office")?.addEventListener("change", () => changeSharedOffice().catch(handleSharedError));
+    $("report-close")?.addEventListener("click", closeReportSheet);
+    $("report-copy")?.addEventListener("click", (event) => copyReportText(event.currentTarget).catch(handleSharedError));
+    $("report-sheet")?.addEventListener("click", (event) => {
+      if (event.target === event.currentTarget) closeReportSheet();
+    });
 
     render();
     if (storageMode === "shared") await startSharedMode();
@@ -1394,7 +1463,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260710-letterpack-after-due", { updateViaCache: "none" })
+        .register("./sw.js?v=20260719-v110", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });

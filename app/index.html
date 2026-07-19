@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest?v=20260710-agetena" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260710-letterpack-after-due" />
   <link rel="icon" href="icon.svg?v=20260710-letterpack-after-due" />
-  <link rel="stylesheet" href="styles.css?v=20260710-letterpack-after-due" />
+  <link rel="stylesheet" href="styles.css?v=20260719-v110" />
   <!-- file:// でも動くようデータはJSで読み込む -->
   <script src="data/kanryo-integrity.js"></script>
   <script src="data/kanryo.js"></script>
@@ -64,7 +64,7 @@
             </label>
             <label>
               <input type="radio" name="application-method" value="letterPack" />
-              <span>レターパック申請</span>
+              <span>1営業日先登録</span>
             </label>
           </div>
         </fieldset>
@@ -162,13 +162,26 @@
     </section>
   </main>
 
+  <dialog id="report-sheet" class="report-sheet" aria-labelledby="report-sheet-title">
+    <div class="report-sheet__handle" aria-hidden="true"></div>
+    <div class="report-sheet__head">
+      <div>
+        <p class="report-sheet__eyebrow">申請報告</p>
+        <h2 id="report-sheet-title" class="report-sheet__title">報告文をコピー</h2>
+      </div>
+      <button id="report-close" class="report-sheet__close" type="button" aria-label="閉じる">×</button>
+    </div>
+    <textarea id="report-text" class="report-sheet__text" readonly aria-label="申請報告文"></textarea>
+    <button id="report-copy" class="btn btn--primary report-sheet__copy" type="button">文面をコピー</button>
+  </dialog>
+
   <footer class="footer">
     <p id="data-meta"></p>
     <p class="footer__note">負荷対策：ユーザーの検索操作では法務局サイトへアクセスせず、定期取得した保存済みデータだけを照会します。データ更新時も登録済みURLを順番に取得し、連続アクセスを避けます。対象：掲載データのある法務局・地方法務局の不動産（権利）登記／商業・法人登記。保存案件は、保存時点の完了予定日を保持します。完了予定日は目安で、不備・実地調査・事前通知等により翌日以降になる場合があります（出典：各法務局）。</p>
     <p class="footer__links"><a href="privacy.html">プライバシーについて</a></p>
   </footer>
 
-  <script src="shared-config.js?v=20260710-letterpack-after-due"></script>
-  <script src="app.js?v=20260710-letterpack-after-due"></script>
+  <script src="shared-config.js?v=20260719-v110"></script>
+  <script src="app.js?v=20260719-v110"></script>
 </body>
 </html>
