@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const SOURCE_URL = 'https://www.moj.go.jp/MINJI/minji60.html';
-const OUT_FILE = path.join(__dirname, '..', 'app', 'electronic-signature-checker', 'moj-signature-data.js');
+const OUT_FILE = path.join(__dirname, '..', 'app', 'toshitena', 'moj-signature-data.js');
 
 function decodeHtml(value) {
   return String(value || '')

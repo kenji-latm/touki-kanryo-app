@@ -1,0 +1,2677 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>トウシテナ</title>
+  <style>
+    :root {
+      --brand: #9eca45;
+      --brand-dark: #55731b;
+      --brand-soft: #eef7d9;
+      --ink: #1d1d1f;
+      --muted: #6e6e73;
+      --line: #d2d2d7;
+      --line-soft: #e8e8ed;
+      --paper: #ffffff;
+      --bg: #f5f5f7;
+      --link: #0066cc;
+      --amber: #9a6a00;
+      --red: #b42318;
+      --shadow: 0 16px 42px rgba(0, 0, 0, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Yu Gothic UI", "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      font-size: 17px;
+      line-height: 1.62;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px clamp(20px, 4vw, 56px);
+      border-bottom: 1px solid rgba(210, 210, 215, 0.85);
+      background: rgba(255, 255, 255, 0.98);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 15px;
+      font-weight: 650;
+      color: #2b2b2d;
+      letter-spacing: 0;
+    }
+
+    .brand-mark {
+      inline-size: 30px;
+      block-size: 30px;
+      border-radius: 8px;
+      background: var(--ink);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 14px;
+      color: var(--link);
+      background: #fff;
+      font-size: 15px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .source-link:hover {
+      border-color: #b9b9c0;
+      text-decoration: none;
+      background: #f9f9fb;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 36px));
+      margin: 44px auto 64px;
+    }
+
+    .title-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 720;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 16px 0 0;
+      color: var(--muted);
+      max-width: 820px;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .meta-pill {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 999px;
+      padding: 8px 14px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .search-panel,
+    .summary,
+    .result-card,
+    .directory {
+      background: var(--paper);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .search-panel {
+      padding: clamp(22px, 3vw, 32px);
+      margin-bottom: 18px;
+    }
+
+    .search-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(250px, 330px);
+      gap: 16px;
+      align-items: end;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #424245;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 54px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font: inherit;
+      font-size: 17px;
+      color: var(--ink);
+      background: #fbfbfd;
+    }
+
+    input::placeholder {
+      color: #86868b;
+    }
+
+    input:focus,
+    select:focus {
+      outline: 4px solid rgba(158, 202, 69, 0.20);
+      border-color: var(--brand);
+      background: #fff;
+    }
+
+    .quick-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: #fbfbfd;
+      color: #424245;
+      border-radius: 999px;
+      padding: 8px 13px;
+      font: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      min-height: 38px;
+    }
+
+    button:hover {
+      border-color: #b9b9c0;
+      background: #f1f1f4;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .status-dot {
+      inline-size: 48px;
+      block-size: 48px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      font-weight: 750;
+      color: #fff;
+      background: #86868b;
+    }
+
+    .summary.ok .status-dot {
+      background: var(--brand-dark);
+    }
+
+    .summary.warn .status-dot {
+      background: var(--amber);
+    }
+
+    .summary.no .status-dot {
+      background: var(--red);
+    }
+
+    .summary.idle .status-dot {
+      background: #424245;
+    }
+
+    .summary h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .summary p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .results {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .result-card {
+      padding: 20px;
+    }
+
+    .result-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .result-title {
+      margin: 0;
+      font-size: 23px;
+      font-weight: 700;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .kind {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 13px;
+      font-weight: 650;
+      background: #f1f1f4;
+      color: #424245;
+      white-space: nowrap;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 10px 14px;
+      font-size: 15px;
+    }
+
+    .info-grid dt {
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .info-grid dd {
+      margin: 0;
+      min-width: 0;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .context-badge {
+      border: 1px solid var(--line);
+      background: #fbfbfd;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 13px;
+      color: #515154;
+      line-height: 1.45;
+    }
+
+    .context-badge.hit {
+      border-color: rgba(85, 115, 27, 0.28);
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      font-weight: 650;
+    }
+
+    .directory {
+      overflow: hidden;
+    }
+
+    .directory-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line-soft);
+      background: #fff;
+    }
+
+    .directory-head h2 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 960px;
+      border-collapse: collapse;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    th,
+    td {
+      text-align: left;
+      vertical-align: top;
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    th {
+      color: var(--muted);
+      background: #fbfbfd;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    tbody tr:hover {
+      background: #fafafa;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+      padding: 16px 20px 20px;
+      background: #fbfbfd;
+    }
+
+    .empty-space {
+      color: var(--muted);
+      padding: 12px 2px 6px;
+      font-size: 16px;
+    }
+
+    .pdf-panel {
+      background: var(--paper);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: clamp(22px, 3vw, 32px);
+      margin-bottom: 18px;
+    }
+
+    .pdf-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .pdf-head h2 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 720;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .pdf-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 760px;
+    }
+
+    .beta-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 10px;
+      color: var(--muted);
+      background: #fbfbfd;
+      font-size: 13px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .pdf-drop {
+      display: grid;
+      place-items: center;
+      min-height: 142px;
+      border: 1.5px dashed #c7c7cc;
+      border-radius: 8px;
+      background: #fbfbfd;
+      cursor: pointer;
+      text-align: center;
+      padding: 22px;
+      transition: border-color 140ms ease, background 140ms ease;
+    }
+
+    .pdf-drop:hover,
+    .pdf-drop.dragging {
+      border-color: var(--brand);
+      background: #f7fbef;
+    }
+
+    .pdf-drop strong {
+      display: block;
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .pdf-drop span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .pdf-drop input {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .pdf-hint {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .pdf-scope-note {
+      margin-top: 12px;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: #fbfbfd;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+      padding: 12px 14px;
+    }
+
+    .pdf-scope-note b {
+      color: var(--ink);
+    }
+
+    .pdf-results {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .pdf-signature {
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: #fff;
+      padding: 18px;
+    }
+
+    .pdf-signature.excluded {
+      border-color: #b7c9d5;
+      background: #f7fafc;
+    }
+
+    .pdf-excluded-banner {
+      display: grid;
+      gap: 3px;
+      border: 1px solid #b7c9d5;
+      border-radius: 8px;
+      background: #eaf1f5;
+      color: #31566d;
+      padding: 12px 14px;
+    }
+
+    .pdf-excluded-banner strong {
+      font-size: 16px;
+    }
+
+    .pdf-excluded-banner span {
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .pdf-signature h3 {
+      margin: 0 0 12px;
+      font-size: 21px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .pdf-verdict {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      border-radius: 999px;
+      padding: 5px 11px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      background: #f1f1f4;
+      color: #424245;
+    }
+
+    .pdf-verdict.ok {
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+    }
+
+    .pdf-verdict.warn {
+      background: #fff7dc;
+      color: var(--amber);
+    }
+
+    .pdf-verdict.no {
+      background: #fff1f0;
+      color: var(--red);
+    }
+
+    .pdf-verdict.excluded {
+      background: #eaf1f5;
+      color: #31566d;
+    }
+
+    .pdf-meta-grid {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 9px 14px;
+      font-size: 15px;
+    }
+
+    .pdf-meta-grid dt {
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .pdf-meta-grid dd {
+      margin: 0;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .pdf-cert-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .pdf-cert {
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: #fbfbfd;
+      padding: 14px;
+    }
+
+    .pdf-cert-title {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .pdf-match-list {
+      margin: 8px 0 0;
+      padding-left: 1.1em;
+      color: #424245;
+      font-size: 14px;
+    }
+
+    .pdf-match-list li + li {
+      margin-top: 4px;
+    }
+    .pdf-check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0 16px;
+    }
+
+    .pdf-check {
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: #fbfbfd;
+      padding: 14px;
+      min-height: 132px;
+    }
+
+    .pdf-check.ok {
+      border-color: rgba(85, 115, 27, 0.24);
+      background: #f6fbec;
+    }
+
+    .pdf-check.warn {
+      border-color: rgba(154, 106, 0, 0.24);
+      background: #fffaf0;
+    }
+
+    .pdf-check.no {
+      border-color: rgba(180, 35, 24, 0.24);
+      background: #fff7f6;
+    }
+
+    .pdf-check.excluded {
+      border-color: #b7c9d5;
+      background: #eef4f7;
+    }
+
+    .pdf-check-label {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 13px;
+      font-weight: 750;
+      line-height: 1.35;
+      color: #424245;
+      background: #f1f1f4;
+    }
+
+    .pdf-check.ok .pdf-check-label {
+      color: var(--brand-dark);
+      background: var(--brand-soft);
+    }
+
+    .pdf-check.warn .pdf-check-label {
+      color: var(--amber);
+      background: #fff0c2;
+    }
+
+    .pdf-check.no .pdf-check-label {
+      color: var(--red);
+      background: #ffe7e5;
+    }
+
+    .pdf-check.excluded .pdf-check-label {
+      color: #31566d;
+      background: #dce8ee;
+    }
+
+    .pdf-check-title {
+      margin: 10px 0 4px;
+      font-size: 16px;
+      font-weight: 750;
+      line-height: 1.45;
+    }
+
+    .pdf-check-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .pdf-keyline {
+      display: grid;
+      gap: 8px;
+      margin: 12px 0 4px;
+      color: #424245;
+      font-size: 15px;
+    }
+
+    .pdf-keyline b {
+      color: var(--ink);
+    }
+
+    .pdf-detail {
+      border-top: 1px solid var(--line-soft);
+      margin-top: 16px;
+      padding-top: 12px;
+    }
+
+    .pdf-detail summary {
+      cursor: pointer;
+      color: var(--link);
+      font-size: 15px;
+      font-weight: 650;
+      list-style-position: inside;
+    }
+
+    .pdf-detail summary:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 780px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px 18px;
+      }
+
+      main {
+        width: min(100% - 28px, 1120px);
+        margin: 28px auto 48px;
+      }
+
+      .title-row,
+      .search-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: clamp(32px, 11vw, 44px);
+      }
+
+      .lead {
+        font-size: 17px;
+      }
+
+      .meta-pill {
+        width: fit-content;
+      }
+
+      .summary,
+      .info-grid,
+      .pdf-meta-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pdf-head {
+        flex-direction: column;
+      }
+
+      .pdf-check-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .status-dot {
+        inline-size: 42px;
+        block-size: 42px;
+      }
+
+      .result-head,
+      .directory-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">IL</div>
+      <div>ISHIMOTO Legal</div>
+    </div>
+    <a class="source-link" href="https://www.moj.go.jp/MINJI/minji60.html" target="_blank" rel="noreferrer">法務省の原典を見る</a>
+  </header>
+
+  <main>
+    <div class="title-row">
+      <div>
+        <h1>トウシテナ</h1>
+        <p class="lead">法務省「商業・法人登記のオンライン申請について」の電子証明書一覧をもとに、署名サービス名・証明書名・発行者名を照合します。</p>
+      </div>
+      <div class="meta-pill" id="dataDate">データ確認 2026-06-26</div>
+    </div>
+
+    <section class="search-panel" aria-label="電子署名の判定">
+      <div class="search-grid">
+        <div>
+          <label for="query">電子署名・電子証明書の名前</label>
+          <input id="query" type="search" autocomplete="off" placeholder="例: クラウドサイン、GMOサイン、マイナンバーカード">
+        </div>
+        <div>
+          <label for="context">確認する場面</label>
+          <select id="context">
+            <option value="all">すべての場面</option>
+            <option value="applicationApplicant">申請人の申請書・補正書・取下書</option>
+            <option value="applicationProxy">代理人の申請書・補正書・取下書</option>
+            <option value="mandate">委任状情報</option>
+            <option value="attachment">添付書面情報</option>
+          </select>
+        </div>
+      </div>
+      <div class="quick-row" aria-label="入力例">
+        <button type="button" data-example="クラウドサイン">クラウドサイン</button>
+        <button type="button" data-example="GMOサイン">GMOサイン</button>
+        <button type="button" data-example="freeeサイン">freeeサイン</button>
+        <button type="button" data-example="Adobe Sign">Adobe Sign</button>
+        <button type="button" data-example="マイナンバーカード">マイナンバーカード</button>
+        <button type="button" data-example="司法書士認証サービス">司法書士認証</button>
+      </div>
+    </section>
+
+    <section class="pdf-panel" aria-label="署名付きPDFチェック">
+      <div class="pdf-head">
+        <div>
+          <h2>署名付きPDFチェック β</h2>
+          <p>PDF内の署名情報から、署名者・証明書の発行者・有効期間・文書の整合性を確認し、法務省掲載一覧と照合します。</p>
+        </div>
+        <span class="beta-pill">事前確認</span>
+      </div>
+      <label class="pdf-drop" id="pdfDrop" for="pdfFile">
+        <input id="pdfFile" type="file" accept="application/pdf,.pdf">
+        <span>
+          <strong>署名付きPDFを選択</strong>
+          <span>ファイルはブラウザ内で処理します</span>
+        </span>
+      </label>
+      <div id="pdfStatus" class="pdf-hint">署名付きPDFを選ぶと、ここに確認結果を表示します。</div>
+      <div class="pdf-scope-note"><b>この画面は事前確認です。</b>確認するのは、署名の存在／署名者名の候補／証明書の有効期間／署名対象部分の変更有無（ダイジェスト照合）／法務省掲載一覧との照合までです。署名値そのものの暗号学的検証・証明書の失効確認・信頼チェーンの検証は行っていません。登記申請前の最終確認は、Adobe Acrobat等の署名パネルでも行ってください。</div>
+      <div id="pdfResults" class="pdf-results" aria-live="polite"></div>
+    </section>
+    <section id="summary" class="summary idle" aria-live="polite" hidden></section>
+
+    <section id="results" class="results" aria-label="判定結果"></section>
+
+    <section class="directory" aria-label="掲載一覧">
+      <div class="directory-head">
+        <h2>掲載一覧</h2>
+        <div id="count" class="count"></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>名称</th>
+              <th>区分</th>
+              <th>使える場面</th>
+              <th>事業者・発行者</th>
+              <th>掲載日</th>
+            </tr>
+          </thead>
+          <tbody id="directoryBody"></tbody>
+        </table>
+      </div>
+      <div class="note">このアプリは法務省掲載一覧との照合用です。電子証明書の有効性、署名時点、添付書面の種類、代表取締役等による併用要否は、個別案件で別途確認してください。</div>
+    </section>
+  </main>
+
+  <script src="moj-signature-data.js"></script>
+  <script>
+    const CONTEXTS = {
+      applicationApplicant: "申請人の申請書・補正書・取下書",
+      applicationProxy: "代理人の申請書・補正書・取下書",
+      mandate: "委任状情報",
+      attachment: "添付書面情報"
+    };
+
+    const ALL_CONTEXT_KEYS = Object.keys(CONTEXTS);
+    const ATTACHMENT_ONLY = ["attachment"];
+    const APPLICANT_MANDATE = ["applicationApplicant", "mandate"];
+    const PROXY_ATTACHMENT = ["applicationProxy", "attachment"];
+    const SOURCE_URL = "https://www.moj.go.jp/MINJI/minji60.html";
+
+    const entries = [
+      {
+        name: "商業登記電子証明書",
+        kind: "基本",
+        provider: "管轄登記所",
+        certificates: ["商業登記規則第33条の8第2項に規定する電子証明書"],
+        contexts: ALL_CONTEXT_KEYS,
+        condition: "会社・法人側の電子証明書。管轄登記所又はオンライン請求で取得。",
+        published: "",
+        aliases: ["商業登記に基づく電子認証制度", "法人電子証明書", "商業登記証明書"]
+      },
+      {
+        name: "公的個人認証サービス電子証明書",
+        kind: "基本",
+        provider: "地方公共団体情報システム機構",
+        certificates: ["署名用電子証明書"],
+        contexts: ALL_CONTEXT_KEYS,
+        condition: "マイナンバーカード等の署名用電子証明書。",
+        published: "",
+        aliases: ["JPKI", "マイナンバーカード", "マイナカード", "個人番号カード", "署名用電子証明書"]
+      },
+      {
+        name: "セコムパスポート for G-ID",
+        kind: "特定認証業務",
+        provider: "セコムトラストシステムズ株式会社",
+        certificates: ["セコムパスポート for G-ID"],
+        contexts: ALL_CONTEXT_KEYS,
+        condition: "申請人・委任者は氏名、住所、出生年月日を確認できるもの。代理人・添付書面では氏名及び住所を確認できるもの。",
+        published: "",
+        link: "https://www.secomtrust.net",
+        aliases: ["SECOM Passport for G-ID", "G-ID", "セコムGID"]
+      },
+      {
+        name: "e-Probatio PS2",
+        kind: "特定認証業務",
+        provider: "NTTビジネスソリューションズ株式会社",
+        certificates: ["e-Probatio PS2"],
+        contexts: PROXY_ATTACHMENT,
+        condition: "氏名及び住所を確認できるものに限る。",
+        published: "",
+        link: "https://www.e-probatio.com",
+        aliases: ["イープロバティオ", "イープロバティオPS2", "eProbatio"]
+      },
+      {
+        name: "TDB電子認証サービスTypeA",
+        kind: "特定認証業務",
+        provider: "株式会社帝国データバンク",
+        certificates: ["TDB電子認証サービスTypeA"],
+        contexts: PROXY_ATTACHMENT,
+        condition: "氏名及び住所を確認できるものに限る。",
+        published: "",
+        link: "https://www.tdb.co.jp",
+        aliases: ["TDB電子認証サービスＴｙｐｅＡ", "帝国データバンク", "TypeA"]
+      },
+      {
+        name: "AOSignサービスG2",
+        kind: "特定認証業務",
+        provider: "日本電子認証株式会社",
+        certificates: ["AOSignサービスG2"],
+        contexts: PROXY_ATTACHMENT,
+        condition: "氏名及び住所を確認できるものに限る。",
+        published: "",
+        link: "https://www.ninsho.co.jp",
+        aliases: ["AOSignサービスＧ２", "AOSign", "日本電子認証"]
+      },
+      {
+        name: "DIACERTサービス",
+        kind: "特定認証業務",
+        provider: "三菱電機インフォメーションネットワーク株式会社",
+        certificates: ["DIACERTサービス"],
+        contexts: PROXY_ATTACHMENT,
+        condition: "氏名及び住所を確認できるものに限る。",
+        published: "",
+        link: "https://www.diacert.jp",
+        aliases: ["DIACERT Service", "ダイヤサート"]
+      },
+      {
+        name: "DIACERT-PLUSサービス",
+        kind: "特定認証業務",
+        provider: "三菱電機インフォメーションネットワーク株式会社",
+        certificates: ["DIACERT-PLUSサービス"],
+        contexts: PROXY_ATTACHMENT,
+        condition: "氏名及び住所を確認できるものに限る。",
+        published: "",
+        link: "https://www.diacert.jp",
+        aliases: ["DIACERT PLUS", "ダイヤサートプラス"]
+      },
+      {
+        name: "CTI電子入札・申請届出対応電子認証サービス",
+        kind: "特定認証業務",
+        provider: "株式会社中電シーティーアイ中部認証センター",
+        certificates: ["CTI電子入札・申請届出対応電子認証サービス"],
+        contexts: ATTACHMENT_ONLY,
+        condition: "平成25年7月31日に失効済み。ただし、添付書面情報を作成し電子署名を行った時点で有効な証明書であれば送信可。",
+        published: "",
+        aliases: ["CTI", "中電シーティーアイ"]
+      },
+      {
+        name: "司法書士認証サービス",
+        kind: "特定認証業務",
+        provider: "司法書士認証局",
+        certificates: ["司法書士認証サービス"],
+        contexts: ATTACHMENT_ONLY,
+        condition: "平成24年8月4日に失効済み。ただし、添付書面情報を作成し電子署名を行った時点で有効な証明書であれば送信可。",
+        published: "",
+        aliases: ["司法書士電子証明書", "司法書士認証"]
+      },
+      {
+        name: "ビジネス認証サービスタイプ1-E",
+        kind: "特定認証業務",
+        provider: "日本商工会議所",
+        certificates: ["一般行政手続用電子証明書"],
+        contexts: ATTACHMENT_ONLY,
+        condition: "平成25年1月26日に失効済み。ただし、添付書面情報を作成し電子署名を行った時点で有効な証明書であれば送信可。",
+        published: "",
+        aliases: ["ビジネス認証サービスタイプ１－Ｅ", "タイプ1E", "タイプ１Ｅ"]
+      },
+      {
+        name: "ビジネス認証サービスタイプ1-G",
+        kind: "特定認証業務",
+        provider: "日本商工会議所",
+        certificates: ["行政書士用電子証明書"],
+        contexts: ATTACHMENT_ONLY,
+        condition: "平成25年1月26日に失効済み。ただし、添付書面情報を作成し電子署名を行った時点で有効な証明書であれば送信可。",
+        published: "",
+        aliases: ["ビジネス認証サービスタイプ１－Ｇ", "タイプ1G", "タイプ１Ｇ"]
+      },
+      {
+        name: "政府認証基盤（GPKI）発行の官職証明書",
+        kind: "官職証明書",
+        provider: "政府認証基盤（GPKI）",
+        certificates: ["官職証明書"],
+        contexts: ALL_CONTEXT_KEYS,
+        condition: "申請人が官庁の場合や官庁から取得した電子文書を登記申請に用いる場合。",
+        published: "",
+        link: "https://www.gpki.go.jp",
+        aliases: ["GPKI", "官職証明書", "政府認証基盤"]
+      },
+      {
+        name: "地方公共団体組織認証基盤（LGPKI）発行の職責証明書",
+        kind: "官職証明書",
+        provider: "地方公共団体組織認証基盤（LGPKI）",
+        certificates: ["職責証明書"],
+        contexts: ALL_CONTEXT_KEYS,
+        condition: "地方公共団体から取得した電子文書を登記申請に用いる場合など。",
+        published: "",
+        link: "https://www.lgpki.jp",
+        aliases: ["LGPKI", "職責証明書", "地方公共団体組織認証基盤"]
+      },
+      {
+        name: "指定公証人電子証明書",
+        kind: "指定公証人",
+        provider: "指定公証人",
+        certificates: ["指定公証人電子証明書"],
+        contexts: ATTACHMENT_ONLY,
+        condition: "添付書面情報で利用。",
+        published: "",
+        aliases: ["公証人電子証明書", "電子公証"]
+      }
+    ];
+
+    const otherServices = window.MOJ_SIGNATURE_OTHER_SERVICES || [
+      {
+        name: "かんたん電子契約 for クラウド",
+        provider: "セイコーソリューションズ株式会社",
+        certificates: ["GlobalSign GCC R6 AATL CA 2020", "GlobalSign GCC R45 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R5.7.10",
+        link: "https://www.seiko-cybertime.jp",
+        aliases: ["かんたん電子契約", "セイコーソリューションズ"]
+      },
+      {
+        name: "官報",
+        provider: "独立行政法人国立印刷局／内閣府",
+        certificates: ["SECOM Passport for Member PUB CA8（セコムトラストシステムズ株式会社）", "SECOM Passport for PublicID Document Signing RSA CA 2023（セコムトラストシステムズ株式会社）"],
+        published: "R5.1.27／R7.3.17",
+        link: "https://www.kanpo.go.jp",
+        condition: "該当の記事が掲載されている1ページごとの官報PDFのみ送信可。",
+        aliases: ["官報PDF", "国立印刷局"]
+      },
+      {
+        name: "クラウド契約管理Sign",
+        provider: "ラディックス株式会社",
+        certificates: ["GlobalSign GCC R6 AATL CA 2020", "GlobalSign CA 3 for AATL（GMOグローバルサイン株式会社）"],
+        published: "R2.9.3",
+        link: "https://www.cloud-keiyaku.jp",
+        aliases: ["クラウド契約管理サイン"]
+      },
+      {
+        name: "クラウドサイン",
+        provider: "弁護士ドットコム株式会社",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R2.6.15",
+        link: "https://www.cloudsign.jp",
+        aliases: ["CloudSign", "弁護士ドットコム"]
+      },
+      {
+        name: "契約大臣",
+        provider: "株式会社TeraDox",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R6.10.24",
+        link: "https://keiyaku-daijin.com",
+        aliases: ["TeraDox", "テラドックス"]
+      },
+      {
+        name: "シムワーク",
+        provider: "株式会社フォーバルカエルワーク",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R3.7.12",
+        link: "https://product.simwork.jp",
+        aliases: ["simwork"]
+      },
+      {
+        name: "ジンジャーサイン",
+        provider: "jinjer株式会社",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R4.7.5",
+        link: "https://hcm-jinjer.com",
+        aliases: ["jinjerサイン", "jinjer"]
+      },
+      {
+        name: "セコムあんしんエコ文書サービス",
+        provider: "セコムトラストシステムズ株式会社",
+        certificates: ["SECOM Passport for Member PUB CA4（セコムトラストシステムズ株式会社）"],
+        published: "R3.9.6",
+        link: "https://www.secomtrust.net",
+        aliases: ["あんしんエコ文書"]
+      },
+      {
+        name: "セコム議事録電子化サービス",
+        provider: "セコムトラストシステムズ株式会社",
+        certificates: ["SECOM Passport for Member PUB CA4（セコムトラストシステムズ株式会社）"],
+        published: "R3.9.6",
+        link: "https://www.secomtrust.net",
+        aliases: ["議事録電子化サービス"]
+      },
+      {
+        name: "デジロー",
+        provider: "株式会社RIT",
+        certificates: ["Cybertrust iTrust Signature Certification Authority G2（サイバートラスト株式会社）"],
+        published: "R8.2.10",
+        link: "https://sdx-flow.com",
+        aliases: ["デジロー電子契約"]
+      },
+      {
+        name: "電子印鑑GMOサイン",
+        provider: "GMOグローバルサイン・ホールディングス株式会社",
+        certificates: ["GlobalSign CA 2 for AATL", "GlobalSign CA 6 for AATL", "GlobalSign GCC R6 AATL CA 2020", "GlobalSign GCC R45 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R5.6.30",
+        link: "https://www.gmosign.com",
+        aliases: ["GMOサイン", "電子印鑑ＧＭＯサイン", "GMOグローバルサイン"]
+      },
+      {
+        name: "電子取引サービス@Sign",
+        provider: "三菱電機インフォメーションネットワーク株式会社",
+        certificates: ["GlobalSign GCC R6 AATL CA 2020（GMOグローバルサイン株式会社）", "Enterprise Premium Public CA（三菱電機インフォメーションネットワーク株式会社）"],
+        published: "R3.5.10",
+        link: "https://www.mind.co.jp",
+        aliases: ["電子取引サービス＠Sign", "@Sign", "アットサイン"]
+      },
+      {
+        name: "ベクターサイン",
+        provider: "株式会社ベクター",
+        certificates: ["GlobalSign GCC R6 AATL CA 2020", "GlobalSign GCC R45 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R5.10.18",
+        link: "https://v-sign.vector.co.jp",
+        aliases: ["Vector Sign", "V-Sign"]
+      },
+      {
+        name: "マネーフォワード クラウド契約",
+        provider: "株式会社マネーフォワード",
+        certificates: ["SECOM Passport for Member PUB CA4（セコムトラストシステムズ株式会社）"],
+        published: "R3.9.6",
+        link: "https://biz.moneyforward.com",
+        aliases: ["マネーフォワード契約", "Money Forward クラウド契約"]
+      },
+      {
+        name: "みんなの電子署名",
+        provider: "株式会社ベクター",
+        certificates: ["GlobalSign GCC R6 AATL CA 2020", "GlobalSign GCC R45 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R5.10.18",
+        link: "https://es.vector.co.jp",
+        aliases: ["みんなの署名"]
+      },
+      {
+        name: "リーテックスデジタル契約",
+        provider: "リーテックス株式会社",
+        certificates: ["DIACERT Service（三菱電機インフォメーションネットワーク株式会社）"],
+        published: "R5.3.2",
+        link: "https://le-techs.com",
+        aliases: ["リーテックス", "Le-Techs"]
+      },
+      {
+        name: "Adobe Sign",
+        provider: "アドビ株式会社",
+        certificates: ["Intesi Group Advanced Cloud Signature CA（INTESI GROUP S.p.A）", "GlobalSign GCC R6 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R3.2.8",
+        link: "https://blog.adobe.com",
+        aliases: ["アドビサイン"]
+      },
+      {
+        name: "Adobe Acrobat Sign",
+        provider: "アドビ株式会社",
+        certificates: ["GlobalSign GCC R6 AATL CA 2020", "GlobalSign GCC R45 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R5.10.18",
+        link: "https://blog.adobe.com",
+        aliases: ["Acrobat Sign", "アクロバットサイン"]
+      },
+      {
+        name: "BtoBプラットフォーム契約書",
+        provider: "株式会社インフォマート",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R5.1.6",
+        link: "https://www.infomart.co.jp",
+        aliases: ["BtoBプラットフォーム", "インフォマート"]
+      },
+      {
+        name: "CMサイン",
+        provider: "CM.com Japan株式会社",
+        certificates: ["GlobalSign Atlas R45 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R4.1.17",
+        link: "https://www.cmtelecom.jp",
+        aliases: ["CM Sign", "CM.com"]
+      },
+      {
+        name: "COMPACT IN",
+        provider: "セイコーソリューションズ株式会社",
+        certificates: ["GlobalSign GCC R45 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R6.1.16",
+        link: "https://info.compactin.jp",
+        aliases: ["コンパクトイン"]
+      },
+      {
+        name: "CONTRACTHUB@absonne",
+        provider: "日鉄ソリューションズ株式会社",
+        certificates: ["JCAN Public CA1-G4（GMOグローバルサイン株式会社）", "NSSOL e-Contract-CA-G1（日鉄ソリューションズ株式会社）", "JCAN GCC R6 Public CA1-G5 2024（GMOグローバルサイン株式会社）", "SECOM Passport for PublicID Document Signing RSA CA 2023（セコムトラストシステムズ株式会社）", "Cybertrust iTrust Signature Certification Authority G2（サイバートラスト株式会社）"],
+        published: "R3.3.30／R7.10.23／R7.12.25／R8.2.10",
+        link: "https://www.marketing.nssol.nipponsteel.com",
+        aliases: ["CONTRACTHUB", "コントラクトハブ", "absonne"]
+      },
+      {
+        name: "CONTRACT CROSS",
+        provider: "日鉄ソリューションズ株式会社",
+        certificates: ["JCAN Public CA1-G4（GMOグローバルサイン株式会社）", "NSSOL e-Contract-CA-G1（日鉄ソリューションズ株式会社）", "JCAN GCC R6 Public CA1-G5 2024（GMOグローバルサイン株式会社）", "SECOM Passport for PublicID Document Signing RSA CA 2023（セコムトラストシステムズ株式会社）", "Cybertrust iTrust Signature Certification Authority G2（サイバートラスト株式会社）"],
+        published: "R3.3.30／R7.10.23／R7.12.25／R8.2.10",
+        link: "https://www.marketing.nssol.nipponsteel.com",
+        aliases: ["コントラクトクロス"]
+      },
+      {
+        name: "CONTRACT CUBE",
+        provider: "日鉄ソリューションズ株式会社",
+        certificates: ["JCAN Public CA1-G4（GMOグローバルサイン株式会社）", "NSSOL e-Contract-CA-G1（日鉄ソリューションズ株式会社）", "JCAN GCC R6 Public CA1-G5 2024（GMOグローバルサイン株式会社）", "SECOM Passport for PublicID Document Signing RSA CA 2023（セコムトラストシステムズ株式会社）", "Cybertrust iTrust Signature Certification Authority G2（サイバートラスト株式会社）"],
+        published: "R8.2.10",
+        link: "https://www.marketing.nssol.nipponsteel.com",
+        aliases: ["コントラクトキューブ"]
+      },
+      {
+        name: "ContractS CLM",
+        provider: "ContractS株式会社",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）", "GlobalSign GCC R6 AATL CA 2020", "GlobalSign GCC R45 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R4.1.17／R6.1.25",
+        link: "https://www.contracts.co.jp",
+        aliases: ["ContractS", "コントラクツ"]
+      },
+      {
+        name: "Digital Sign",
+        provider: "株式会社デジタルサイン",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R4.8.16",
+        link: "https://services.digitalsign.jp",
+        aliases: ["デジタルサイン"]
+      },
+      {
+        name: "DottedSign",
+        provider: "Kdan Mobile Software Ltd.",
+        certificates: ["Public Certification Authority-G2（Chunghwa Telecom Co., Ltd.）"],
+        published: "R6.10.8",
+        link: "https://www.dottedsign.com",
+        aliases: ["ドットサイン"]
+      },
+      {
+        name: "DS Email",
+        provider: "ドキュサイン・ジャパン株式会社",
+        certificates: ["DocuSign Cloud Signing CA-US-Email（ドキュサイン・ジャパン株式会社）"],
+        published: "R7.12.9",
+        link: "https://support.docusign.com",
+        aliases: ["DocuSign Email", "ドキュサイン", "DocuSign"]
+      },
+      {
+        name: "DX-Sign",
+        provider: "株式会社バルテックサイン",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R4.6.1",
+        link: "https://www.dx-sign.jp",
+        aliases: ["DX Sign", "ディーエックスサイン"]
+      },
+      {
+        name: "e-bookAC",
+        provider: "株式会社石川コンピュータ・センター",
+        certificates: ["GlobalSign GCC R45 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R5.11.8",
+        link: "https://e-bookac.info",
+        aliases: ["ebookAC", "イーブックAC"]
+      },
+      {
+        name: "eformsign",
+        provider: "日本フォーシーエス株式会社",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R6.9.20",
+        link: "https://www.eformsign.com",
+        aliases: ["eform sign", "イーフォームサイン"]
+      },
+      {
+        name: "EU Advanced",
+        provider: "ドキュサイン・ジャパン株式会社",
+        certificates: ["DocuSign Cloud Signing CA-SI1（ドキュサイン・ジャパン株式会社）"],
+        published: "R2.9.3",
+        link: "https://www.docusign.jp",
+        aliases: ["DocuSign EU Advanced", "ドキュサイン"]
+      },
+      {
+        name: "freeeサイン",
+        provider: "フリー株式会社",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R3.7.12",
+        link: "https://www.freee.co.jp",
+        aliases: ["freee sign", "フリーサイン"]
+      },
+      {
+        name: "Governance Cloud",
+        provider: "ガバナンスクラウド株式会社",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R3.12.17",
+        link: "https://www.governancecloud.jp",
+        aliases: ["ガバナンスクラウド"]
+      },
+      {
+        name: "Great Sign",
+        provider: "株式会社TREASURY",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R2.9.3",
+        link: "https://www.greatsign.com",
+        aliases: ["グレートサイン", "TREASURY"]
+      },
+      {
+        name: "iTrust 電子署名用証明書",
+        provider: "サイバートラスト株式会社",
+        certificates: ["Cybertrust iTrust Signature Certification Authority G2（サイバートラスト株式会社）"],
+        published: "R8.1.27",
+        link: "https://www.cybertrust.co.jp",
+        aliases: ["iTrust", "アイトラスト", "Cybertrust iTrust"]
+      },
+      {
+        name: "KING OF TIME 電子契約",
+        provider: "株式会社ヒューマンテクノロジーズ",
+        certificates: ["SECOM Passport for Member PUB CA4（セコムトラストシステムズ株式会社）"],
+        published: "R7.9.1",
+        link: "https://www.kingoftime.jp",
+        aliases: ["キングオブタイム電子契約", "KING OF TIME"]
+      },
+      {
+        name: "MJS e-ドキュメントCloud",
+        provider: "株式会社ミロク情報サービス",
+        certificates: ["GlobalSign GCC R45 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R6.2.26",
+        link: "https://www.mjs.co.jp",
+        aliases: ["MJS eドキュメントCloud", "ミロク情報サービス"]
+      },
+      {
+        name: "Nasdaq Boardvantage",
+        provider: "Nasdaqテクノロジー株式会社",
+        certificates: ["GlobalSign GCC R6 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R4.3.18",
+        link: "https://www.nasdaq.com",
+        aliases: ["Boardvantage", "ナスダック"]
+      },
+      {
+        name: "OneSpan Sign",
+        provider: "OneSpan株式会社",
+        certificates: ["GlobalSign CA 3 for AATL", "GlobalSign GCC R6 AATL CA 2020", "GlobalSign GCC R45 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R3.1.8",
+        link: "https://www.onespan.com",
+        aliases: ["ワンスパン"]
+      },
+      {
+        name: "OpenSign",
+        provider: "株式会社ティヒ",
+        certificates: ["Cybertrust iTrust Signature Certification Authority G2（サイバートラスト株式会社）"],
+        published: "R8.3.9",
+        link: "https://opensign.jp",
+        aliases: ["オープンサイン"]
+      },
+      {
+        name: "paperlogic電子契約",
+        provider: "ペーパーロジック株式会社",
+        certificates: ["Nippon RA Certification Authority 4（日本RA株式会社）", "JCAN Public CA1-G4（GMOグローバルサイン株式会社）"],
+        published: "R5.3.20",
+        link: "https://paperlogic.co.jp",
+        aliases: ["paperlogic", "ペーパーロジック電子契約"]
+      },
+      {
+        name: "SATSIGN",
+        provider: "アイテック阪急阪神株式会社",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R3.5.31",
+        link: "https://satsign.jp",
+        aliases: ["サットサイン"]
+      },
+      {
+        name: "Shachihata Cloud",
+        provider: "シヤチハタ株式会社",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R3.10.25",
+        link: "https://dstmp.shachihata.co.jp",
+        aliases: ["シヤチハタクラウド", "シャチハタクラウド"]
+      },
+      {
+        name: "SignTime",
+        provider: "サインタイム株式会社",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R4.9.16",
+        link: "https://www.signtime.com",
+        aliases: ["サインタイム"]
+      },
+      {
+        name: "SMBCクラウドサイン",
+        provider: "SMBCクラウドサイン株式会社",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R6.10.24",
+        link: "https://www.smbc-cloudsign.co.jp",
+        aliases: ["SMBC CloudSign", "SMBCクラウド署名"]
+      },
+      {
+        name: "Venus Sign",
+        provider: "株式会社シフト",
+        certificates: ["Cybertrust iTrust Signature Certification Authority（サイバートラスト株式会社）"],
+        published: "R5.2.17",
+        link: "https://venus-cloud.com",
+        aliases: ["ヴィーナスサイン", "ベナスサイン"]
+      },
+      {
+        name: "WAN-Sign",
+        provider: "株式会社NXワンビシアーカイブズ",
+        certificates: ["GlobalSign CA 2 for AATL", "GlobalSign GCC R6 AATL CA 2020", "GlobalSign GCC R45 AATL CA 2020（GMOグローバルサイン株式会社）"],
+        published: "R5.6.30",
+        link: "https://www.wanbishi.co.jp",
+        aliases: ["WAN Sign", "ワンサイン", "NXワンビシアーカイブズ"]
+      }
+    ];
+
+    // 自動取り込みデータ（moj-signature-data.js）は aliases が空のため、
+    // 表記ゆれ・略称はここで補完する（データを再生成しても消えない）。
+    const SERVICE_SUPPLEMENT_LIST = [
+      { name: "かんたん電子契約 for クラウド", aliases: ["かんたん電子契約", "セイコーソリューションズ"] },
+      { name: "官報", aliases: ["官報PDF", "国立印刷局"], condition: "該当の記事が掲載されている1ページごとの官報PDFのみ送信可。" },
+      { name: "クラウド契約管理Sign", aliases: ["クラウド契約管理サイン"] },
+      { name: "クラウドサイン", aliases: ["CloudSign", "弁護士ドットコム"] },
+      { name: "契約大臣", aliases: ["TeraDox", "テラドックス"] },
+      { name: "シムワーク", aliases: ["simwork"] },
+      { name: "ジンジャーサイン", aliases: ["jinjerサイン", "jinjer"] },
+      { name: "セコムあんしんエコ文書サービス", aliases: ["あんしんエコ文書"] },
+      { name: "セコム議事録電子化サービス", aliases: ["議事録電子化サービス"] },
+      { name: "デジロー", aliases: ["デジリオ", "デジロー電子契約"] },
+      { name: "電子印鑑GMOサイン", aliases: ["GMOサイン", "電子印鑑ＧＭＯサイン", "GMOグローバルサイン"] },
+      { name: "電子取引サービス＠Sign", aliases: ["電子取引サービス@Sign", "@Sign", "アットサイン"] },
+      { name: "ベクターサイン", aliases: ["Vector Sign", "V-Sign"] },
+      { name: "マネーフォワード クラウド契約", aliases: ["マネーフォワード契約", "Money Forward クラウド契約"] },
+      { name: "リーテックスデジタル契約", aliases: ["リーテックス", "Le-Techs"] },
+      { name: "Adobe Sign", aliases: ["アドビサイン"] },
+      { name: "Adobe Acrobat Sign", aliases: ["Acrobat Sign", "アクロバットサイン", "アドビアクロバットサイン"] },
+      { name: "BtoBプラットフォーム契約書", aliases: ["BtoBプラットフォーム", "インフォマート"] },
+      { name: "CMサイン", aliases: ["CM Sign", "CM.com"] },
+      { name: "COMPACT IN", aliases: ["コンパクトイン"] },
+      { name: "CONTRACTHUB@absonne", aliases: ["CONTRACTHUB", "コントラクトハブ", "absonne"] },
+      { name: "CONTRACT CROSS", aliases: ["コントラクトクロス"] },
+      { name: "CONTRACT CUBE", aliases: ["コントラクトキューブ"] },
+      { name: "ContractS CLM", aliases: ["ContractS", "コントラクツ"] },
+      { name: "Digital Sign", aliases: ["デジタルサイン"] },
+      { name: "DottedSign", aliases: ["ドットサイン"] },
+      { name: "DS Email", aliases: ["DocuSign Email", "ドキュサイン", "DocuSign"] },
+      { name: "DX-Sign", aliases: ["DX Sign", "ディーエックスサイン"] },
+      { name: "e-bookAC", aliases: ["ebookAC", "イーブックAC"] },
+      { name: "eformsign", aliases: ["eform sign", "イーフォームサイン"] },
+      { name: "EU Advanced", aliases: ["DocuSign EU Advanced", "ドキュサイン"] },
+      { name: "freeeサイン", aliases: ["freee sign", "フリーサイン"] },
+      { name: "Governance Cloud", aliases: ["ガバナンスクラウド"] },
+      { name: "Great Sign", aliases: ["グレートサイン", "TREASURY"] },
+      { name: "iTrust 電子署名用証明書", aliases: ["iTrust", "アイトラスト", "Cybertrust iTrust"] },
+      { name: "KING OF TIME 電子契約", aliases: ["キングオブタイム電子契約", "KING OF TIME"] },
+      { name: "LegalXross(リーガルクロス)LX Sign", aliases: ["LegalXross", "リーガルクロス", "LX Sign", "LXサイン", "SMBCリーガルX"] },
+      { name: "MJS e-ドキュメントCloud", aliases: ["MJS eドキュメントCloud", "ミロク情報サービス"] },
+      { name: "Nasdaq Boardvantage", aliases: ["Boardvantage", "ナスダック"] },
+      { name: "OneSpan Sign", aliases: ["ワンスパン"] },
+      { name: "OpenSign", aliases: ["オープンサイン"] },
+      { name: "paperlogic電子契約", aliases: ["paperlogic", "ペーパーロジック電子契約", "ペーパーロジック"] },
+      { name: "SATSIGN", aliases: ["サットサイン"] },
+      { name: "Shachihata Cloud", aliases: ["シヤチハタクラウド", "シャチハタクラウド"] },
+      { name: "SignTime", aliases: ["サインタイム"] },
+      { name: "SMBCクラウドサイン", aliases: ["SMBC CloudSign"] },
+      { name: "Venus Sign", aliases: ["ヴィーナスサイン", "ビーナスサイン"] },
+      { name: "WAN-Sign", aliases: ["WAN Sign", "ワンサイン", "NXワンビシアーカイブズ"] }
+    ];
+    const SERVICE_SUPPLEMENTS = new Map(SERVICE_SUPPLEMENT_LIST.map((item) => [normalize(item.name), item]));
+
+    // 自動取り込みで欠落したことのある掲載サービス。外部データに無い場合のみ補う。
+    const SERVICE_FALLBACK_ENTRIES = [
+      {
+        name: "リーテックスデジタル契約",
+        provider: "リーテックス株式会社",
+        certificates: ["DIACERT Service（三菱電機インフォメーションネットワーク株式会社）"],
+        published: "R5.3.2",
+        link: "https://le-techs.com",
+        aliases: []
+      }
+    ];
+
+    const mergedServices = [...otherServices];
+    for (const extra of SERVICE_FALLBACK_ENTRIES) {
+      if (!mergedServices.some((service) => normalize(service.name) === normalize(extra.name))) {
+        mergedServices.push(extra);
+      }
+    }
+
+    entries.push(...mergedServices.map((service) => {
+      const supplement = SERVICE_SUPPLEMENTS.get(normalize(service.name)) || {};
+      return {
+        kind: "添付書面その他",
+        contexts: ATTACHMENT_ONLY,
+        ...service,
+        condition: service.condition || supplement.condition || "添付書面情報に限る。代表取締役の選任を証する情報などでは、法務省注9の併用要件に注意。",
+        aliases: [...new Set([...(service.aliases || []), ...(supplement.aliases || [])])]
+      };
+    }));
+
+    const queryInput = document.getElementById("query");
+    const contextSelect = document.getElementById("context");
+    const dataDateEl = document.getElementById("dataDate");
+    const summaryEl = document.getElementById("summary");
+    const resultsEl = document.getElementById("results");
+    const directoryBody = document.getElementById("directoryBody");
+    const countEl = document.getElementById("count");
+    const pdfFileInput = document.getElementById("pdfFile");
+    const pdfDrop = document.getElementById("pdfDrop");
+    const pdfStatus = document.getElementById("pdfStatus");
+    const pdfResults = document.getElementById("pdfResults");
+
+    if (dataDateEl) {
+      dataDateEl.textContent = `データ確認 ${window.MOJ_SIGNATURE_DATA_UPDATED_AT || "2026-06-26"}`;
+    }
+
+    function normalize(value) {
+      return String(value || "")
+        .normalize("NFKC")
+        .toLowerCase()
+        .replace(/[\s　・･‐‑‒–—―ーｰ\-−_＿.．,，、。:：;；\/／@＠&＆+＋"'’‘“”`´()（）［］\[\]【】「」『』<>＜＞]/g, "");
+    }
+
+    function haystack(entry) {
+      return [
+        entry.name,
+        entry.kind,
+        entry.provider,
+        entry.condition,
+        ...(entry.certificates || []),
+        ...(entry.aliases || [])
+      ].map(normalize);
+    }
+
+    function scoreEntry(entry, rawQuery) {
+      const q = normalize(rawQuery);
+      if (!q) return 0;
+      const name = normalize(entry.name);
+      const aliases = (entry.aliases || []).map(normalize);
+      const certs = (entry.certificates || []).map(normalize);
+      const provider = normalize(entry.provider);
+
+      if (name === q || aliases.includes(q)) return 100;
+      if (name.includes(q)) return 92;
+      if (aliases.some((alias) => alias.includes(q) || q.includes(alias))) return 86;
+      if (certs.some((cert) => cert.includes(q))) return 76;
+      if (provider.includes(q)) return 66;
+      if (haystack(entry).some((item) => item.includes(q) || q.includes(item))) return 52;
+      return 0;
+    }
+
+    function searchEntries(query) {
+      return entries
+        .map((entry) => ({ entry, score: scoreEntry(entry, query) }))
+        .filter((item) => item.score > 0)
+        .sort((a, b) => b.score - a.score || a.entry.name.localeCompare(b.entry.name, "ja"))
+        .map((item) => item.entry);
+    }
+
+    function availableInContext(entry, selectedContext) {
+      return selectedContext === "all" || entry.contexts.includes(selectedContext);
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function contextBadges(entry, selectedContext) {
+      return entry.contexts.map((key) => {
+        const isHit = selectedContext === "all" || selectedContext === key;
+        return `<span class="context-badge ${isHit ? "hit" : ""}">${escapeHtml(CONTEXTS[key])}</span>`;
+      }).join("");
+    }
+
+    function certificatesText(entry) {
+      return (entry.certificates || []).join(" / ");
+    }
+
+    function renderSummary(state, title, body, mark) {
+      summaryEl.hidden = false;
+      summaryEl.className = `summary ${state}`;
+      summaryEl.innerHTML = `
+        <div class="status-dot" aria-hidden="true">${escapeHtml(mark)}</div>
+        <div>
+          <h2>${escapeHtml(title)}</h2>
+          <p>${escapeHtml(body)}</p>
+        </div>
+      `;
+    }
+
+    function renderResults(matches, selectedContext) {
+      if (!matches.length) {
+        resultsEl.innerHTML = "";
+        return;
+      }
+
+      resultsEl.innerHTML = matches.slice(0, 10).map((entry) => {
+        const link = entry.link
+          ? `<a href="${escapeHtml(entry.link)}" target="_blank" rel="noreferrer">サービスページ</a>`
+          : `<a href="${SOURCE_URL}" target="_blank" rel="noreferrer">法務省ページ</a>`;
+        return `
+          <article class="result-card">
+            <div class="result-head">
+              <h3 class="result-title">${escapeHtml(entry.name)}</h3>
+              <span class="kind">${escapeHtml(entry.kind)}</span>
+            </div>
+            <dl class="info-grid">
+              <dt>使える場面</dt>
+              <dd><div class="badge-row">${contextBadges(entry, selectedContext)}</div></dd>
+              <dt>事業者・発行者</dt>
+              <dd>${escapeHtml(entry.provider || "")}</dd>
+              <dt>電子証明書</dt>
+              <dd>${escapeHtml(certificatesText(entry))}</dd>
+              <dt>条件・注意</dt>
+              <dd>${escapeHtml(entry.condition || "")}</dd>
+              <dt>掲載日</dt>
+              <dd>${escapeHtml(entry.published || "法務省本文区分")}</dd>
+              <dt>リンク</dt>
+              <dd>${link}</dd>
+            </dl>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderDirectory() {
+      const selectedContext = contextSelect.value;
+      const visible = entries.filter((entry) => availableInContext(entry, selectedContext));
+      countEl.textContent = `${visible.length}件`;
+      directoryBody.innerHTML = visible.map((entry) => `
+        <tr>
+          <td>${entry.link ? `<a href="${escapeHtml(entry.link)}" target="_blank" rel="noreferrer">${escapeHtml(entry.name)}</a>` : escapeHtml(entry.name)}</td>
+          <td>${escapeHtml(entry.kind)}</td>
+          <td><div class="badge-row">${contextBadges(entry, selectedContext)}</div></td>
+          <td>${escapeHtml(entry.provider || certificatesText(entry))}</td>
+          <td>${escapeHtml(entry.published || "-")}</td>
+        </tr>
+      `).join("");
+    }
+
+    function render() {
+      const query = queryInput.value.trim();
+      const selectedContext = contextSelect.value;
+      renderDirectory();
+
+      if (!query) {
+        summaryEl.hidden = true;
+        summaryEl.innerHTML = "";
+        resultsEl.innerHTML = "";
+        return;
+      }
+
+      const matches = searchEntries(query);
+      const contextMatches = matches.filter((entry) => availableInContext(entry, selectedContext));
+
+      if (contextMatches.length) {
+        const contextLabel = selectedContext === "all" ? "登記申請で使える場面" : CONTEXTS[selectedContext];
+        renderSummary("ok", "掲載一覧にあります", `${contextLabel}で該当があります。実際の利用時は証明書の有効性と添付書面の種類を確認してください。`, "✓");
+        renderResults(contextMatches, selectedContext);
+        return;
+      }
+
+      if (matches.length) {
+        renderSummary("warn", "名前はありますが、この場面では対象外です", "別の場面では掲載があります。下の結果で、使える場面を確認してください。", "!");
+        renderResults(matches, selectedContext);
+        return;
+      }
+
+      renderSummary("no", "掲載一覧では見当たりません", "入力名、サービス名の正式表記、署名に使われた電子証明書名を変えて確認してください。", "×");
+      resultsEl.innerHTML = "";
+    }
+
+    function bytesToBinaryString(bytes) {
+      const chunkSize = 0x8000;
+      let output = "";
+      for (let i = 0; i < bytes.length; i += chunkSize) {
+        output += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+      }
+      return output;
+    }
+
+    function decodePdfString(value) {
+      if (!value) return "";
+      const bytes = [];
+      for (let i = 0; i < value.length; i += 1) bytes.push(value.charCodeAt(i) & 255);
+      if (bytes[0] === 0xfe && bytes[1] === 0xff) {
+        let out = "";
+        for (let i = 2; i + 1 < bytes.length; i += 2) out += String.fromCharCode((bytes[i] << 8) | bytes[i + 1]);
+        return out.trim();
+      }
+      if (bytes[0] === 0xff && bytes[1] === 0xfe) {
+        let out = "";
+        for (let i = 2; i + 1 < bytes.length; i += 2) out += String.fromCharCode(bytes[i] | (bytes[i + 1] << 8));
+        return out.trim();
+      }
+      try {
+        return new TextDecoder("utf-8", { fatal: false }).decode(new Uint8Array(bytes)).trim();
+      } catch {
+        return value.trim();
+      }
+    }
+
+    function extractPdfLiteralString(source, key) {
+      const keyIndex = source.indexOf(`/${key}`);
+      if (keyIndex < 0) return "";
+      const open = source.indexOf("(", keyIndex);
+      if (open < 0) return "";
+      let depth = 0;
+      let raw = "";
+      for (let i = open; i < source.length; i += 1) {
+        const ch = source[i];
+        if (i === open) {
+          depth = 1;
+          continue;
+        }
+        if (ch === "\\") {
+          const next = source[++i] || "";
+          if (next === "n") raw += "\n";
+          else if (next === "r") raw += "\r";
+          else if (next === "t") raw += "\t";
+          else if (next === "b") raw += "\b";
+          else if (next === "f") raw += "\f";
+          else if (/[0-7]/.test(next)) {
+            let oct = next;
+            for (let j = 0; j < 2 && /[0-7]/.test(source[i + 1] || ""); j += 1) oct += source[++i];
+            raw += String.fromCharCode(parseInt(oct, 8));
+          } else raw += next;
+          continue;
+        }
+        if (ch === "(") depth += 1;
+        if (ch === ")") {
+          depth -= 1;
+          if (depth === 0) break;
+        }
+        raw += ch;
+      }
+      return decodePdfString(raw);
+    }
+
+    function extractPdfNameValue(source, key) {
+      const match = source.match(new RegExp(`/${key}\\s*/([^\\s/<>()\\[\\]]+)`));
+      return match ? match[1] : "";
+    }
+
+    function parsePdfDate(value) {
+      if (!value) return null;
+      const match = value.match(/D:?(\d{4})(\d{2})(\d{2})(\d{2})?(\d{2})?(\d{2})?([Zz]|[+\-]\d{2}'?\d{2}'?)?/);
+      if (!match) return null;
+      const [, y, mo, d, h = "00", mi = "00", s = "00", zone = ""] = match;
+      if (!zone || zone.toUpperCase() === "Z") return new Date(Date.UTC(+y, +mo - 1, +d, +h, +mi, +s));
+      const sign = zone[0] === "-" ? -1 : 1;
+      const nums = zone.slice(1).replace(/'/g, "");
+      const offsetMinutes = sign * ((+nums.slice(0, 2) || 0) * 60 + (+nums.slice(2, 4) || 0));
+      return new Date(Date.UTC(+y, +mo - 1, +d, +h, +mi, +s) - offsetMinutes * 60000);
+    }
+
+    function hexToBytes(hex) {
+      const clean = String(hex || "").replace(/[^0-9a-f]/gi, "");
+      const length = clean.length - (clean.length % 2);
+      const bytes = new Uint8Array(length / 2);
+      for (let i = 0; i < length; i += 2) bytes[i / 2] = parseInt(clean.slice(i, i + 2), 16);
+      let end = bytes.length;
+      while (end > 0 && bytes[end - 1] === 0) end -= 1;
+      return bytes.slice(0, end);
+    }
+
+    function extractPdfSignatures(bytes) {
+      const text = bytesToBinaryString(bytes);
+      const signatures = [];
+      const regex = /\/ByteRange\s*\[([^\]]+)\]/g;
+      let match;
+      while ((match = regex.exec(text))) {
+        const dictStart = Math.max(0, text.lastIndexOf("<<", match.index));
+        const objectEnd = text.indexOf("endobj", match.index);
+        const dictEnd = objectEnd > match.index ? objectEnd : Math.min(text.length, match.index + 180000);
+        const chunk = text.slice(dictStart, dictEnd);
+        const contentsMatch = chunk.match(/\/Contents\s*<([0-9a-fA-F\s]+)>/);
+        const byteRange = match[1].trim().split(/\s+/).map(Number).filter((n) => Number.isFinite(n));
+        const signingDateRaw = extractPdfLiteralString(chunk, "M");
+        signatures.push({
+          byteRange,
+          signerNamePdf: extractPdfLiteralString(chunk, "Name"),
+          fieldName: extractPdfLiteralString(chunk, "T"),
+          reason: extractPdfLiteralString(chunk, "Reason"),
+          signingDateRaw,
+          signingDate: parsePdfDate(signingDateRaw),
+          filter: extractPdfNameValue(chunk, "Filter"),
+          subFilter: extractPdfNameValue(chunk, "SubFilter"),
+          contentsBytes: contentsMatch ? hexToBytes(contentsMatch[1]) : new Uint8Array(),
+          hasContents: Boolean(contentsMatch),
+          rawChunk: chunk
+        });
+      }
+      return signatures;
+    }
+
+    function parseAsn1(bytes, offset = 0, end = bytes.length, depth = 0, state = { count: 0 }) {
+      if (offset >= end) throw new Error("ASN.1 offset out of range");
+      if (depth > 60 || state.count++ > 16000) throw new Error("ASN.1 structure is too deep");
+      const start = offset;
+      const tagByte = bytes[offset++];
+      const cls = tagByte >> 6;
+      const constructed = Boolean(tagByte & 0x20);
+      let tag = tagByte & 0x1f;
+      if (tag === 0x1f) {
+        tag = 0;
+        let b;
+        do {
+          b = bytes[offset++];
+          tag = (tag << 7) | (b & 0x7f);
+        } while (b & 0x80);
+      }
+      let length = bytes[offset++];
+      if (length & 0x80) {
+        const count = length & 0x7f;
+        if (count === 0 || count > 6) throw new Error("Unsupported ASN.1 length");
+        length = 0;
+        for (let i = 0; i < count; i += 1) length = (length << 8) | bytes[offset++];
+      }
+      const valueStart = offset;
+      const valueEnd = valueStart + length;
+      if (valueEnd > end) throw new Error("ASN.1 length exceeds buffer");
+      const node = { tagByte, cls, tag, constructed, start, valueStart, valueEnd, end: valueEnd, children: [] };
+      if (constructed) {
+        let childOffset = valueStart;
+        while (childOffset < valueEnd) {
+          const child = parseAsn1(bytes, childOffset, valueEnd, depth + 1, state);
+          node.children.push(child);
+          childOffset = child.end;
+        }
+      }
+      return node;
+    }
+
+    function decodeOid(bytes, node) {
+      const value = bytes.subarray(node.valueStart, node.valueEnd);
+      if (!value.length) return "";
+      const parts = [Math.floor(value[0] / 40), value[0] % 40];
+      let current = 0;
+      for (let i = 1; i < value.length; i += 1) {
+        current = (current << 7) | (value[i] & 0x7f);
+        if (!(value[i] & 0x80)) {
+          parts.push(current);
+          current = 0;
+        }
+      }
+      return parts.join(".");
+    }
+
+    function decodeAsn1String(bytes, node) {
+      const value = bytes.subarray(node.valueStart, node.valueEnd);
+      if (!value.length) return "";
+      if (node.tag === 12) return new TextDecoder("utf-8", { fatal: false }).decode(value).trim();
+      if (node.tag === 30) {
+        let out = "";
+        for (let i = 0; i + 1 < value.length; i += 2) out += String.fromCharCode((value[i] << 8) | value[i + 1]);
+        return out.trim();
+      }
+      if (node.tag === 28) {
+        let out = "";
+        for (let i = 0; i + 3 < value.length; i += 4) out += String.fromCodePoint((value[i] << 24) | (value[i + 1] << 16) | (value[i + 2] << 8) | value[i + 3]);
+        return out.trim();
+      }
+      return Array.from(value, (b) => String.fromCharCode(b)).join("").trim();
+    }
+
+    const ASN1_NAME_OIDS = {
+      "2.5.4.3": "CN",
+      "2.5.4.4": "SN",
+      "2.5.4.5": "serialNumber",
+      "2.5.4.6": "C",
+      "2.5.4.7": "L",
+      "2.5.4.8": "ST",
+      "2.5.4.10": "O",
+      "2.5.4.11": "OU",
+      "1.2.840.113549.1.9.1": "emailAddress"
+    };
+
+    function parseAsn1Name(bytes, node) {
+      const attrs = [];
+      for (const setNode of node.children || []) {
+        for (const seq of setNode.children || []) {
+          if (!seq.children || seq.children.length < 2) continue;
+          const oid = decodeOid(bytes, seq.children[0]);
+          const key = ASN1_NAME_OIDS[oid] || oid;
+          const value = decodeAsn1String(bytes, seq.children[1]);
+          if (value) attrs.push({ key, value });
+        }
+      }
+      const get = (key) => attrs.find((item) => item.key === key)?.value || "";
+      return {
+        attrs,
+        cn: get("CN"),
+        o: get("O"),
+        ou: get("OU"),
+        serialNumber: get("serialNumber"),
+        text: attrs.map((item) => `${item.key}=${item.value}`).join(", ")
+      };
+    }
+
+    function parseAsn1Time(bytes, node) {
+      const text = decodeAsn1String(bytes, node);
+      if (!text) return null;
+      const match = text.match(/^(?:(\d{2})|(\d{4}))(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(?:\.\d+)?(Z|[+\-]\d{4})?$/);
+      if (!match) return null;
+      const year = match[2] ? +match[2] : (+match[1] >= 50 ? 1900 + +match[1] : 2000 + +match[1]);
+      const [, , , month, day, hour, minute, second, zone = "Z"] = match;
+      const utc = Date.UTC(year, +month - 1, +day, +hour, +minute, +second);
+      if (zone === "Z") return new Date(utc);
+      const sign = zone[0] === "-" ? -1 : 1;
+      const offset = sign * ((+zone.slice(1, 3)) * 60 + (+zone.slice(3, 5)));
+      return new Date(utc - offset * 60000);
+    }
+
+    function parseCertificate(bytes, node) {
+      if (!node || node.cls !== 0 || node.tag !== 16 || !node.children || node.children.length < 3) return null;
+      const [tbs, signatureAlgorithm, signatureValue] = node.children;
+      if (!tbs || tbs.tag !== 16 || !signatureAlgorithm || signatureAlgorithm.tag !== 16 || !signatureValue || signatureValue.tag !== 3) return null;
+      const tbsChildren = tbs.children || [];
+      let i = 0;
+      if (tbsChildren[i] && tbsChildren[i].cls === 2 && tbsChildren[i].tag === 0) i += 1;
+      const serialNode = tbsChildren[i++];
+      i += 1;
+      const issuerNode = tbsChildren[i++];
+      const validityNode = tbsChildren[i++];
+      const subjectNode = tbsChildren[i++];
+      if (!issuerNode || !validityNode || !subjectNode || !validityNode.children || validityNode.children.length < 2) return null;
+      return {
+        serial: serialNode ? Array.from(bytes.subarray(serialNode.valueStart, serialNode.valueEnd), (b) => b.toString(16).padStart(2, "0")).join("").toUpperCase() : "",
+        issuer: parseAsn1Name(bytes, issuerNode),
+        subject: parseAsn1Name(bytes, subjectNode),
+        notBefore: parseAsn1Time(bytes, validityNode.children[0]),
+        notAfter: parseAsn1Time(bytes, validityNode.children[1])
+      };
+    }
+
+    function collectCertificates(bytes, node, out = []) {
+      const cert = parseCertificate(bytes, node);
+      if (cert) out.push(cert);
+      for (const child of node.children || []) collectCertificates(bytes, child, out);
+      return out;
+    }
+
+    function uniqueCertificates(certs) {
+      const seen = new Set();
+      return certs.filter((cert) => {
+        const key = `${cert.serial}|${cert.issuer.text}|${cert.subject.text}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
+    function scanCertificatesInDer(bytes) {
+      const certs = [];
+      for (let offset = 0; offset < bytes.length - 8; offset += 1) {
+        if (bytes[offset] !== 0x30 || (bytes[offset + 1] & 0x80) === 0) continue;
+        try {
+          const node = parseAsn1(bytes, offset, bytes.length, 0, { count: 0 });
+          const cert = parseCertificate(bytes, node);
+          if (cert) {
+            certs.push(cert);
+            offset = Math.max(offset, node.end - 1);
+          }
+        } catch {}
+      }
+      return uniqueCertificates(certs);
+    }
+
+    function extractCertificatesFromCms(bytes) {
+      if (!bytes || bytes.length < 16) return [];
+      const certs = [];
+      try {
+        const root = parseAsn1(bytes);
+        certs.push(...collectCertificates(bytes, root));
+      } catch {}
+      certs.push(...scanCertificatesInDer(bytes));
+      return uniqueCertificates(certs);
+    }
+
+    function findDescendantOctetString(bytes, node) {
+      if (node.cls === 0 && node.tag === 4) return bytes.slice(node.valueStart, node.valueEnd);
+      for (const child of node.children || []) {
+        const found = findDescendantOctetString(bytes, child);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function findCmsMessageDigest(bytes, node) {
+      if (node.cls === 0 && node.tag === 16 && node.children?.length >= 2) {
+        const oidNode = node.children[0];
+        if (oidNode.cls === 0 && oidNode.tag === 6 && decodeOid(bytes, oidNode) === "1.2.840.113549.1.9.4") {
+          return findDescendantOctetString(bytes, node.children[1]);
+        }
+      }
+      for (const child of node.children || []) {
+        const found = findCmsMessageDigest(bytes, child);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function digestAlgorithmForLength(length) {
+      return { 20: "SHA-1", 32: "SHA-256", 48: "SHA-384", 64: "SHA-512" }[length] || "";
+    }
+
+    function signedPdfBytes(bytes, byteRange) {
+      if (!Array.isArray(byteRange) || byteRange.length < 4 || byteRange.length % 2 !== 0) return null;
+      const ranges = [];
+      let total = 0;
+      let previousEnd = 0;
+      for (let i = 0; i < byteRange.length; i += 2) {
+        const start = byteRange[i];
+        const length = byteRange[i + 1];
+        const end = start + length;
+        if (!Number.isInteger(start) || !Number.isInteger(length) || start < previousEnd || length < 0 || end > bytes.length) return null;
+        ranges.push(bytes.subarray(start, end));
+        total += length;
+        previousEnd = end;
+      }
+      const output = new Uint8Array(total);
+      let offset = 0;
+      for (const range of ranges) {
+        output.set(range, offset);
+        offset += range.length;
+      }
+      return { bytes: output, coversWholeRevision: previousEnd === bytes.length };
+    }
+
+    function equalBytes(a, b) {
+      if (!a || !b || a.length !== b.length) return false;
+      let difference = 0;
+      for (let i = 0; i < a.length; i += 1) difference |= a[i] ^ b[i];
+      return difference === 0;
+    }
+
+    async function integrityCheckForSignature(pdfBytes, sig) {
+      if (!sig.contentsBytes?.length) {
+        return { state: "warn", label: "要確認", title: "署名データを読めません", text: "PDF内の署名データを抽出できませんでした。" };
+      }
+      let expectedDigest;
+      try {
+        const root = parseAsn1(sig.contentsBytes);
+        expectedDigest = findCmsMessageDigest(sig.contentsBytes, root);
+      } catch {}
+      if (!expectedDigest) {
+        return { state: "warn", label: "要確認", title: "文書の整合性を判定できません", text: "この署名形式から文書ダイジェストを読み取れませんでした。Adobe Acrobat等でも確認してください。" };
+      }
+      const algorithm = digestAlgorithmForLength(expectedDigest.length);
+      const signed = signedPdfBytes(pdfBytes, sig.byteRange);
+      if (!algorithm || !signed || !globalThis.crypto?.subtle) {
+        return { state: "warn", label: "要確認", title: "文書の整合性を判定できません", text: "ブラウザでこの署名形式の整合性を確認できませんでした。Adobe Acrobat等でも確認してください。" };
+      }
+      try {
+        const actualDigest = new Uint8Array(await globalThis.crypto.subtle.digest(algorithm, signed.bytes));
+        if (!equalBytes(actualDigest, expectedDigest)) {
+          return { state: "no", label: "NG", title: "署名データと文書が一致しません", text: "署名対象部分のダイジェストが一致しません。署名後の変更または読取不良の可能性があります。" };
+        }
+        return {
+          state: "ok",
+          label: "OK候補",
+          title: "署名対象部分は変更なし",
+          text: signed.coversWholeRevision
+            ? "署名対象部分と署名データのダイジェストが一致しました。"
+            : "署名対象部分は一致しています。この署名の後に別の署名や追記が追加されています。"
+        };
+      } catch {
+        return { state: "warn", label: "要確認", title: "文書の整合性を判定できません", text: "ブラウザでのダイジェスト照合に失敗しました。Adobe Acrobat等でも確認してください。" };
+      }
+    }
+
+    function formatDateTime(date) {
+      if (!date || Number.isNaN(date.getTime())) return "不明";
+      return new Intl.DateTimeFormat("ja-JP", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      }).format(date).replace(/\//g, "-");
+    }
+
+    function validityLabel(cert, referenceDate) {
+      if (!cert.notBefore || !cert.notAfter) return { state: "warn", text: "有効期間を読取不可" };
+      const ref = referenceDate || new Date();
+      if (ref < cert.notBefore) return { state: "no", text: `有効期間前（開始 ${formatDateTime(cert.notBefore)}）` };
+      if (ref > cert.notAfter) return { state: "no", text: `有効期間後（満了 ${formatDateTime(cert.notAfter)}）` };
+      return { state: "ok", text: `有効期間内（${formatDateTime(cert.notBefore)} から ${formatDateTime(cert.notAfter)}）` };
+    }
+
+    const SIGNATURE_STOP_TERMS = new Set([
+      "adobe", "adobeppklite", "adobepkcs7detached", "etsicadesdetached", "adberfc3161",
+      "pkcs7", "cades", "detached", "signature", "signeddata", "timestamp", "rfc3161", "unknown"
+    ]);
+
+    function usefulTerm(term) {
+      const nTerm = normalize(term);
+      return nTerm.length >= 4 && !SIGNATURE_STOP_TERMS.has(nTerm) && !["株式会社", "limited", "corporation"].includes(nTerm);
+    }
+
+    function certificateTerms(cert) {
+      return [
+        cert.subject?.cn,
+        cert.subject?.o,
+        cert.subject?.ou,
+        cert.issuer?.cn,
+        cert.issuer?.o,
+        cert.issuer?.ou,
+        cert.subject?.text,
+        cert.issuer?.text
+      ].filter(usefulTerm);
+    }
+
+    function printableStringsFromBytes(bytes) {
+      if (!bytes || !bytes.length) return [];
+      const text = bytesToBinaryString(bytes);
+      return [...text.matchAll(/[\x20-\x7e]{6,}/g)]
+        .map((match) => match[0].trim())
+        .filter(usefulTerm)
+        .slice(0, 120);
+    }
+
+    function printableStringsFromText(text) {
+      return [...String(text || "").matchAll(/[\x20-\x7e]{6,}/g)]
+        .map((match) => match[0].trim())
+        .filter(usefulTerm)
+        .slice(0, 120);
+    }
+
+    function signatureTerms(sig) {
+      return [
+        sig.signerNamePdf,
+        sig.fieldName,
+        sig.reason,
+        sig.filter,
+        sig.subFilter,
+        ...printableStringsFromText(sig.rawChunk || ""),
+        ...printableStringsFromBytes(sig.contentsBytes)
+      ].filter(usefulTerm);
+    }
+
+    function matchEntriesByTerms(terms, source) {
+      const scored = entries.map((entry) => {
+        const pieces = [entry.name, entry.provider, ...(entry.certificates || []), ...(entry.aliases || [])];
+        let score = 0;
+        let evidence = "";
+        for (const term of terms) {
+          const nTerm = normalize(term);
+          for (const piece of pieces) {
+            const nPiece = normalize(piece);
+            if (!nPiece || !nTerm) continue;
+            let current = 0;
+            if (nPiece === nTerm) current = 125;
+            else if ((entry.certificates || []).includes(piece) && nPiece.includes(nTerm)) current = 110;
+            else if ((entry.certificates || []).includes(piece) && nTerm.includes(nPiece) && nPiece.length >= 12) current = 104;
+            else if (nPiece.includes(nTerm)) current = 88;
+            else if (nTerm.includes(nPiece) && nPiece.length >= 8) current = 76;
+            if (current > score) {
+              score = current;
+              evidence = term;
+            }
+          }
+        }
+        return { entry, score, evidence, source };
+      }).filter((item) => item.score >= 72)
+        .sort((a, b) => b.score - a.score || a.entry.name.localeCompare(b.entry.name, "ja"));
+      return scored.slice(0, 16);
+    }
+
+    function matchCertificateEntries(cert) {
+      return matchEntriesByTerms(certificateTerms(cert), "証明書");
+    }
+
+    function matchSignatureEntries(sig) {
+      return matchEntriesByTerms(signatureTerms(sig), "署名データ");
+    }
+
+    function isTechnicalSignerName(value) {
+      const nValue = normalize(value);
+      if (!nValue) return true;
+      return /^v\d+(\.\d+)*[a-z0-9]*$/i.test(nValue)
+        || /^(adobe|ppklite|etsi|cades|rfc3161|timestamp|tsa|tsu|signeddata)/i.test(nValue)
+        || nValue.includes("timestamp")
+        || nValue.includes("timestamper")
+        || nValue.includes("timestamping")
+        || nValue.includes("timesign")
+        || nValue.includes("amanotsu")
+        || nValue.includes("tsa")
+        || nValue.includes("certificationauthority")
+        || nValue.includes("signaturecertificationauthority");
+    }
+
+    function signatureKind(sig, certs) {
+      const values = [
+        sig.signerNamePdf,
+        sig.fieldName,
+        sig.reason,
+        sig.filter,
+        sig.subFilter,
+        sig.rawChunk,
+        ...certs.flatMap((cert) => [
+          cert.subject?.cn,
+          cert.subject?.o,
+          cert.subject?.text,
+          cert.issuer?.cn,
+          cert.issuer?.o,
+          cert.issuer?.text
+        ])
+      ].filter(Boolean);
+      const normalized = values.map(normalize).join(" ");
+      const raw = values.map((value) => String(value).toLowerCase()).join(" ");
+      const isTimestamp = normalized.includes("rfc3161")
+        || normalized.includes("doctimestamp")
+        || normalized.includes("timestamp")
+        || normalized.includes("timestamper")
+        || normalized.includes("timestamping")
+        || normalized.includes("timesign")
+        || normalized.includes("amanotsu")
+        || /\btsa\b/.test(raw)
+        || /\btsu\b/.test(raw)
+        || raw.includes("time stamp")
+        || raw.includes("time-stamp")
+        || raw.includes("タイムスタンプ");
+      if (isTimestamp) {
+        return {
+          type: "timestamp",
+          label: "タイムスタンプ/技術署名の可能性",
+          description: "PDFの時刻証明や検証用の署名と思われます。登記用の本人署名とは別枠で確認してください。"
+        };
+      }
+      return {
+        type: "signature",
+        label: "電子署名",
+        description: "登記利用可否の照合対象として確認しています。"
+      };
+    }
+
+    function humanReadableSigner(value) {
+      if (!value || isTechnicalSignerName(value)) return "";
+      return value;
+    }
+
+    function signerNameFromReason(reason) {
+      const text = String(reason || "").replace(/\s+/g, " ").trim();
+      if (!text) return "";
+      const byMatch = text.match(/^(.+?)\s*によって(?:署名|証明書入力|承認|合意|作成|送信|$)/);
+      const authenticatedMatch = text.match(/^(.+?)\s*[（(][^()（）]*@[^()（）]*[)）]\s*[（(](?:Eメール|メール|SMS|アクセスコード)[^()（）]*認証[^()（）]*[)）]/i);
+      let candidate = (byMatch?.[1] || authenticatedMatch?.[1] || "").trim();
+      if (!candidate) return "";
+      candidate = candidate
+        .replace(/\s*[（(](?:Eメール|メール|SMS|アクセスコード)[^()（）]*認証[^()（）]*[)）]\s*$/i, "")
+        .replace(/\s*[（(][^()（）]*@[^()（）]*[)）]\s*$/i, "")
+        .trim();
+      return humanReadableSigner(candidate);
+    }
+
+    const SIGNER_NOT_FOUND = "PDF署名からは個人名を特定できません";
+
+    function signerIdentity(sig, certs) {
+      const reasonName = signerNameFromReason(sig.reason);
+      if (reasonName) return { name: reasonName, source: "署名のプロパティ（理由欄）", selfDeclared: true };
+      const pdfName = humanReadableSigner(sig.signerNamePdf);
+      if (pdfName) return { name: pdfName, source: "PDF署名名", selfDeclared: true };
+      for (const cert of certs) {
+        const cn = humanReadableSigner(cert.subject?.cn);
+        if (cn) return { name: cn, source: "電子証明書の主体名", selfDeclared: false };
+      }
+      return { name: SIGNER_NOT_FOUND, source: "特定不可", selfDeclared: false };
+    }
+
+    function signerCertificate(certs) {
+      if (!certs.length) return null;
+      const issuerTexts = new Set(certs.map((cert) => cert.issuer?.text).filter(Boolean));
+      return certs.find((cert) => cert.subject?.text && !issuerTexts.has(cert.subject.text)) || certs[0];
+    }
+
+    function certificateSubjectSummary(certs) {
+      const subjects = certs.map((cert) => cert.subject?.text || cert.subject?.cn || cert.subject?.o).filter(Boolean);
+      return subjects.length ? subjects.join(" / ") : "不明";
+    }
+
+    function signerCandidate(sig, certs) {
+      return signerIdentity(sig, certs).name;
+    }
+
+    function signerCaution(sig, certs) {
+      if (signatureKind(sig, certs).type === "timestamp") {
+        return "この署名はタイムスタンプ等の技術署名の可能性があります。PDF内の主たる電子署名の結果もあわせて確認してください。";
+      }
+      const identity = signerIdentity(sig, certs);
+      if (identity.name !== SIGNER_NOT_FOUND && identity.selfDeclared) {
+        return "署名者名は署名時に入力された情報（理由欄・署名名）から表示しています。電子証明書で本人確認された氏名ではないため、当事者名はPDF本文・合意締結証明書・サービス画面でも確認してください。";
+      }
+      if (identity.name !== SIGNER_NOT_FOUND) return "";
+      return "クラウドサイン等の立会人型では、電子証明書に契約当事者本人の氏名が入らないことがあります。契約者名はPDF本文、合意締結証明書、サービス画面で確認してください。";
+    }
+
+    function strongestState(items) {
+      if (items.some((item) => item.state === "no")) return "no";
+      if (items.some((item) => item.state === "ok")) return "ok";
+      return "warn";
+    }
+
+    function validityCheckForCerts(certs, referenceDate) {
+      if (!certs.length) {
+        return {
+          state: "warn",
+          label: "要確認",
+          title: "有効期間を読めません",
+          text: "PDFから証明書の有効期間を抽出できませんでした。Adobe Acrobat等でも確認してください。"
+        };
+      }
+      const labels = certs.map((cert) => validityLabel(cert, referenceDate));
+      const state = strongestState(labels);
+      const detail = labels.map((item) => item.text).join(" / ");
+      if (state === "no") {
+        return {
+          state: "no",
+          label: "NG",
+          title: "有効期間外の可能性",
+          text: `${detail}。失効確認まではこの画面では行っていません。`
+        };
+      }
+      if (state === "ok") {
+        return {
+          state: "ok",
+          label: "OK候補",
+          title: "証明書の有効期間内",
+          text: `${detail}。失効確認まではこの画面では行っていません。`
+        };
+      }
+      return {
+        state: "warn",
+        label: "要確認",
+        title: "有効期間を一部読めません",
+        text: `${detail}。失効確認まではこの画面では行っていません。`
+      };
+    }
+
+    function signatureValiditySummary(integrity, certificateValidity) {
+      if (integrity.state === "no" || certificateValidity.state === "no") return "要確認（不一致または有効期間外）";
+      if (integrity.state === "ok" && certificateValidity.state === "ok") return "有効候補（文書整合・証明書期間内）";
+      return "一部未確認";
+    }
+
+    function issuerCheckForMatches(matches, kind) {
+      if (kind.type === "timestamp") {
+        const names = matches.slice(0, 3).map((item) => item.entry.name).join("、");
+        const matchText = names ? `読み取れた一致候補: ${names}。` : "";
+        return {
+          state: "excluded",
+          label: "対象外",
+          title: "タイムスタンプ署名",
+          text: `${matchText}時刻証明・検証用署名の可能性が高いため、法務省掲載一覧との主たる照合対象から外しています。主たる電子署名の結果を確認してください。`
+        };
+      }
+      if (!matches.length) {
+        return {
+          state: "none",
+          label: "候補なし",
+          title: "掲載一覧との一致候補を特定できず",
+          text: "読み取れた署名情報からは、法務省掲載一覧の該当を特定できませんでした。掲載がない場合のほか、PDFから情報を読み取れなかった場合もあります。サービス名・証明書名を上の検索でも確認してください。"
+        };
+      }
+      const best = matches[0].entry;
+      const names = matches.slice(0, 3).map((item) => item.entry.name).join("、");
+      const suffix = matches.length > 3 ? " など" : "";
+      return {
+        state: "ok",
+        label: "OK候補",
+        title: "掲載一覧に一致候補あり",
+        text: `${names}${suffix}。最有力候補: ${best.name}`
+      };
+    }
+
+    function authorityCheckForSignature(sig, certs, kind) {
+      if (kind.type === "timestamp") {
+        return {
+          state: "excluded",
+          label: "対象外",
+          title: "権限者署名ではなく時刻証明",
+          text: "タイムスタンプ機関等による技術署名の可能性が高く、申請人・代表者・代理人・委任者の権限確認対象ではありません。"
+        };
+      }
+      const signer = signerCandidate(sig, certs);
+      const hasSigner = signer !== SIGNER_NOT_FOUND;
+      return {
+        state: "warn",
+        label: "要確認",
+        title: "権限者の署名か確認",
+        text: hasSigner
+          ? `署名者名候補は「${signer}」です。申請人、代表者、代理人、委任者など権限を持つ人と一致するか確認してください。`
+          : "PDF署名だけでは、申請人・代表者・代理人・委任者など権限を持つ人による署名か判断できません。PDF本文、合意締結証明書、サービス画面で確認してください。"
+      };
+    }
+
+    function renderCheckCard(check) {
+      return `
+        <div class="pdf-check ${check.state}">
+          <span class="pdf-check-label">${escapeHtml(check.label)}</span>
+          <p class="pdf-check-title">${escapeHtml(check.title)}</p>
+          <p class="pdf-check-text">${escapeHtml(check.text)}</p>
+        </div>
+      `;
+    }
+    function pdfVerdict(matches) {
+      if (!matches.length) return { state: "none", text: "掲載候補を特定できませんでした（読取限界の可能性あり）。手動でも確認してください" };
+      const contexts = new Set(matches.flatMap((item) => item.entry.contexts || []));
+      const hasApplication = contexts.has("applicationApplicant") || contexts.has("applicationProxy") || contexts.has("mandate");
+      const hasAttachment = contexts.has("attachment");
+      if (hasApplication) return { state: "ok", text: "申請書情報等でも利用可能候補" };
+      if (hasAttachment) return { state: "ok", text: "一覧上は添付書面情報で利用可能候補（申請書情報では対象外）" };
+      return { state: "warn", text: "掲載候補あり。利用場面は要確認" };
+    }
+
+    function renderPdfResults(file, signatures) {
+      if (!signatures.length) {
+        pdfStatus.textContent = `${file.name}：PDF内に署名辞書（ByteRange）は見つかりませんでした。`;
+        pdfResults.innerHTML = "";
+        return;
+      }
+
+      pdfStatus.textContent = `${file.name}：${signatures.length}件の署名情報を検出しました。`;
+      pdfResults.innerHTML = signatures.map((sig, index) => {
+        const certs = sig.certificates || [];
+        const signatureMatches = matchSignatureEntries(sig);
+        const allMatches = [...signatureMatches, ...certs.flatMap((cert) => matchCertificateEntries(cert))];
+        const uniqueMatches = [];
+        const seen = new Set();
+        for (const item of allMatches) {
+          if (seen.has(item.entry.name)) continue;
+          seen.add(item.entry.name);
+          uniqueMatches.push(item);
+        }
+        const referenceDate = sig.signingDate || new Date();
+        const kind = signatureKind(sig, certs);
+        const verdict = kind.type === "timestamp"
+          ? { state: "excluded", text: "タイムスタンプ/技術署名のため、登記利用可否の判定対象外です。" }
+          : pdfVerdict(uniqueMatches);
+        const signerInfo = signerIdentity(sig, certs);
+        const signer = signerInfo.name;
+        const signerNote = signerInfo.selfDeclared
+          ? "（署名時の入力情報・本人確認情報ではありません）"
+          : (signerInfo.source === "電子証明書の主体名" ? "（電子証明書の記載）" : "");
+        const leafCert = signerCertificate(certs);
+        const certOwner = leafCert
+          ? (leafCert.subject?.cn || leafCert.subject?.o || leafCert.subject?.text || "不明")
+          : "読取不可";
+        const caution = signerCaution(sig, certs);
+        const pdfNameInfo = sig.signerNamePdf
+          ? `${sig.signerNamePdf}${isTechnicalSignerName(sig.signerNamePdf) ? "（技術情報の可能性）" : ""}`
+          : "不明";
+        const certificateValidity = validityCheckForCerts(certs, referenceDate);
+        const integrity = sig.integrityCheck || {
+          state: "warn",
+          label: "要確認",
+          title: "文書の整合性を未確認",
+          text: "署名対象部分の整合性を確認できませんでした。"
+        };
+        const displayValidity = kind.type === "timestamp"
+          ? "判定対象外（タイムスタンプ）"
+          : signatureValiditySummary(integrity, certificateValidity);
+        const excludedBanner = kind.type === "timestamp"
+          ? '<div class="pdf-excluded-banner"><strong>登記利用可否の判定対象外</strong><span>これは本人の電子署名ではなく、時刻を証明するためのタイムスタンプ／技術署名です。</span></div>'
+          : "";
+        const checks = [
+          issuerCheckForMatches(uniqueMatches, kind),
+          integrity,
+          certificateValidity,
+          authorityCheckForSignature(sig, certs, kind)
+        ];
+        const checksHtml = `<div class="pdf-check-grid">${checks.map(renderCheckCard).join("")}</div>`;
+        const broadMatchHint = uniqueMatches.length >= 4
+          ? `<div class="pdf-hint">同じ認証局証明書を複数サービスが利用しているため、サービス名はPDF本文や合意締結証明書でも確認してください。</div>`
+          : "";
+        const certHtml = certs.length ? certs.map((cert, certIndex) => {
+          const validity = validityLabel(cert, referenceDate);
+          const matches = matchCertificateEntries(cert);
+          const matchHtml = matches.length
+            ? `<ul class="pdf-match-list">${matches.slice(0, 6).map((item) => `<li>${escapeHtml(item.entry.name)} <span class="context-badge hit">${escapeHtml(item.entry.kind)}</span></li>`).join("")}</ul>`
+            : `<div class="pdf-hint">この証明書名・発行者では掲載候補を特定できませんでした。</div>`;
+          return `
+            <div class="pdf-cert">
+              <p class="pdf-cert-title">証明書 ${certIndex + 1}</p>
+              <dl class="pdf-meta-grid">
+                <dt>証明書主体</dt><dd>${escapeHtml(cert.subject?.cn || cert.subject?.o || cert.subject?.text || "不明")}</dd>
+                <dt>発行者</dt><dd>${escapeHtml(cert.issuer?.cn || cert.issuer?.o || cert.issuer?.text || "不明")}</dd>
+                <dt>有効期間</dt><dd><span class="pdf-verdict ${validity.state}">${escapeHtml(validity.text)}</span></dd>
+                <dt>照合候補</dt><dd>${matchHtml}</dd>
+              </dl>
+            </div>
+          `;
+        }).join("") : `<div class="pdf-cert"><p class="pdf-cert-title">証明書を読み取れませんでした</p><div class="pdf-hint">PDFに署名辞書はありますが、証明書情報の抽出はできませんでした。署名データ内の文字列から照合候補を探しています。</div></div>`;
+        const signatureMatchHtml = signatureMatches.length
+          ? `<div class="pdf-cert"><p class="pdf-cert-title">署名データ内の照合候補</p><ul class="pdf-match-list">${signatureMatches.slice(0, 8).map((item) => `<li>${escapeHtml(item.entry.name)} <span class="context-badge hit">${escapeHtml(item.entry.kind)}</span></li>`).join("")}</ul>${broadMatchHint}</div>`
+          : "";
+
+        return `
+          <article class="pdf-signature${kind.type === "timestamp" ? " excluded" : ""}">
+            <h3>署名 ${index + 1}</h3>
+            ${excludedBanner}
+            ${checksHtml}
+            <div class="pdf-keyline">
+              <div><b>署名の種類:</b> ${escapeHtml(kind.label)}</div>
+              <div><b>署名者（候補）:</b> ${escapeHtml(signer)}${escapeHtml(signerNote)}</div>
+              <div><b>証明書の名義:</b> ${escapeHtml(certOwner)}</div>
+              <div><b>有効性:</b> ${escapeHtml(displayValidity)}</div>
+              <div><b>署名日時:</b> ${escapeHtml(sig.signingDate ? formatDateTime(sig.signingDate) : (sig.signingDateRaw || "不明"))}</div>
+            </div>
+            ${caution ? `<div class="pdf-hint">${escapeHtml(caution)}</div>` : ""}
+            <details class="pdf-detail">
+              <summary>詳細を表示</summary>
+              <div class="pdf-verdict ${verdict.state}">${escapeHtml(verdict.text)}</div>
+              <dl class="pdf-meta-grid">
+                <dt>PDF署名名</dt><dd>${escapeHtml(pdfNameInfo)}</dd>
+                <dt>署名者の表示根拠</dt><dd>${escapeHtml(signerInfo.source)}</dd>
+                <dt>署名の理由</dt><dd>${escapeHtml(sig.reason || "不明")}</dd>
+                <dt>証明書主体</dt><dd>${escapeHtml(certificateSubjectSummary(certs))}</dd>
+                <dt>形式</dt><dd>${escapeHtml([sig.filter, sig.subFilter].filter(Boolean).join(" / ") || "不明")}</dd>
+                <dt>署名種別メモ</dt><dd>${escapeHtml(kind.description)}</dd>
+                <dt>署名データ</dt><dd>${escapeHtml(sig.hasContents ? `${sig.contentsBytes.length.toLocaleString()} bytes` : "未検出")}</dd>
+                <dt>確認範囲</dt><dd>署名の存在、署名者名候補、証明書発行者、有効期間、法務省掲載一覧との照合</dd>
+              </dl>
+              <div class="pdf-cert-list">${signatureMatchHtml}${certHtml}</div>
+            </details>
+          </article>
+        `;
+      }).join("");
+    }
+
+    async function inspectPdfFile(file) {
+      if (!file) return;
+      pdfResults.innerHTML = "";
+      pdfStatus.textContent = `${file.name} を確認しています。`;
+      try {
+        const bytes = new Uint8Array(await file.arrayBuffer());
+        const signatures = await Promise.all(extractPdfSignatures(bytes).map(async (signature) => ({
+          ...signature,
+          certificates: extractCertificatesFromCms(signature.contentsBytes),
+          integrityCheck: await integrityCheckForSignature(bytes, signature)
+        })));
+        renderPdfResults(file, signatures);
+      } catch (error) {
+        pdfStatus.textContent = "PDFの読取中にエラーが発生しました。別のPDFで確認してください。";
+        pdfResults.innerHTML = `<div class="pdf-signature"><div class="pdf-verdict no">読取エラー</div><div class="pdf-hint">${escapeHtml(error && error.message ? error.message : String(error))}</div></div>`;
+      }
+    }
+
+    function setupPdfDrop() {
+      if (!pdfFileInput || !pdfDrop) return;
+      pdfFileInput.addEventListener("change", () => inspectPdfFile(pdfFileInput.files && pdfFileInput.files[0]));
+      ["dragenter", "dragover"].forEach((eventName) => {
+        pdfDrop.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          pdfDrop.classList.add("dragging");
+        });
+      });
+      ["dragleave", "drop"].forEach((eventName) => {
+        pdfDrop.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          pdfDrop.classList.remove("dragging");
+        });
+      });
+      pdfDrop.addEventListener("drop", (event) => {
+        const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+        if (file) inspectPdfFile(file);
+      });
+    }
+    document.querySelectorAll("[data-example]").forEach((button) => {
+      button.addEventListener("click", () => {
+        queryInput.value = button.dataset.example;
+        queryInput.focus();
+        render();
+      });
+    });
+
+    queryInput.addEventListener("input", render);
+    contextSelect.addEventListener("change", render);
+    setupPdfDrop();
+    render();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
