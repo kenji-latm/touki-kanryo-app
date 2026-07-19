@@ -16,7 +16,7 @@
   const METHOD_LETTERPACK = "letterPack";
   const METHOD_LABELS = {
     [METHOD_REGISTRY]: "法務局データ",
-    [METHOD_LETTERPACK]: "1営業日先登録",
+    [METHOD_LETTERPACK]: "本日分を＋1営業日で仮登録",
   };
   const FALLBACK_JURISDICTIONS = [
     { id: "tokyo", label: "東京法務局" },
@@ -252,9 +252,11 @@
 
   function dueDateFor(jurisdictionId, typeId, office, applyISO, method = METHOD_REGISTRY) {
     if (!isISODate(applyISO)) return null;
+    if (applyISO > todayISO()) return null;
     if (isLetterPackMethod(method)) {
       const publishedDue = lookupDue(jurisdictionId, typeId, office, applyISO);
       if (publishedDue) return publishedDue;
+      if (applyISO !== todayISO()) return null;
       return nextBusinessDayEstimate(jurisdictionId, typeId, office, applyISO)?.dueDate || null;
     }
     return lookupDue(jurisdictionId, typeId, office, applyISO);
@@ -295,7 +297,7 @@
       return {
         dataGeneratedAt: null,
         dataHash: null,
-        dataSource: "1営業日先登録（直前に取得できた完了予定日から算出）",
+        dataSource: "本日分を＋1営業日で仮登録（当日データの掲載待ちを、直前の取得済み予定日から補完）",
       };
     }
     return {
@@ -406,7 +408,7 @@
       label: typeof item.label === "string" ? item.label : "",
       jurisdiction: typeof item.jurisdiction === "string" && item.jurisdiction ? item.jurisdiction : DEFAULT_JURISDICTION,
       registrationType: typeof item.registrationType === "string" && item.registrationType ? item.registrationType : DEFAULT_TYPE,
-      applicationMethod: normalizeApplicationMethod(item.applicationMethod || (/(?:レターパック|1営業日先登録)/.test(item.dataSource || "") ? METHOD_LETTERPACK : METHOD_REGISTRY)),
+      applicationMethod: normalizeApplicationMethod(item.applicationMethod || (/(?:レターパック|1営業日先登録|1営業日で仮登録)/.test(item.dataSource || "") ? METHOD_LETTERPACK : METHOD_REGISTRY)),
       office,
       applyDate,
       dueDate: isISODate(item.dueDate) ? item.dueDate : null,
@@ -568,7 +570,7 @@
       label: row.label || "",
       jurisdiction: row.jurisdiction_id || DEFAULT_JURISDICTION,
       registrationType: row.registration_type || DEFAULT_TYPE,
-      applicationMethod: row.application_method || (/(?:レターパック|1営業日先登録)/.test(row.data_source || "") ? METHOD_LETTERPACK : METHOD_REGISTRY),
+      applicationMethod: row.application_method || (/(?:レターパック|1営業日先登録|1営業日で仮登録)/.test(row.data_source || "") ? METHOD_LETTERPACK : METHOD_REGISTRY),
       office: row.registry_office || "",
       applyDate: row.apply_date || "",
       dueDate: row.due_date || null,
@@ -918,9 +920,18 @@
     if (!due) {
       box.className = "result result--warn";
       dateEl.textContent = "未掲載";
-      hintEl.textContent = isLetterPack
-        ? `この申請日より前のデータがないため、1営業日先を算出できません。${saveSuffix}`
-        : `この申請日は現在の掲載表・過去取得済みデータのどちらにもありません。「1営業日先登録」を選ぶと、直前に取得できた予定日から仮登録できます。${saveSuffix}`;
+      const today = todayISO();
+      if (isLetterPack && apply > today) {
+        hintEl.textContent = `未来の申請日は「本日分を＋1営業日で仮登録」の対象外です。法務局データが掲載されるまで「未掲載」として扱います。${saveSuffix}`;
+      } else if (isLetterPack && apply < today) {
+        hintEl.textContent = `この機能は、本日分の法務局データがまだ掲載されていない時間差を補うためのものです。過去日は通常の法務局データで確認してください。${saveSuffix}`;
+      } else if (isLetterPack) {
+        hintEl.textContent = `直前に取得済みの法務局データがないため、本日分を仮登録できません。${saveSuffix}`;
+      } else if (apply === today) {
+        hintEl.textContent = `本日分はまだ未掲載です。「本日分を＋1営業日で仮登録」を選ぶと、直前に取得済みの完了予定日に1営業日を加えて仮登録できます。${saveSuffix}`;
+      } else {
+        hintEl.textContent = `この申請日は現在の掲載表・過去取得済みデータのどちらにもありません（未来日・休日・対象期間外など）。${saveSuffix}`;
+      }
       return;
     }
 
@@ -1494,7 +1505,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260719-v114", { updateViaCache: "none" })
+        .register("./sw.js?v=20260719-v115", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });

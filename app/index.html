@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest?v=20260710-agetena" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260719-v112" />
   <link rel="icon" href="icon.svg?v=20260719-v112" />
-  <link rel="stylesheet" href="styles.css?v=20260719-v114" />
+  <link rel="stylesheet" href="styles.css?v=20260719-v115" />
   <!-- file:// でも動くようデータはJSで読み込む -->
   <script src="data/kanryo-integrity.js"></script>
   <script src="data/kanryo.js"></script>
@@ -67,9 +67,10 @@
             </label>
             <label>
               <input type="radio" name="application-method" value="letterPack" />
-              <span>1営業日先登録</span>
+              <span>本日分を＋1営業日で仮登録</span>
             </label>
           </div>
+          <p class="method-help">本日分がまだ未掲載のときだけ、直前の取得済み予定日に1営業日を加えて仮登録します。未来日は対象外です。</p>
         </fieldset>
 
         <div class="field">
@@ -192,7 +193,7 @@
     <p class="footer__links"><a href="privacy.html">プライバシーについて</a></p>
   </footer>
 
-  <script src="shared-config.js?v=20260719-v114"></script>
-  <script src="app.js?v=20260719-v114"></script>
+  <script src="shared-config.js?v=20260719-v115"></script>
+  <script src="app.js?v=20260719-v115"></script>
 </body>
 </html>

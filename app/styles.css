@@ -736,3 +736,11 @@ button, input, select { font: inherit; }
   .shared-session { align-items: stretch; flex-direction: column; }
   .shared-session__actions { justify-content: flex-end; }
 }
+.method-help {
+  margin: 7px 3px 0;
+  color: var(--text-tertiary);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
