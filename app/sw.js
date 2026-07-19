@@ -1,12 +1,14 @@
 // オフライン用キャッシュ（http(s)配信時のみ有効）。Phase 2bで通知(push)処理を追加予定。
-const CACHE_PREFIX = "touki-kanryo-";
-const CACHE = "touki-kanryo-v26-v121";
+const SCOPE_PATH = new URL(self.registration.scope).pathname;
+const IS_AGETENA_PATH = /\/agetena\/$/.test(SCOPE_PATH);
+const CACHE_PREFIX = IS_AGETENA_PATH ? "agetena-touki-kanryo-" : "touki-kanryo-root-";
+const CACHE = `${CACHE_PREFIX}v27-v130`;
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260719-v121",
-  "./app.js?v=20260719-v121",
-  "./shared-config.js?v=20260719-v121",
+  "./styles.css?v=20260720-v130",
+  "./app.js?v=20260720-v130",
+  "./shared-config.js?v=20260720-v130",
   "./data/kanryo-integrity.js",
   "./data/kanryo.js",
   "./data/kanryo.json",
@@ -26,7 +28,11 @@ self.addEventListener("activate", (e) => {
     caches.keys().then((keys) =>
       Promise.all(
         keys
-          .filter((k) => k.startsWith(CACHE_PREFIX) && k !== CACHE)
+          .filter((k) => {
+            if (k === CACHE) return false;
+            if (k.startsWith(CACHE_PREFIX)) return true;
+            return !IS_AGETENA_PATH && /^touki-kanryo-v/.test(k);
+          })
           .map((k) => caches.delete(k))
       )
     ).then(() => self.clients.claim())

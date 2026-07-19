@@ -80,6 +80,9 @@ jobs:
               sleep 5
             done
           fi
+      - name: Prepare legacy and /agetena/ Pages output
+        run: node scripts/prepare-pages.mjs
+
 
       - name: GitHub Pagesを準備
         uses: actions/configure-pages@v5
@@ -87,7 +90,7 @@ jobs:
       - name: 公開ファイルをアップロード
         uses: actions/upload-pages-artifact@v3
         with:
-          path: app
+          path: _site
 
   deploy:
     environment:

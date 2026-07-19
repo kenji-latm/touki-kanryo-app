@@ -146,5 +146,6 @@ npm run build:extension
 - 未対応の法務局・地方法務局へ順次拡大
 ## 公開中の関連ツール
 
-- アゲテナ: https://tools.ishimoto-legal.com/
+- アゲテナ（新URL）: https://tools.ishimoto-legal.com/agetena/
+- アゲテナ（従来URL・互換維持）: https://tools.ishimoto-legal.com/
 - 登記用電子署名チェッカー: https://tools.ishimoto-legal.com/electronic-signature-checker/

@@ -1532,7 +1532,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260719-v121", { updateViaCache: "none" })
+        .register("./sw.js?v=20260720-v130", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });
