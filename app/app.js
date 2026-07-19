@@ -140,6 +140,10 @@
     }
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   }
+  const isWeekdayISO = (iso) => {
+    const d = isoDate(iso);
+    return !!d && d.getDay() !== 0 && d.getDay() !== 6;
+  };
   function nextMondayISO(fromISO = todayISO()) {
     const d = isoDate(fromISO);
     if (!d) return "";
@@ -255,14 +259,15 @@
     if (!isISODate(applyISO)) return null;
     if (applyISO > todayISO()) return null;
     let baseDue = lookupDue(jurisdictionId, typeId, office, applyISO);
-    if (!baseDue && useFallback && applyISO === todayISO()) {
+    if (!baseDue && useFallback && applyISO === todayISO() && isWeekdayISO(applyISO)) {
       baseDue = nextBusinessDayEstimate(jurisdictionId, typeId, office, applyISO)?.dueDate || null;
     }
     if (!baseDue) return null;
     return isLetterPackMethod(method) ? addBusinessDaysISO(baseDue, 1) : baseDue;
   }
 
-  const isFallbackSource = (value) => /(?:掲載タイムラグ補完|1営業日で仮登録)/.test(value || "");
+  // 「1営業日先登録」はv1.1.0〜v1.1.4の仮登録が保存した文字列（レターパック申請ではない）
+  const isFallbackSource = (value) => /(?:掲載タイムラグ補完|1営業日で仮登録|1営業日先登録)/.test(value || "");
   const isFallbackCase = (c) => isFallbackSource(c?.dataSource);
 
   function normalizeStoredMethod(method, dataSource) {
@@ -930,11 +935,13 @@
       box.className = "result result--warn";
       dateEl.textContent = "未掲載";
       const today = todayISO();
-      const estimate = apply === today ? nextBusinessDayEstimate(jurisdictionId, typeId, office, apply) : null;
+      const estimate = apply === today && isWeekdayISO(apply) ? nextBusinessDayEstimate(jurisdictionId, typeId, office, apply) : null;
       if (estimate) {
         fallbackBtn.hidden = false;
         const letterPackText = isLetterPack ? " レターパック申請の場合は、到着分としてさらに1営業日を加えます。" : "";
         hintEl.textContent = `本日分はまだ未掲載です。下のボタンで、直前の取得済み予定日から仮登録できます。${letterPackText}${saveSuffix}`;
+      } else if (apply === today && !isWeekdayISO(apply)) {
+        hintEl.textContent = `本日は土日のため、法務局の受付・データ掲載はありません。仮登録は平日のみ使えます。${saveSuffix}`;
       } else if (apply > today) {
         hintEl.textContent = `未来の申請日は、法務局データが掲載されるまで「未掲載」として扱います。${saveSuffix}`;
       } else {
@@ -1525,7 +1532,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260719-v120", { updateViaCache: "none" })
+        .register("./sw.js?v=20260719-v121", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });
