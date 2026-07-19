@@ -1204,6 +1204,7 @@
       }
       const actions = el.querySelector(".item__actions");
       actions.appendChild(mkBtn("Googleカレンダー", "mini mini--calendar", () => openGoogleCalendar(c)));
+      actions.appendChild(mkBtn("文面コピー", "mini mini--report", () => openReportSheet(c)));
       actions.appendChild(c.status === "done"
         ? mkBtn("未完了に戻す", "mini mini--undo", () => toggleDone(c.id, false))
         : mkBtn("完了にする", "mini mini--done", () => toggleDone(c.id, true)));
@@ -1477,7 +1478,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260719-v112", { updateViaCache: "none" })
+        .register("./sw.js?v=20260719-v113", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });
