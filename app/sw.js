@@ -1,12 +1,12 @@
 // オフライン用キャッシュ（http(s)配信時のみ有効）。Phase 2bで通知(push)処理を追加予定。
 const CACHE_PREFIX = "touki-kanryo-";
-const CACHE = "touki-kanryo-v24-v115";
+const CACHE = "touki-kanryo-v25-v120";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260719-v115",
-  "./app.js?v=20260719-v115",
-  "./shared-config.js?v=20260719-v115",
+  "./styles.css?v=20260719-v120",
+  "./app.js?v=20260719-v120",
+  "./shared-config.js?v=20260719-v120",
   "./data/kanryo-integrity.js",
   "./data/kanryo.js",
   "./data/kanryo.json",

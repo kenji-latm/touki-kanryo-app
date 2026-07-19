@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest?v=20260710-agetena" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260719-v112" />
   <link rel="icon" href="icon.svg?v=20260719-v112" />
-  <link rel="stylesheet" href="styles.css?v=20260719-v115" />
+  <link rel="stylesheet" href="styles.css?v=20260719-v120" />
   <!-- file:// でも動くようデータはJSで読み込む -->
   <script src="data/kanryo-integrity.js"></script>
   <script src="data/kanryo.js"></script>
@@ -67,10 +67,9 @@
             </label>
             <label>
               <input type="radio" name="application-method" value="letterPack" />
-              <span>本日分を＋1営業日で仮登録</span>
+              <span>レターパック申請</span>
             </label>
           </div>
-          <p class="method-help">本日分がまだ未掲載のときだけ、直前の取得済み予定日に1営業日を加えて仮登録します。未来日は対象外です。</p>
         </fieldset>
 
         <div class="field">
@@ -98,6 +97,10 @@
         <div class="result__caption">完了予定日</div>
         <div class="result__date" id="result-date">— — —</div>
         <div class="result__hint" id="result-hint">↑ 法務局・登記種別・管轄・申請日を選ぶと、ここに自動表示されます</div>
+        <button id="result-fallback" class="result__fallback" type="button" hidden>
+          <strong>前回データから仮登録</strong>
+          <span>直前の完了予定日＋1営業日で、本日分を補完</span>
+        </button>
       </div>
       <div class="notice" role="note">
         表示される完了予定日は、各法務局が公表するデータに基づく目安です。最新性・正確性を保証するものではありません。正式な判断には、各法務局の公式情報をご確認ください。
@@ -193,7 +196,7 @@
     <p class="footer__links"><a href="privacy.html">プライバシーについて</a></p>
   </footer>
 
-  <script src="shared-config.js?v=20260719-v115"></script>
-  <script src="app.js?v=20260719-v115"></script>
+  <script src="shared-config.js?v=20260719-v120"></script>
+  <script src="app.js?v=20260719-v120"></script>
 </body>
 </html>
