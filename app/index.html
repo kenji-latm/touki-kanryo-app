@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest?v=20260710-agetena" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260719-v112" />
   <link rel="icon" href="icon.svg?v=20260719-v112" />
-  <link rel="stylesheet" href="styles.css?v=20260719-v113" />
+  <link rel="stylesheet" href="styles.css?v=20260719-v114" />
   <!-- file:// でも動くようデータはJSで読み込む -->
   <script src="data/kanryo-integrity.js"></script>
   <script src="data/kanryo.js"></script>
@@ -78,16 +78,18 @@
           <button id="favorite-toggle" class="favorite-toggle" type="button" aria-pressed="false" disabled>☆ よく使う組み合わせに追加</button>
         </div>
 
-        <label class="field">
-          <span class="field__label"><span class="step">5</span>申請日</span>
+        <div class="field">
+          <span id="f-apply-label" class="field__label"><span class="step">5</span>申請日</span>
           <span class="date-input-wrap">
-            <span id="f-apply-display" class="date-input-display" aria-hidden="true"></span>
-            <svg class="date-input-calendar" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z" />
-            </svg>
-            <input id="f-apply" type="date" aria-label="申請日を選択" />
+            <button id="f-apply-trigger" class="date-input-trigger" type="button" aria-labelledby="f-apply-label f-apply-display">
+              <span id="f-apply-display" class="date-input-display"></span>
+              <svg class="date-input-calendar" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z" />
+              </svg>
+            </button>
+            <input id="f-apply" class="date-input-native" type="date" aria-labelledby="f-apply-label" tabindex="-1" />
           </span>
-        </label>
+        </div>
       </div>
 
       <!-- 結果（常時表示・自動更新） -->
@@ -190,7 +192,7 @@
     <p class="footer__links"><a href="privacy.html">プライバシーについて</a></p>
   </footer>
 
-  <script src="shared-config.js?v=20260719-v113"></script>
-  <script src="app.js?v=20260719-v113"></script>
+  <script src="shared-config.js?v=20260719-v114"></script>
+  <script src="app.js?v=20260719-v114"></script>
 </body>
 </html>

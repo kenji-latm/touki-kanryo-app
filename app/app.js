@@ -157,6 +157,21 @@
       ? `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())}（${WD[d.getDay()]}）`
       : "日付を選択";
   }
+  function openApplyDatePicker() {
+    const input = $("f-apply");
+    if (!input) return;
+    try {
+      if (typeof input.showPicker === "function") {
+        input.showPicker();
+        return;
+      }
+    } catch {
+      // showPicker非対応時は、ユーザー操作内のclickへフォールバックする。
+    }
+    input.focus({ preventScroll: true });
+    input.click();
+  }
+
 
   const jurisdictionLabel = (jurisdictionId) =>
     JURISDICTIONS.find((j) => j.id === jurisdictionId)?.label ||
@@ -1421,6 +1436,7 @@
 
     $("f-jurisdiction").addEventListener("change", updateControls);
     document.querySelectorAll('input[name="registration-type"]').forEach((input) => input.addEventListener("change", updateControls));
+    $("f-apply-trigger").addEventListener("click", openApplyDatePicker);
     document.querySelectorAll('input[name="application-method"]').forEach((input) => input.addEventListener("change", updateResult));
     $("f-office").addEventListener("change", () => {
       renderFavorites();
@@ -1478,7 +1494,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260719-v113", { updateViaCache: "none" })
+        .register("./sw.js?v=20260719-v114", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });
