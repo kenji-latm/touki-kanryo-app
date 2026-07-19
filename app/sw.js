@@ -1,20 +1,20 @@
 // オフライン用キャッシュ（http(s)配信時のみ有効）。Phase 2bで通知(push)処理を追加予定。
 const CACHE_PREFIX = "touki-kanryo-";
-const CACHE = "touki-kanryo-v20-v111";
+const CACHE = "touki-kanryo-v21-v112";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260719-v111",
-  "./app.js?v=20260719-v111",
-  "./shared-config.js?v=20260719-v111",
+  "./styles.css?v=20260719-v112",
+  "./app.js?v=20260719-v112",
+  "./shared-config.js?v=20260719-v112",
   "./data/kanryo-integrity.js",
   "./data/kanryo.js",
   "./data/kanryo.json",
   "./manifest.webmanifest?v=20260710-letterpack-after-due",
-  "./apple-touch-icon.png?v=20260710-letterpack-after-due",
+  "./apple-touch-icon.png?v=20260719-v112",
   "./icon-192.png?v=20260710-letterpack-after-due",
   "./icon-512.png?v=20260710-letterpack-after-due",
-  "./icon.svg?v=20260710-letterpack-after-due",
+  "./icon.svg?v=20260719-v112",
 ];
 
 self.addEventListener("install", (e) => {

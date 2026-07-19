@@ -9,9 +9,9 @@
   <meta name="apple-mobile-web-app-title" content="アゲテナ" />
   <title>アゲテナ</title>
   <link rel="manifest" href="manifest.webmanifest?v=20260710-agetena" />
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260710-letterpack-after-due" />
-  <link rel="icon" href="icon.svg?v=20260710-letterpack-after-due" />
-  <link rel="stylesheet" href="styles.css?v=20260719-v111" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260719-v112" />
+  <link rel="icon" href="icon.svg?v=20260719-v112" />
+  <link rel="stylesheet" href="styles.css?v=20260719-v112" />
   <!-- file:// でも動くようデータはJSで読み込む -->
   <script src="data/kanryo-integrity.js"></script>
   <script src="data/kanryo.js"></script>
@@ -19,7 +19,7 @@
 <body>
   <header class="appbar">
     <div class="appbar__inner">
-      <span class="appbar__logo" aria-hidden="true">✓</span>
+      <span class="appbar__logo" aria-hidden="true">↗</span>
       <h1 class="appbar__title">アゲテナ</h1>
     </div>
   </header>
@@ -78,8 +78,11 @@
         <label class="field">
           <span class="field__label"><span class="step">5</span>申請日</span>
           <span class="date-input-wrap">
-            <input id="f-apply" type="date" lang="en-CA" />
-            <span id="f-apply-weekday" class="date-input-weekday" aria-live="polite"></span>
+            <span id="f-apply-display" class="date-input-display" aria-hidden="true"></span>
+            <svg class="date-input-calendar" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z" />
+            </svg>
+            <input id="f-apply" type="date" aria-label="申請日を選択" />
           </span>
         </label>
       </div>
@@ -184,7 +187,7 @@
     <p class="footer__links"><a href="privacy.html">プライバシーについて</a></p>
   </footer>
 
-  <script src="shared-config.js?v=20260719-v111"></script>
-  <script src="app.js?v=20260719-v111"></script>
+  <script src="shared-config.js?v=20260719-v112"></script>
+  <script src="app.js?v=20260719-v112"></script>
 </body>
 </html>
