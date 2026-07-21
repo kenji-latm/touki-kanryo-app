@@ -147,6 +147,7 @@ npm run build:extension
 ## 公開中の関連ツール
 
 - アゲテナ（新URL）: https://tools.ishimoto-legal.com/agetena/
-- アゲテナ（従来URL・互換維持）: https://tools.ishimoto-legal.com/
+- アゲテナ（従来URL・新URLへリダイレクト）: https://tools.ishimoto-legal.com/
 - トウシテナ（登記用電子署名チェッカー・新URL）: https://tools.ishimoto-legal.com/toshitena/
 - トウシテナ（従来URL・リダイレクト）: https://tools.ishimoto-legal.com/electronic-signature-checker/
+

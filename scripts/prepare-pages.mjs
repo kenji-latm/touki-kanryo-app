@@ -1,10 +1,12 @@
-import { cp, mkdir, rm } from "node:fs/promises";
+import { cp, mkdir, rm, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const source = resolve(root, "app");
 const output = resolve(root, "_site");
 const agetena = resolve(output, "agetena");
+const rootIndex = resolve(output, "index.html");
+const rootPrivacy = resolve(output, "privacy.html");
 
 const agetenaFiles = [
   "index.html",
@@ -29,4 +31,76 @@ for (const item of agetenaFiles) {
   await cp(resolve(source, item), resolve(agetena, item), { recursive: true });
 }
 
-console.log("GitHub Pages output prepared: / and /agetena/");
+await writeFile(
+  rootIndex,
+  redirectHtml({
+    title: "アゲテナへ移動します",
+    message: "アゲテナは新しいURLへ移動しました。",
+    targetPath: "/agetena/",
+    linkText: "アゲテナを開く",
+  })
+);
+
+await writeFile(
+  rootPrivacy,
+  redirectHtml({
+    title: "アゲテナのプライバシー説明へ移動します",
+    message: "アゲテナのプライバシー説明は新しいURLへ移動しました。",
+    targetPath: "/agetena/privacy.html",
+    linkText: "プライバシー説明を開く",
+  })
+);
+
+console.log("GitHub Pages output prepared: / redirects to /agetena/, with /agetena/ app output");
+
+function redirectHtml({ title, message, targetPath, linkText }) {
+  return `<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>${escapeHtml(title)}</title>
+  <script>
+    (function () {
+      var target = new URL(${JSON.stringify(targetPath)}, window.location.origin);
+      target.search = window.location.search;
+      target.hash = window.location.hash;
+      var redirect = function () {
+        window.location.replace(target.href);
+      };
+
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistrations()
+          .then(function (registrations) {
+            return Promise.all(registrations.map(function (registration) {
+              return new URL(registration.scope).pathname === "/" ? registration.unregister() : true;
+            }));
+          })
+          .then(redirect, redirect);
+      } else {
+        redirect();
+      }
+    })();
+  </script>
+</head>
+<body>
+  <p>${escapeHtml(message)}</p>
+  <p><a id="redirect-link" href="${escapeHtml(targetPath)}">${escapeHtml(linkText)}</a></p>
+  <script>
+    document.getElementById("redirect-link").href = new URL(${JSON.stringify(targetPath)}, window.location.origin).href;
+  </script>
+</body>
+</html>
+`;
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (ch) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  })[ch]);
+}
