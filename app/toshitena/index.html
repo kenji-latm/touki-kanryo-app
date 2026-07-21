@@ -2311,6 +2311,13 @@
       return value;
     }
 
+    function isServiceOrCertificateProviderName(value) {
+      const text = String(value || "").trim();
+      const nValue = normalize(text);
+      if (!nValue) return false;
+      return /bengo4|弁護士ドットコム|cloudsign|クラウドサイン|gmo|globalsign|グローバルサイン|secom|セコム|cybertrust|サイバートラスト|digicert|adobe|contractcross|contractcube|btobプラットフォーム|認証局|証明書|certificateauthority|timestamp|timestamper|tsa/.test(nValue);
+    }
+
     function signerNameFromReason(reason) {
       const text = String(reason || "").replace(/\s+/g, " ").trim();
       if (!text) return "";
@@ -2329,14 +2336,21 @@
 
     function signerIdentity(sig, certs) {
       const reasonName = signerNameFromReason(sig.reason);
-      if (reasonName) return { name: reasonName, source: "署名のプロパティ（理由欄）", selfDeclared: true };
+      if (reasonName) return { name: reasonName, source: "署名のプロパティ（理由欄）", selfDeclared: true, serviceLike: false };
       const pdfName = humanReadableSigner(sig.signerNamePdf);
-      if (pdfName) return { name: pdfName, source: "PDF署名名", selfDeclared: true };
+      if (pdfName) return { name: pdfName, source: "PDF署名名", selfDeclared: true, serviceLike: isServiceOrCertificateProviderName(pdfName) };
       for (const cert of certs) {
         const cn = humanReadableSigner(cert.subject?.cn);
-        if (cn) return { name: cn, source: "電子証明書の主体名", selfDeclared: false };
+        if (cn) return { name: cn, source: "電子証明書の主体名", selfDeclared: false, serviceLike: isServiceOrCertificateProviderName(cn) };
       }
-      return { name: SIGNER_NOT_FOUND, source: "特定不可", selfDeclared: false };
+      return { name: SIGNER_NOT_FOUND, source: "特定不可", selfDeclared: false, serviceLike: false };
+    }
+
+    function signerIdentityNote(identity) {
+      if (identity.name === SIGNER_NOT_FOUND) return "";
+      if (identity.serviceLike) return "（サービス名・証明書名の可能性があります）";
+      if (identity.selfDeclared) return "（署名時の入力情報・本人確認情報ではありません）";
+      return identity.source === "電子証明書の主体名" ? "（電子証明書の記載）" : "";
     }
 
     function signerCertificate(certs) {
@@ -2359,6 +2373,9 @@
         return "この署名はタイムスタンプ等の技術署名の可能性があります。PDF内の主たる電子署名の結果もあわせて確認してください。";
       }
       const identity = signerIdentity(sig, certs);
+      if (identity.serviceLike) {
+        return "PDF署名から読めた名義が、サービス名・証明書名の可能性があります。権限者本人の氏名はPDF本文、合意締結証明書、サービス画面でも確認してください。";
+      }
       if (identity.name !== SIGNER_NOT_FOUND && identity.selfDeclared) {
         return "署名者名は署名時に入力された情報（理由欄・署名名）から表示しています。電子証明書で本人確認された氏名ではないため、当事者名はPDF本文・合意締結証明書・サービス画面でも確認してください。";
       }
@@ -2453,14 +2470,17 @@
           text: "タイムスタンプ機関等による技術署名の可能性が高く、申請人・代表者・代理人・委任者の権限確認対象ではありません。"
         };
       }
-      const signer = signerCandidate(sig, certs);
-      const hasSigner = signer !== SIGNER_NOT_FOUND;
+      const identity = signerIdentity(sig, certs);
+      const hasSigner = identity.name !== SIGNER_NOT_FOUND;
+      const source = identity.source ? `（${identity.source}）` : "";
       return {
         state: "warn",
         label: "要確認",
         title: "権限者の署名か確認",
         text: hasSigner
-          ? `署名者名候補は「${signer}」です。申請人、代表者、代理人、委任者など権限を持つ人と一致するか確認してください。`
+          ? (identity.serviceLike
+            ? `PDF署名から「${identity.name}」を読めていますが、サービス名・証明書名の可能性があります。権限者本人の氏名はPDF本文、合意締結証明書、サービス画面で確認してください。`
+            : `署名者表示は「${identity.name}」です${source}。申請人、代表者、代理人、委任者など権限を持つ人と一致するか確認してください。`)
           : "PDF署名だけでは、申請人・代表者・代理人・委任者など権限を持つ人による署名か判断できません。PDF本文、合意締結証明書、サービス画面で確認してください。"
       };
     }
@@ -2510,9 +2530,8 @@
           : pdfVerdict(uniqueMatches);
         const signerInfo = signerIdentity(sig, certs);
         const signer = signerInfo.name;
-        const signerNote = signerInfo.selfDeclared
-          ? "（署名時の入力情報・本人確認情報ではありません）"
-          : (signerInfo.source === "電子証明書の主体名" ? "（電子証明書の記載）" : "");
+        const signerLabel = signerInfo.serviceLike ? "読取名義" : "署名者（候補）";
+        const signerNote = signerIdentityNote(signerInfo);
         const leafCert = signerCertificate(certs);
         const certOwner = leafCert
           ? (leafCert.subject?.cn || leafCert.subject?.o || leafCert.subject?.text || "不明")
@@ -2573,7 +2592,7 @@
             ${checksHtml}
             <div class="pdf-keyline">
               <div><b>署名の種類:</b> ${escapeHtml(kind.label)}</div>
-              <div><b>署名者（候補）:</b> ${escapeHtml(signer)}${escapeHtml(signerNote)}</div>
+              <div><b>${escapeHtml(signerLabel)}:</b> ${escapeHtml(signer)}${escapeHtml(signerNote)}</div>
               <div><b>証明書の名義:</b> ${escapeHtml(certOwner)}</div>
               <div><b>有効性:</b> ${escapeHtml(displayValidity)}</div>
               <div><b>署名日時:</b> ${escapeHtml(sig.signingDate ? formatDateTime(sig.signingDate) : (sig.signingDateRaw || "不明"))}</div>
