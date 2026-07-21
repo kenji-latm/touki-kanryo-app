@@ -98,6 +98,7 @@
   let dataIntegrityState = { status: "unchecked", message: "データ整合性：確認中" };
 
   let useTodayFallback = false;
+  let calendarSheetDraft = null;
   const $ = (id) => document.getElementById(id);
   const pad = (n) => String(n).padStart(2, "0");
   const todayISO = () => {
@@ -926,7 +927,24 @@
       message.hidden = messages.length === 0;
       message.textContent = messages.join(" ");
     }
-  }  function updateResult() {
+  }
+
+  function showResultCalendarButton(title, subtitle) {
+    const button = $("result-calendar");
+    if (!button) return;
+    const strong = button.querySelector("strong");
+    const span = button.querySelector("span");
+    if (strong) strong.textContent = title;
+    if (span) span.textContent = subtitle;
+    button.hidden = false;
+  }
+
+  function hideResultCalendarButton() {
+    const button = $("result-calendar");
+    if (button) button.hidden = true;
+  }
+
+  function updateResult() {
     const jurisdictionId = selectedJurisdiction();
     const typeId = selectedType();
     const method = selectedMethod();
@@ -936,8 +954,7 @@
     const dateEl = $("result-date");
     const hintEl = $("result-hint");
     const addBtn = $("f-add");
-    const fallbackBtn = $("result-fallback");
-    fallbackBtn.hidden = true;
+    hideResultCalendarButton();
     const isLetterPack = isLetterPackMethod(method);
 
     if (!dataIntegrityOk) {
@@ -975,19 +992,23 @@
       const today = todayISO();
       const estimate = apply === today && isWeekdayISO(apply) ? nextBusinessDayEstimate(jurisdictionId, typeId, office, apply) : null;
       if (estimate) {
-        fallbackBtn.hidden = false;
+        showResultCalendarButton("日付を選んでカレンダー仮登録", "候補日を初期値にして開く");
         const letterPackText = isLetterPack ? " レターパック申請の場合は、候補日に到着分としてさらに1営業日を加えます。" : "";
-        hintEl.textContent = `本日分はまだ未掲載です。下のボタンでGoogleカレンダーを開き、日付を選択して仮登録できます。${letterPackText}${saveSuffix}`;
-      } else if (apply === today && !isWeekdayISO(apply)) {
-        hintEl.textContent = `本日は土日のため、法務局の受付・データ掲載はありません。仮登録は平日のみ使えます。${saveSuffix}`;
-      } else if (apply > today) {
-        hintEl.textContent = `未来の申請日は、法務局データが掲載されるまで「未掲載」として扱います。${saveSuffix}`;
+        hintEl.textContent = `本日分はまだ未掲載です。下のボタンで登録日を選択できます。${letterPackText}${saveSuffix}`;
       } else {
-        hintEl.textContent = `この申請日は現在の掲載表・過去取得済みデータのどちらにもありません。${saveSuffix}`;
+        showResultCalendarButton("日付を選んでカレンダー仮登録", "登録日を手動で選択");
+        if (apply === today && !isWeekdayISO(apply)) {
+          hintEl.textContent = `本日は土日のため、法務局の受付・データ掲載はありません。登録日は手動で選択できます。${saveSuffix}`;
+        } else if (apply > today) {
+          hintEl.textContent = `未来の申請日は、法務局データが掲載されるまで「未掲載」として扱います。登録日は手動で選択できます。${saveSuffix}`;
+        } else {
+          hintEl.textContent = `この申請日は現在の掲載表・過去取得済みデータのどちらにもありません。登録日は手動で選択できます。${saveSuffix}`;
+        }
       }
       return;
     }
 
+    showResultCalendarButton("日付を選んでカレンダー登録", "表示された予定日を初期値にして開く");
     const n = diffDays(todayISO(), due);
     const context = `${jurisdictionLabel(jurisdictionId)}・${typeLabel(typeId)}・${office}`;
     const estimate = useTodayFallback ? nextBusinessDayEstimate(jurisdictionId, typeId, office, apply) : null;
@@ -1177,9 +1198,9 @@
       `申請方法：${applicationMethodLabel(c.applicationMethod)}`,
       `管轄：${c.office}`,
       `申請日：${fmtJP(c.applyDate)}`,
-      caseBasisText(c),
+      options.basisText || caseBasisText(c),
       "完了予定日は目安です。各法務局の公式情報をご確認ください。",
-    ].join("\n");
+    ].filter(Boolean).join("\n");
     const params = new URLSearchParams({
       action: "TEMPLATE",
       text: options.title || calendarTitle(c),
@@ -1199,41 +1220,103 @@
     window.open(url, "_blank", "noopener");
   }
 
-  function fallbackCalendarDraft() {
+  function selectedCalendarDraft() {
     const jurisdiction = selectedJurisdiction();
     const registrationType = selectedType();
     const applicationMethod = selectedMethod();
     const office = $("f-office").value;
     const applyDate = $("f-apply").value;
-    if (!office || !applyDate || applyDate !== todayISO() || !isWeekdayISO(applyDate)) return null;
-    if (lookupDue(jurisdiction, registrationType, office, applyDate)) return null;
-    const estimate = nextBusinessDayEstimate(jurisdiction, registrationType, office, applyDate);
-    if (!estimate) return null;
-    const calendarDate = dueDateFor(jurisdiction, registrationType, office, applyDate, applicationMethod, true);
-    if (!calendarDate) return null;
-    return { estimate, calendarDate, caseData: currentFormCase(calendarDate, true) };
+    if (!office || !isISODate(applyDate)) return null;
+
+    const listedDate = dueDateFor(jurisdiction, registrationType, office, applyDate, applicationMethod, false);
+    if (listedDate) {
+      return { mode: "listed", calendarDate: listedDate, caseData: currentFormCase(listedDate, false), estimate: null };
+    }
+
+    const canEstimate = applyDate === todayISO() && isWeekdayISO(applyDate) && !lookupDue(jurisdiction, registrationType, office, applyDate);
+    const estimate = canEstimate ? nextBusinessDayEstimate(jurisdiction, registrationType, office, applyDate) : null;
+    const fallbackDate = estimate ? dueDateFor(jurisdiction, registrationType, office, applyDate, applicationMethod, true) : null;
+    const calendarDate = fallbackDate || applyDate || todayISO();
+    return {
+      mode: fallbackDate ? "fallback" : "manual",
+      calendarDate,
+      caseData: currentFormCase(calendarDate, !!fallbackDate),
+      estimate,
+    };
   }
 
-  function openFallbackGoogleCalendar() {
-    const draft = fallbackCalendarDraft();
+  function calendarDraftSummary(draft) {
+    if (!draft) return "";
+    if (draft.mode === "listed") return `表示された完了予定日 ${fmtJP(draft.calendarDate)} を初期値にしています。`;
+    if (draft.mode === "fallback") return `候補日 ${fmtJP(draft.calendarDate)} を初期値にしています。`;
+    return "完了予定日が未掲載のため、登録日を手動で選択してください。";
+  }
+
+  function calendarDraftNote(draft) {
+    if (!draft) return "";
+    if (draft.mode === "listed") return "必要に応じて、登録日を変更してからGoogleカレンダーを開けます。";
+    if (draft.mode === "fallback") return "候補日は直前の取得済み予定日から計算した目安です。必要に応じて変更してください。";
+    return "ここで選んだ日付は、法務局データに基づく完了予定日ではありません。";
+  }
+
+  function calendarLeadDetails(draft, selectedDate) {
+    if (!draft) return [];
+    const lines = [
+      `アゲテナで選択した登録日：${fmtJP(selectedDate)}`,
+    ];
+    if (draft.mode === "listed") {
+      lines.push(`表示された完了予定日：${fmtJP(draft.calendarDate)}`);
+    } else if (draft.mode === "fallback" && draft.estimate) {
+      lines.push("本日分の法務局データが未掲載のため、仮登録として作成しています。");
+      lines.push(`根拠：${fmtJP(draft.estimate.previousApplyDate)}申請分の完了予定日 ${fmtJP(draft.estimate.previousDueDate)}`);
+      if (isLetterPackMethod(draft.caseData.applicationMethod)) lines.push("レターパック申請のため、候補日は到着分としてさらに1営業日後にしています。");
+    } else {
+      lines.push("完了予定日データが未掲載のため、手動選択した日付です。");
+    }
+    return lines;
+  }
+
+  function openCalendarSheetFromResult() {
+    const draft = selectedCalendarDraft();
     if (!draft) {
-      alert("Googleカレンダーで仮登録できる候補日がありません。法務局・登記種別・管轄・申請日を確認してください。");
+      alert("カレンダー登録するには、法務局・登記種別・管轄・申請日を選択してください。");
       return;
     }
-    const isLetterPack = isLetterPackMethod(draft.caseData.applicationMethod);
-    const leadDetails = [
-      "本日分の法務局データが未掲載のため、Googleカレンダーで仮登録します。",
-      `候補日：${fmtJP(draft.calendarDate)}（Googleカレンダー画面で日付を変更できます）`,
-      `根拠：${fmtJP(draft.estimate.previousApplyDate)}申請分の完了予定日 ${fmtJP(draft.estimate.previousDueDate)}`,
-      isLetterPack ? "レターパック申請のため、候補日は到着分としてさらに1営業日後にしています。" : "",
-    ];
-    const url = googleCalendarUrl(draft.caseData, {
-      title: `【仮】${calendarTitle(draft.caseData)}`,
-      calendarDate: draft.calendarDate,
-      leadDetails,
+    calendarSheetDraft = draft;
+    const sheet = $("calendar-sheet");
+    const input = $("calendar-date");
+    $("calendar-sheet-summary").textContent = calendarDraftSummary(draft);
+    $("calendar-sheet-note").textContent = calendarDraftNote(draft);
+    input.value = draft.calendarDate;
+    if (typeof sheet.showModal === "function") sheet.showModal();
+    else sheet.setAttribute("open", "");
+    try { input.showPicker?.(); } catch {}
+  }
+
+  function closeCalendarSheet() {
+    const sheet = $("calendar-sheet");
+    calendarSheetDraft = null;
+    if (typeof sheet.close === "function") sheet.close();
+    else sheet.removeAttribute("open");
+  }
+
+  function openSelectedGoogleCalendar() {
+    if (!calendarSheetDraft) return;
+    const selectedDate = $("calendar-date").value;
+    if (!isISODate(selectedDate)) {
+      alert("Googleカレンダーに登録する日付を選択してください。");
+      return;
+    }
+    const caseData = { ...calendarSheetDraft.caseData, dueDate: selectedDate };
+    const url = googleCalendarUrl(caseData, {
+      title: calendarSheetDraft.mode === "listed" ? calendarTitle(caseData) : `【仮】${calendarTitle(caseData)}`,
+      calendarDate: selectedDate,
+      leadDetails: calendarLeadDetails(calendarSheetDraft, selectedDate),
+      basisText: calendarSheetDraft.mode === "manual" ? "手動選択：法務局データに基づく完了予定日ではありません。" : "",
     });
     if (!url) return;
     window.open(url, "_blank", "noopener");
+    closeCalendarSheet();
   }
 
   function reportTemplate(c) {
@@ -1590,7 +1673,7 @@
       updateResult();
     });
     $("favorite-toggle").addEventListener("click", toggleFavorite);
-    $("result-fallback").addEventListener("click", openFallbackGoogleCalendar);
+    $("result-calendar").addEventListener("click", openCalendarSheetFromResult);
     $("f-add").addEventListener("click", addCase);
     $("show-done").addEventListener("change", render);
     $("case-search")?.addEventListener("input", render);
@@ -1607,6 +1690,11 @@
     $("shared-logout")?.addEventListener("click", signOutShared);
     $("shared-refresh")?.addEventListener("click", refreshSharedFromButton);
     $("shared-office")?.addEventListener("change", () => changeSharedOffice().catch(handleSharedError));
+    $("calendar-close")?.addEventListener("click", closeCalendarSheet);
+    $("calendar-open")?.addEventListener("click", openSelectedGoogleCalendar);
+    $("calendar-sheet")?.addEventListener("click", (event) => {
+      if (event.target === event.currentTarget) closeCalendarSheet();
+    });
     $("report-close")?.addEventListener("click", closeReportSheet);
     $("report-copy")?.addEventListener("click", (event) => copyReportText(event.currentTarget).catch(handleSharedError));
     $("report-sheet")?.addEventListener("click", (event) => {
@@ -1638,7 +1726,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260721-v132", { updateViaCache: "none" })
+        .register("./sw.js?v=20260721-v133", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });

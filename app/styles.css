@@ -353,7 +353,7 @@ button, input, select { font: inherit; }
   font-variant-numeric: tabular-nums;
 }
 .result__hint { color: var(--text-secondary); font-size: 14px; }
-.result__fallback {
+.result__calendar {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -368,11 +368,11 @@ button, input, select { font: inherit; }
   cursor: pointer;
   transition: transform 100ms ease-out, background 150ms ease-out;
 }
-.result__fallback[hidden] { display: none; }
-.result__fallback strong { font-size: 14px; font-weight: 700; }
-.result__fallback span { color: var(--text-secondary); font-size: 12px; font-weight: 500; }
-.result__fallback:active { transform: scale(0.985); background: rgba(158, 202, 69, 0.22); }
-.result__fallback:focus-visible { outline: 3px solid rgba(103, 138, 54, 0.24); outline-offset: 2px; }
+.result__calendar[hidden] { display: none; }
+.result__calendar strong { font-size: 14px; font-weight: 700; }
+.result__calendar span { color: var(--text-secondary); font-size: 12px; font-weight: 500; }
+.result__calendar:active { transform: scale(0.985); background: rgba(158, 202, 69, 0.22); }
+.result__calendar:focus-visible { outline: 3px solid rgba(103, 138, 54, 0.24); outline-offset: 2px; }
 
 .result--empty { background: #f8f8fa; }
 .result--empty .result__date { color: #c7c7cc; font-size: 28px; letter-spacing: 0.12em; }
@@ -740,6 +740,37 @@ button, input, select { font: inherit; }
 .report-sheet__close:active { transform: scale(0.92); }
 .report-sheet__text { box-sizing: border-box; width: 100%; min-height: 160px; margin: 16px 0 12px; padding: 14px; resize: vertical; color: var(--text); background: rgba(255, 255, 255, 0.72); border: 1px solid rgba(60, 60, 67, 0.1); border-radius: 15px; font: inherit; font-size: 15px; line-height: 1.7; }
 .report-sheet__copy { width: 100%; }
+.calendar-sheet__summary {
+  margin: 14px 0 12px;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.55;
+}
+.calendar-sheet__field {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 12px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 650;
+}
+.calendar-sheet__field input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 13px 14px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(60, 60, 67, 0.12);
+  border-radius: 14px;
+  font: inherit;
+  font-size: 17px;
+}
+.calendar-sheet__note {
+  margin: 0 0 14px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.55;
+}
 @keyframes sheet-in { from { opacity: 0; transform: translateY(24px) scale(0.98); } to { opacity: 1; transform: none; } }
 
 @media (prefers-reduced-motion: reduce) {
