@@ -1163,11 +1163,11 @@
     return String(iso || "").replace(/-/g, "");
   }
 
-  function calendarTitle(c) {
+  function calendarTitle(c, marker = "") {
     const name = c.label && c.label.trim()
       ? c.label.trim()
       : jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION);
-    return `${name} ${typeLabel(c.registrationType || DEFAULT_TYPE)}`;
+    return `【完了予定日】${marker}${name}`;
   }
 
   function currentFormCase(dueDate = null, usedFallback = false) {
@@ -1309,7 +1309,7 @@
     }
     const caseData = { ...calendarSheetDraft.caseData, dueDate: selectedDate };
     const url = googleCalendarUrl(caseData, {
-      title: calendarSheetDraft.mode === "listed" ? calendarTitle(caseData) : `【仮】${calendarTitle(caseData)}`,
+      title: calendarSheetDraft.mode === "listed" ? calendarTitle(caseData) : calendarTitle(caseData, "【仮】"),
       calendarDate: selectedDate,
       leadDetails: calendarLeadDetails(calendarSheetDraft, selectedDate),
       basisText: calendarSheetDraft.mode === "manual" ? "手動選択：法務局データに基づく完了予定日ではありません。" : "",
