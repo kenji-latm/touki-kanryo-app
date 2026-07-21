@@ -976,8 +976,8 @@
       const estimate = apply === today && isWeekdayISO(apply) ? nextBusinessDayEstimate(jurisdictionId, typeId, office, apply) : null;
       if (estimate) {
         fallbackBtn.hidden = false;
-        const letterPackText = isLetterPack ? " レターパック申請の場合は、到着分としてさらに1営業日を加えます。" : "";
-        hintEl.textContent = `本日分はまだ未掲載です。下のボタンで、直前の取得済み予定日から仮登録できます。${letterPackText}${saveSuffix}`;
+        const letterPackText = isLetterPack ? " レターパック申請の場合は、候補日に到着分としてさらに1営業日を加えます。" : "";
+        hintEl.textContent = `本日分はまだ未掲載です。下のボタンでGoogleカレンダーを開き、日付を選択して仮登録できます。${letterPackText}${saveSuffix}`;
       } else if (apply === today && !isWeekdayISO(apply)) {
         hintEl.textContent = `本日は土日のため、法務局の受付・データ掲載はありません。仮登録は平日のみ使えます。${saveSuffix}`;
       } else if (apply > today) {
@@ -1149,9 +1149,29 @@
     return `${name} ${typeLabel(c.registrationType || DEFAULT_TYPE)}`;
   }
 
-  function googleCalendarUrl(c) {
-    if (!c.dueDate) return "";
+  function currentFormCase(dueDate = null, usedFallback = false) {
+    const applicationMethod = selectedMethod();
+    return {
+      id: "draft",
+      label: $("f-label")?.value.trim() || "",
+      jurisdiction: selectedJurisdiction(),
+      registrationType: selectedType(),
+      applicationMethod,
+      office: $("f-office").value,
+      applyDate: $("f-apply").value,
+      dueDate,
+      ...currentDataSnapshot(applicationMethod, usedFallback),
+      status: "active",
+      createdAt: new Date().toISOString(),
+    };
+  }
+
+  function googleCalendarUrl(c, options = {}) {
+    const calendarDate = isISODate(options.calendarDate) ? options.calendarDate : c.dueDate;
+    if (!calendarDate) return "";
+    const leadDetails = Array.isArray(options.leadDetails) ? options.leadDetails.filter(Boolean) : [];
     const details = [
+      ...leadDetails,
       `法務局：${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)}`,
       `種別：${typeLabel(c.registrationType || DEFAULT_TYPE)}`,
       `申請方法：${applicationMethodLabel(c.applicationMethod)}`,
@@ -1162,8 +1182,8 @@
     ].join("\n");
     const params = new URLSearchParams({
       action: "TEMPLATE",
-      text: calendarTitle(c),
-      dates: `${icsDate(c.dueDate)}/${icsDate(addDaysISO(c.dueDate, 1))}`,
+      text: options.title || calendarTitle(c),
+      dates: `${icsDate(calendarDate)}/${icsDate(addDaysISO(calendarDate, 1))}`,
       details,
       ctz: "Asia/Tokyo",
     });
@@ -1176,6 +1196,43 @@
       alert("完了予定日が未掲載の案件はGoogleカレンダーに追加できません。");
       return;
     }
+    window.open(url, "_blank", "noopener");
+  }
+
+  function fallbackCalendarDraft() {
+    const jurisdiction = selectedJurisdiction();
+    const registrationType = selectedType();
+    const applicationMethod = selectedMethod();
+    const office = $("f-office").value;
+    const applyDate = $("f-apply").value;
+    if (!office || !applyDate || applyDate !== todayISO() || !isWeekdayISO(applyDate)) return null;
+    if (lookupDue(jurisdiction, registrationType, office, applyDate)) return null;
+    const estimate = nextBusinessDayEstimate(jurisdiction, registrationType, office, applyDate);
+    if (!estimate) return null;
+    const calendarDate = dueDateFor(jurisdiction, registrationType, office, applyDate, applicationMethod, true);
+    if (!calendarDate) return null;
+    return { estimate, calendarDate, caseData: currentFormCase(calendarDate, true) };
+  }
+
+  function openFallbackGoogleCalendar() {
+    const draft = fallbackCalendarDraft();
+    if (!draft) {
+      alert("Googleカレンダーで仮登録できる候補日がありません。法務局・登記種別・管轄・申請日を確認してください。");
+      return;
+    }
+    const isLetterPack = isLetterPackMethod(draft.caseData.applicationMethod);
+    const leadDetails = [
+      "本日分の法務局データが未掲載のため、Googleカレンダーで仮登録します。",
+      `候補日：${fmtJP(draft.calendarDate)}（Googleカレンダー画面で日付を変更できます）`,
+      `根拠：${fmtJP(draft.estimate.previousApplyDate)}申請分の完了予定日 ${fmtJP(draft.estimate.previousDueDate)}`,
+      isLetterPack ? "レターパック申請のため、候補日は到着分としてさらに1営業日後にしています。" : "",
+    ];
+    const url = googleCalendarUrl(draft.caseData, {
+      title: `【仮】${calendarTitle(draft.caseData)}`,
+      calendarDate: draft.calendarDate,
+      leadDetails,
+    });
+    if (!url) return;
     window.open(url, "_blank", "noopener");
   }
 
@@ -1533,10 +1590,7 @@
       updateResult();
     });
     $("favorite-toggle").addEventListener("click", toggleFavorite);
-    $("result-fallback").addEventListener("click", () => {
-      useTodayFallback = true;
-      updateResult();
-    });
+    $("result-fallback").addEventListener("click", openFallbackGoogleCalendar);
     $("f-add").addEventListener("click", addCase);
     $("show-done").addEventListener("change", render);
     $("case-search")?.addEventListener("input", render);
@@ -1584,7 +1638,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260721-v131", { updateViaCache: "none" })
+        .register("./sw.js?v=20260721-v132", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });
