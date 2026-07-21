@@ -297,9 +297,29 @@
     return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
 
-  function expectedDataHash() {
-    const value = window.KANRYO_DATA_INTEGRITY?.sha256;
+  function validDataHash(value) {
     return typeof value === "string" && /^[a-f0-9]{64}$/i.test(value) ? value.toLowerCase() : "";
+  }
+
+  function expectedDataHash() {
+    return validDataHash(window.KANRYO_DATA_INTEGRITY?.sha256);
+  }
+
+  function setExpectedDataIntegrity(integrity) {
+    const sha256 = validDataHash(integrity?.sha256);
+    if (!sha256) return false;
+    window.KANRYO_DATA_INTEGRITY = { ...(integrity || {}), sha256 };
+    return true;
+  }
+
+  function parseIntegrityScript(source) {
+    const match = String(source || "").match(/KANRYO_DATA_INTEGRITY\s*=\s*(\{[\s\S]*\})\s*;?\s*$/);
+    if (!match) return null;
+    try {
+      return JSON.parse(match[1]);
+    } catch {
+      return null;
+    }
   }
 
   function dataSnapshotText(c) {
@@ -391,6 +411,21 @@
     }
   }
 
+  async function fetchLatestIntegrity(dataUrl) {
+    try {
+      const integrityUrl = new URL("kanryo-integrity.js", dataUrl);
+      integrityUrl.searchParams.set("_", String(Date.now()));
+      const res = await fetch(integrityUrl, { cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const integrity = parseIntegrityScript(await res.text());
+      if (!setExpectedDataIntegrity(integrity)) throw new Error("invalid integrity data");
+      return true;
+    } catch (e) {
+      console.warn("最新の検証用ハッシュを取得できないため、読み込み済みのハッシュで確認します。", e);
+      return false;
+    }
+  }
+
   async function fetchLatestData() {
     const dataJsonUrl = typeof APP_CONFIG.dataJsonUrl === "string" && APP_CONFIG.dataJsonUrl.trim()
       ? APP_CONFIG.dataJsonUrl.trim()
@@ -398,7 +433,10 @@
     if (!dataJsonUrl && !location.protocol.startsWith("http")) return null;
     try {
       const url = dataJsonUrl ? new URL(dataJsonUrl, location.href) : new URL("data/kanryo.json", location.href);
-      const res = await fetch(url, { cache: "no-store" });
+      await fetchLatestIntegrity(url);
+      const freshUrl = new URL(url.href);
+      freshUrl.searchParams.set("_", String(Date.now()));
+      const res = await fetch(freshUrl, { cache: "no-store" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const meta = await res.json();
       if (!meta || !meta.data) return null;
@@ -1453,8 +1491,22 @@
     }
   }
 
+  async function unregisterLegacyRootServiceWorkers() {
+    if (!navigator.serviceWorker?.getRegistrations || !location.protocol.startsWith("http") || !location.pathname.startsWith("/agetena/")) return;
+    try {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map((registration) => {
+        const scopePath = new URL(registration.scope).pathname;
+        return scopePath === "/" ? registration.unregister() : true;
+      }));
+    } catch (e) {
+      console.warn("旧URL用のキャッシュ解除を完了できませんでした。", e);
+    }
+  }
+
   async function init() {
     activateSharedFeatureFromUrl();
+    await unregisterLegacyRootServiceWorkers();
     await refreshLocalDataScripts();
     renderDataIntegrityStatus();
     await verifyDataIntegrity(META, "同梱データ");
@@ -1532,7 +1584,7 @@
     });
     window.addEventListener("load", () => {
       navigator.serviceWorker
-        .register("./sw.js?v=20260720-v130", { updateViaCache: "none" })
+        .register("./sw.js?v=20260721-v131", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => {});
     });
