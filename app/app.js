@@ -495,10 +495,43 @@
     return !labelA || !labelB || labelA === labelB;
   }
 
-  function casesAreSameMatter(a, b) {
-    return caseMatterKey(a) === caseMatterKey(b) && caseLabelsCompatible(a, b);
+  function caseHasUsefulLabel(c) {
+    return Boolean(normalizedCaseLabel(c));
   }
 
+  function casePathKey(c) {
+    return [
+      c?.jurisdiction || DEFAULT_JURISDICTION,
+      c?.registrationType || DEFAULT_TYPE,
+      normalizeApplicationMethod(c?.applicationMethod),
+      c?.office || "",
+    ].map((value) => String(value).trim().toLowerCase()).join("\u001f");
+  }
+
+  function daysBetweenISO(a, b) {
+    if (!isISODate(a) || !isISODate(b)) return Number.POSITIVE_INFINITY;
+    return Math.abs(diffDays(a, b));
+  }
+
+  function labelsAllowLooseMerge(a, b) {
+    const labelA = normalizedCaseLabel(a);
+    const labelB = normalizedCaseLabel(b);
+    if (labelA && labelB) return labelA === labelB;
+    return Boolean(labelA || labelB);
+  }
+
+  function casesAreNearDraftDuplicate(a, b) {
+    if (!isCalendarDraftCase(a) && !isCalendarDraftCase(b)) return false;
+    if (casePathKey(a) !== casePathKey(b)) return false;
+    if (!labelsAllowLooseMerge(a, b)) return false;
+    const applyDays = daysBetweenISO(a?.applyDate, b?.applyDate);
+    const dueDays = daysBetweenISO(a?.dueDate, b?.dueDate);
+    return applyDays <= 1 && dueDays <= 2;
+  }
+
+  function casesAreSameMatter(a, b) {
+    return (caseMatterKey(a) === caseMatterKey(b) && caseLabelsCompatible(a, b)) || casesAreNearDraftDuplicate(a, b);
+  }
   function timestampValue(value) {
     const time = Date.parse(value || "");
     return Number.isNaN(time) ? 0 : time;
@@ -509,6 +542,7 @@
     if (candidate.status === "done" && current.status !== "done") return false;
     if (Boolean(candidate.dueDate) !== Boolean(current.dueDate)) return Boolean(candidate.dueDate);
     if (candidate.dueDate && current.dueDate && isCalendarDraftCase(candidate) !== isCalendarDraftCase(current)) return !isCalendarDraftCase(candidate);
+    if (caseHasUsefulLabel(candidate) !== caseHasUsefulLabel(current)) return caseHasUsefulLabel(candidate);
     const candidateUpdated = timestampValue(candidate.updatedAt || candidate.createdAt);
     const currentUpdated = timestampValue(current.updatedAt || current.createdAt);
     return candidateUpdated > currentUpdated;
@@ -1392,7 +1426,10 @@
       .filter(({ item }) => casesAreSameMatter(item, c));
     if (!candidates.length) return -1;
 
-    const sameLabelUnknown = candidates.find(({ item }) => normalizedCaseLabel(item) === normalizedCaseLabel(c) && !item.dueDate);
+    const incomingLabel = normalizedCaseLabel(c);
+    const labeledCandidate = !incomingLabel ? candidates.find(({ item }) => caseHasUsefulLabel(item)) : null;
+    if (labeledCandidate) return labeledCandidate.index;
+    const sameLabelUnknown = candidates.find(({ item }) => normalizedCaseLabel(item) === incomingLabel && !item.dueDate);
     if (sameLabelUnknown) return sameLabelUnknown.index;
     const compatibleUnknown = candidates.find(({ item }) => !item.dueDate);
     if (compatibleUnknown) return compatibleUnknown.index;
