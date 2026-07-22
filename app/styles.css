@@ -435,6 +435,13 @@ button, input, select { font: inherit; }
 .btn:active { transform: scale(0.98); }
 .btn--primary { color: #fff; background: var(--text); }
 .btn--primary:disabled { color: #a1a1a6; background: #e5e5e7; cursor: default; }
+.save-message {
+  margin: 7px 2px 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.save-message--warn { color: var(--warning); }
 
 /* Saved cases */
 .list-head { display: flex; align-items: center; justify-content: space-between; margin: 4px 2px 11px; }
@@ -770,6 +777,16 @@ button, input, select { font: inherit; }
   color: var(--text-secondary);
   font-size: 13px;
   line-height: 1.55;
+}
+.calendar-sheet__title-preview {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  color: var(--text);
+  background: rgba(158, 202, 69, 0.11);
+  border: 1px solid rgba(103, 138, 54, 0.18);
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.5;
 }
 @keyframes sheet-in { from { opacity: 0; transform: translateY(24px) scale(0.98); } to { opacity: 1; transform: none; } }
 

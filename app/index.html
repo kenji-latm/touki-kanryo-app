@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest?v=20260710-agetena" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260719-v112" />
   <link rel="icon" href="icon.svg?v=20260719-v112" />
-  <link rel="stylesheet" href="styles.css?v=20260720-v130" />
+  <link rel="stylesheet" href="styles.css?v=20260722-v132" />
   <!-- file:// でも動くようデータはJSで読み込む -->
   <script src="data/kanryo-integrity.js"></script>
   <script src="data/kanryo.js"></script>
@@ -111,6 +111,7 @@
         <input id="f-label" type="text" placeholder="依頼者名・物件・件名・メモ（任意）" autocomplete="off" />
         <button id="f-add" class="btn btn--primary" type="button" disabled>一覧に保存</button>
       </div>
+      <p id="save-message" class="save-message" hidden></p>
     </section>
 
     <!-- 保存先 -->
@@ -191,6 +192,7 @@
       <span>登録日</span>
       <input id="calendar-date" type="date" />
     </label>
+    <p id="calendar-title-preview" class="calendar-sheet__title-preview"></p>
     <p id="calendar-sheet-note" class="calendar-sheet__note"></p>
     <button id="calendar-open" class="btn btn--primary report-sheet__copy" type="button">Googleカレンダーを開く</button>
   </dialog>
@@ -213,7 +215,7 @@
     <p class="footer__links"><a href="privacy.html">プライバシーについて</a></p>
   </footer>
 
-  <script src="shared-config.js?v=20260720-v130"></script>
-  <script src="app.js?v=20260721-v133"></script>
+  <script src="shared-config.js?v=20260722-v132"></script>
+  <script src="app.js?v=20260722-v132"></script>
 </body>
 </html>

@@ -944,6 +944,19 @@
     if (button) button.hidden = true;
   }
 
+  function saveUnavailableReason() {
+    if (storageMode === "shared" && !isSharedReady()) return "事務所共有に保存するには、ログインと事務所設定が必要です。下の「保存先」で「この端末」に戻すと、この端末だけに保存できます。";
+    return "";
+  }
+
+  function setSaveMessage(message = "", tone = "") {
+    const el = $("save-message");
+    if (!el) return;
+    el.textContent = message;
+    el.hidden = !message;
+    el.className = `save-message${tone ? ` save-message--${tone}` : ""}`;
+  }
+
   function updateResult() {
     const jurisdictionId = selectedJurisdiction();
     const typeId = selectedType();
@@ -955,6 +968,7 @@
     const hintEl = $("result-hint");
     const addBtn = $("f-add");
     hideResultCalendarButton();
+    setSaveMessage();
     const isLetterPack = isLetterPackMethod(method);
 
     if (!dataIntegrityOk) {
@@ -962,6 +976,7 @@
       dateEl.textContent = "データ確認エラー";
       hintEl.textContent = "完了予定日データの整合性を確認できません。公式情報をご確認ください。";
       addBtn.disabled = true;
+      setSaveMessage("データ確認エラーのため保存できません。公式情報をご確認ください。", "warn");
       return;
     }
 
@@ -970,6 +985,7 @@
       dateEl.textContent = "データ未収録";
       hintEl.textContent = `${jurisdictionLabel(jurisdictionId)}・${typeLabel(typeId)}のデータを読み込めませんでした。オンラインで開き直してください。`;
       addBtn.disabled = true;
+      setSaveMessage("この法務局・登記種別のデータを読み込めないため保存できません。", "warn");
       return;
     }
 
@@ -978,13 +994,16 @@
       dateEl.textContent = "— — —";
       hintEl.textContent = "↑ 法務局・登記種別・申請方法・管轄・申請日を選ぶと、ここに自動表示されます";
       addBtn.disabled = true;
+      setSaveMessage();
       return;
     }
 
     const due = dueDateFor(jurisdictionId, typeId, office, apply, method, useTodayFallback);
     const canSave = canSaveToCurrentMode();
     addBtn.disabled = !canSave;
-    const saveSuffix = canSave ? "" : " ／ 共有保存にはログインと事務所設定が必要です";
+    const saveReason = saveUnavailableReason();
+    const saveSuffix = canSave ? "" : ` ／ ${saveReason}`;
+    setSaveMessage(canSave ? "この内容で一覧に保存できます。" : saveReason, canSave ? "" : "warn");
 
     if (!due) {
       box.className = "result result--warn";
@@ -1259,6 +1278,12 @@
     return "ここで選んだ日付は、法務局データに基づく完了予定日ではありません。";
   }
 
+  function calendarTitlePreview(draft) {
+    if (!draft) return "";
+    const marker = draft.mode === "listed" ? "" : "【仮】";
+    return `Googleカレンダーの件名は「${calendarTitle(draft.caseData, marker)}」で作成されます。`;
+  }
+
   function calendarLeadDetails(draft, selectedDate) {
     if (!draft) return [];
     const lines = [
@@ -1286,6 +1311,7 @@
     const sheet = $("calendar-sheet");
     const input = $("calendar-date");
     $("calendar-sheet-summary").textContent = calendarDraftSummary(draft);
+    $("calendar-title-preview").textContent = calendarTitlePreview(draft);
     $("calendar-sheet-note").textContent = calendarDraftNote(draft);
     input.value = draft.calendarDate;
     if (typeof sheet.showModal === "function") sheet.showModal();
