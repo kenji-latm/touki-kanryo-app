@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest?v=20260710-agetena" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260719-v112" />
   <link rel="icon" href="icon.svg?v=20260719-v112" />
-  <link rel="stylesheet" href="styles.css?v=20260722-v135" />
+  <link rel="stylesheet" href="styles.css?v=20260722-v136" />
   <!-- file:// でも動くようデータはJSで読み込む -->
   <script src="data/kanryo-integrity.js"></script>
   <script src="data/kanryo.js"></script>
@@ -98,8 +98,8 @@
         <div class="result__date" id="result-date">— — —</div>
         <div class="result__hint" id="result-hint">↑ 法務局・登記種別・管轄・申請日を選ぶと、ここに自動表示されます</div>
         <button id="result-calendar" class="result__calendar" type="button" hidden>
-          <strong>日付を選んでカレンダー登録</strong>
-          <span>Googleカレンダーに入れる日付を調整</span>
+          <strong>日付を選んで保存</strong>
+          <span>登録日と案件名を確認</span>
         </button>
       </div>
       <div class="notice" role="note">
@@ -182,8 +182,8 @@
     <div class="report-sheet__handle" aria-hidden="true"></div>
     <div class="report-sheet__head">
       <div>
-        <p class="report-sheet__eyebrow">カレンダー登録</p>
-        <h2 id="calendar-sheet-title" class="report-sheet__title">登録日を選択</h2>
+        <p class="report-sheet__eyebrow">案件保存</p>
+        <h2 id="calendar-sheet-title" class="report-sheet__title">登録日を保存</h2>
       </div>
       <button id="calendar-close" class="report-sheet__close" type="button" aria-label="閉じる">×</button>
     </div>
@@ -192,9 +192,13 @@
       <span>登録日</span>
       <input id="calendar-date" type="date" />
     </label>
+    <label class="calendar-sheet__field">
+      <span>依頼者名・会社名など</span>
+      <input id="calendar-label" type="text" autocomplete="off" />
+    </label>
     <p id="calendar-title-preview" class="calendar-sheet__title-preview"></p>
     <p id="calendar-sheet-note" class="calendar-sheet__note"></p>
-    <button id="calendar-open" class="btn btn--primary report-sheet__copy" type="button">保存してGoogleカレンダーを開く</button>
+    <button id="calendar-open" class="btn btn--primary report-sheet__copy" type="button">保存</button>
   </dialog>
   <dialog id="report-sheet" class="report-sheet" aria-labelledby="report-sheet-title">
     <div class="report-sheet__handle" aria-hidden="true"></div>
@@ -215,7 +219,7 @@
     <p class="footer__links"><a href="privacy.html">プライバシーについて</a></p>
   </footer>
 
-  <script src="shared-config.js?v=20260722-v135"></script>
-  <script src="app.js?v=20260722-v135"></script>
+  <script src="shared-config.js?v=20260722-v136"></script>
+  <script src="app.js?v=20260722-v136"></script>
 </body>
 </html>
