@@ -475,16 +475,96 @@
       updatedAt: typeof item.updatedAt === "string" && item.updatedAt ? item.updatedAt : null,
     };
   }
+  function caseMatterKey(c) {
+    return [
+      c?.jurisdiction || DEFAULT_JURISDICTION,
+      c?.registrationType || DEFAULT_TYPE,
+      normalizeApplicationMethod(c?.applicationMethod),
+      c?.office || "",
+      c?.applyDate || "",
+    ].map((value) => String(value).trim().toLowerCase()).join("\u001f");
+  }
+
+  function normalizedCaseLabel(c) {
+    return String(c?.label || "").trim().toLowerCase();
+  }
+
+  function caseLabelsCompatible(a, b) {
+    const labelA = normalizedCaseLabel(a);
+    const labelB = normalizedCaseLabel(b);
+    return !labelA || !labelB || labelA === labelB;
+  }
+
+  function casesAreSameMatter(a, b) {
+    return caseMatterKey(a) === caseMatterKey(b) && caseLabelsCompatible(a, b);
+  }
+
+  function timestampValue(value) {
+    const time = Date.parse(value || "");
+    return Number.isNaN(time) ? 0 : time;
+  }
+
+  function preferCase(candidate, current) {
+    if (current.status === "done" && candidate.status !== "done") return true;
+    if (candidate.status === "done" && current.status !== "done") return false;
+    if (Boolean(candidate.dueDate) !== Boolean(current.dueDate)) return Boolean(candidate.dueDate);
+    if (candidate.dueDate && current.dueDate && isCalendarDraftCase(candidate) !== isCalendarDraftCase(current)) return !isCalendarDraftCase(candidate);
+    const candidateUpdated = timestampValue(candidate.updatedAt || candidate.createdAt);
+    const currentUpdated = timestampValue(current.updatedAt || current.createdAt);
+    return candidateUpdated > currentUpdated;
+  }
+
+  function mergeDuplicateCases(a, b) {
+    const primary = preferCase(b, a) ? b : a;
+    const secondary = primary === a ? b : a;
+    const createdAt = timestampValue(a.createdAt) <= timestampValue(b.createdAt) ? a.createdAt : b.createdAt;
+    const updatedAt = timestampValue(a.updatedAt || a.createdAt) >= timestampValue(b.updatedAt || b.createdAt)
+      ? (a.updatedAt || a.createdAt)
+      : (b.updatedAt || b.createdAt);
+    return {
+      item: normalizeCase({
+        ...secondary,
+        ...primary,
+        id: primary.id,
+        label: primary.label || secondary.label || "",
+        dataGeneratedAt: primary.dataGeneratedAt || secondary.dataGeneratedAt || null,
+        dataHash: primary.dataHash || secondary.dataHash || null,
+        dataSource: primary.dataSource || secondary.dataSource || "",
+        createdAt,
+        updatedAt,
+      }),
+      removedId: secondary.id,
+    };
+  }
+
+  function dedupeCaseList(list) {
+    const merged = [];
+    const removedIds = [];
+    for (const item of list) {
+      const normalized = normalizeCase(item);
+      if (!normalized) continue;
+      const index = merged.findIndex((existing) => casesAreSameMatter(existing, normalized));
+      if (index < 0) {
+        merged.push(normalized);
+        continue;
+      }
+      const result = mergeDuplicateCases(merged[index], normalized);
+      merged[index] = result.item;
+      if (result.removedId) removedIds.push(result.removedId);
+    }
+    return { list: merged.filter(Boolean), removedIds };
+  }
 
   const loadLocal = () => {
     try {
       const raw = JSON.parse(localStorage.getItem(STORE_KEY)) || [];
       const list = Array.isArray(raw) ? raw : [];
       const normalized = list.map(normalizeCase).filter(Boolean);
-      if (JSON.stringify(list) !== JSON.stringify(normalized)) {
-        localStorage.setItem(STORE_KEY, JSON.stringify(normalized));
+      const deduped = dedupeCaseList(normalized).list;
+      if (JSON.stringify(list) !== JSON.stringify(deduped)) {
+        localStorage.setItem(STORE_KEY, JSON.stringify(deduped));
       }
-      return normalized;
+      return deduped;
     } catch {
       return [];
     }
@@ -676,7 +756,16 @@
       .order("due_date", { ascending: true })
       .order("created_at", { ascending: false });
     if (error) throw error;
-    cases = (data || []).map(rowToCase).filter(Boolean);
+    const deduped = dedupeCaseList((data || []).map(rowToCase).filter(Boolean));
+    cases = deduped.list;
+    if (deduped.removedIds.length) {
+      try {
+        await Promise.all(deduped.removedIds.map((id) => deleteSharedCase(id)));
+      } catch (e) {
+        console.warn("重複した共有案件の整理に失敗しました。", e);
+        shared.error = "重複した共有案件の整理に失敗しました。表示上は1件にまとめています。";
+      }
+    }
   }
 
   async function loadSharedAfterAuth() {
@@ -1057,6 +1146,7 @@
 
   function caseState(c) {
     if (c.status === "done") return "done";
+    if (isCalendarDraftCase(c)) return "draft";
     if (!c.dueDate) return "unknown";
     const t = todayISO();
     if (t > c.dueDate) return "over";
@@ -1065,6 +1155,7 @@
   }
   function badge(state, c) {
     if (state === "done") return { cls: "badge--done", text: "完了" };
+    if (state === "draft") return { cls: "badge--draft", text: "仮登録" };
     if (state === "unknown") return { cls: "badge--unknown", text: "予定日 未掲載" };
     if (state === "over") return { cls: "badge--over", text: `${diffDays(c.dueDate, todayISO())}日超過` };
     if (state === "due") return { cls: "badge--due", text: "本日が予定日" };
@@ -1073,7 +1164,7 @@
 
   function updateBanner() {
     const t = todayISO();
-    const hit = cases.filter((c) => c.status === "active" && c.dueDate && t > c.dueDate);
+    const hit = dedupeCaseList(cases).list.filter((c) => c.status === "active" && c.dueDate && !isCalendarDraftCase(c) && t > c.dueDate);
     const banner = $("alert-banner");
     if (hit.length === 0) { banner.hidden = true; banner.textContent = ""; return; }
     const names = hit.map((c) => (c.label && c.label.trim() ? c.label : "（メモなし）")).join("、");
@@ -1103,11 +1194,13 @@
       fmtJP(c.applyDate),
       fmtJP(c.dueDate),
       dataSnapshotText(c),
+      isCalendarDraftCase(c) ? "仮登録 カレンダー仮登録" : "",
     ].filter(Boolean).join(" ").toLowerCase();
   }
 
   function dueBucket(c) {
     if (c.status === "done") return "done";
+    if (isCalendarDraftCase(c)) return "unknown";
     if (!c.dueDate) return "unknown";
     const today = todayISO();
     if (c.dueDate < today) return "overdue";
@@ -1141,7 +1234,7 @@
     const jurisdiction = filterValue("case-jurisdiction-filter");
     const registrationType = filterValue("case-type-filter");
     const week = filterValue("case-week-filter");
-    return cases
+    return dedupeCaseList(cases).list
       .filter((c) => showDone || c.status !== "done")
       .filter((c) => !jurisdiction || (c.jurisdiction || DEFAULT_JURISDICTION) === jurisdiction)
       .filter((c) => !registrationType || (c.registrationType || DEFAULT_TYPE) === registrationType)
@@ -1265,7 +1358,7 @@
     const now = new Date().toISOString();
     return {
       ...base,
-      id: base.id && base.id !== "draft" ? base.id : uid(),
+      id: draft?.targetCaseId || (base.id && base.id !== "draft" ? base.id : uid()),
       dueDate: selectedDate,
       ...calendarSelectionSnapshot(draft, selectedDate),
       status: base.status === "done" ? "done" : "active",
@@ -1282,7 +1375,7 @@
       normalizeApplicationMethod(c?.applicationMethod),
       c?.office || "",
       c?.applyDate || "",
-    ].map((value) => String(value).toLowerCase()).join("\u001f");
+    ].map((value) => String(value).trim().toLowerCase()).join("\u001f");
   }
 
   function findCalendarCaseIndex(c) {
@@ -1291,7 +1384,20 @@
       if (byId >= 0) return byId;
     }
     const key = calendarCaseMatchKey(c);
-    return cases.findIndex((item) => calendarCaseMatchKey(item) === key);
+    const exactIndex = cases.findIndex((item) => calendarCaseMatchKey(item) === key);
+    if (exactIndex >= 0) return exactIndex;
+
+    const candidates = cases
+      .map((item, index) => ({ item, index }))
+      .filter(({ item }) => casesAreSameMatter(item, c));
+    if (!candidates.length) return -1;
+
+    const sameLabelUnknown = candidates.find(({ item }) => normalizedCaseLabel(item) === normalizedCaseLabel(c) && !item.dueDate);
+    if (sameLabelUnknown) return sameLabelUnknown.index;
+    const compatibleUnknown = candidates.find(({ item }) => !item.dueDate);
+    if (compatibleUnknown) return compatibleUnknown.index;
+    const sameLabel = candidates.find(({ item }) => normalizedCaseLabel(item) === normalizedCaseLabel(c));
+    return (sameLabel || candidates[0]).index;
   }
 
   function sharedCasePatch(c) {
@@ -1299,6 +1405,23 @@
     delete row.office_id;
     delete row.created_by;
     return row;
+  }
+
+  async function cleanupDuplicateCasesAfterSave() {
+    const deduped = dedupeCaseList(cases);
+    if (!deduped.removedIds.length) return;
+    cases = deduped.list;
+    if (isSharedReady()) {
+      try {
+        await Promise.all(deduped.removedIds.map((id) => deleteSharedCase(id)));
+      } catch (e) {
+        console.warn("重複した共有案件の整理に失敗しました。", e);
+        shared.error = "重複した共有案件の整理に失敗しました。表示上は1件にまとめています。";
+        renderStoragePanel();
+      }
+    } else {
+      saveLocal(cases);
+    }
   }
 
   async function saveCalendarCaseSelection(caseData) {
@@ -1336,6 +1459,7 @@
       saveLocal(cases);
     }
 
+    await cleanupDuplicateCasesAfterSave();
     render();
     updateResult();
     return { saved: true, updated: Boolean(existing) };
@@ -1628,9 +1752,9 @@
       const methodText = isLetterPackMethod(c.applicationMethod) ? ` ｜ ${applicationMethodLabel(c.applicationMethod)}` : "";
       el.querySelector(".item__office").textContent = `${jurisdictionLabel(c.jurisdiction || DEFAULT_JURISDICTION)} ｜ ${typeLabel(c.registrationType || DEFAULT_TYPE)} ｜ ${c.office}${methodText}`;
       el.querySelector(".apply").textContent = fmtJP(c.applyDate);
-      el.querySelector(".due").textContent = c.dueDate ? fmtJP(c.dueDate) : "未掲載";
+      el.querySelector(".due").textContent = c.dueDate ? `${isCalendarDraftCase(c) ? "仮 " : ""}${fmtJP(c.dueDate)}` : "未掲載";
       const sourceEl = el.querySelector(".item__source");
-      sourceEl.textContent = "保存時点";
+      sourceEl.textContent = isCalendarDraftCase(c) ? "仮登録日" : "保存時点";
       const snapshotEl = el.querySelector(".item__snapshot");
       if (snapshotEl) snapshotEl.textContent = caseBasisText(c);
       const latestDue = dueDateFor(c.jurisdiction || DEFAULT_JURISDICTION, c.registrationType || DEFAULT_TYPE, c.office, c.applyDate, c.applicationMethod, isFallbackCase(c));
@@ -1692,6 +1816,7 @@
     try {
       if (isSharedReady()) await createSharedCase(newCase);
       else { cases.push(newCase); saveLocal(cases); }
+      await cleanupDuplicateCasesAfterSave();
       $("f-label").value = "";
       useTodayFallback = false;
       flashSaved();

@@ -500,6 +500,7 @@ button, input, select { font: inherit; }
 .item--due { background: var(--surface); }
 .item--over { background: var(--danger-bg); border-color: var(--danger-line); }
 .item--unknown { background: #fffdf8; }
+.item--draft { background: #fbfff2; border-color: rgba(158, 202, 69, 0.34); }
 .item--done { opacity: 0.52; }
 .item__top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
 .item__label {
@@ -531,6 +532,7 @@ button, input, select { font: inherit; }
 .badge--due { color: #53687c; background: #eef3f7; }
 .badge--over { color: var(--danger); background: #f8e9e7; }
 .badge--unknown { color: var(--warning); background: #f8f0dc; }
+.badge--draft { color: #5f7f1f; background: #edf6d8; }
 .badge--done { color: var(--text-tertiary); background: #efeff1; }
 .item__office,
 .item__row { color: var(--text-secondary); font-size: 14px; }
@@ -548,6 +550,7 @@ button, input, select { font: inherit; }
 .item__latest b { color: var(--text); font-weight: 600; }
 .item__latest-note { margin-left: 5px; color: var(--text-tertiary); font-size: 14px; }
 .item__snapshot { margin-top: 3px; color: var(--text-tertiary); font-size: 12px; }
+.item--draft .item__due b { color: #4f6f1c; }
 .item--over .item__due b { color: var(--danger); }
 .item__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 11px; }
 .mini {
